@@ -4,13 +4,11 @@
     <template v-slot="{ user, signOut }">
       <main>
         <header>
-          <h2>Amplify × Vue × Vite</h2>
+          <h2>Ampider</h2>
           <nav class="nav">
             <ul class="list">
               <li><router-link class="routerLink" to="/">Home</router-link></li>
               <li><router-link class="routerLink" to="/chat">Chat</router-link></li>
-              <li><router-link class="routerLink" to="/ai">AI</router-link></li>
-              <li><router-link class="routerLink" to="/geo">Geo</router-link></li>
             </ul>
           </nav>
           <!-- 追加 2 -->

@@ -8,7 +8,7 @@
         <div v-bind:class="[message.owner === username ? 'username' : 'username_opponent']">
           {{ message.owner }}
         </div>
-      </div>
+        </div>
     </div>
     <input
       class="message-input"
@@ -16,6 +16,7 @@
       v-model="content"
       @keydown.enter.shift="sendMessage"
     />
+   <button v-on:click="sendMessage">送信</button>
   </div>
 </template>
 

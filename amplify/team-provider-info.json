@@ -17,6 +17,15 @@
       },
       "api": {
         "viteproject": {}
+      },
+      "function": {
+        "S3Triggerdeec0dd2": {
+          "deploymentBucketName": "amplify-viteproject-dev-93513-deployment",
+          "s3Key": "amplify-builds/S3Triggerdeec0dd2-4d45694a614776627075-build.zip"
+        }
+      },
+      "storage": {
+        "s3e536ed72": {}
       }
     }
   }

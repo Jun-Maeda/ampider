@@ -8,7 +8,7 @@
           <nav class="nav">
             <ul class="list">
               <li><router-link class="routerLink" to="/">Home</router-link></li>
-              <li><router-link class="routerLink" to="/chat">掲示板</router-link></router-link></li>
+              <li><router-link class="routerLink" to="/chat">掲示板</router-link></li>
             </ul>
           </nav>
           <!-- 追加 2 -->

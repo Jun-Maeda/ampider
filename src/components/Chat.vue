@@ -16,7 +16,7 @@
       v-model="content"
       @keydown.enter.shift="sendMessage"
     />
-   <button v-on:click="sendMessage">送信</button>
+   <button @keydown.enter.shift="sendMessage">送信</button>
   </div>
 </template>
 

@@ -10,13 +10,9 @@
         </div>
         </div>
     </div>
-    <input
-      class="message-input"
-      placeholder="Enter a message (send with Shift+Enter)"
-      v-model="content"
-      @keydown.enter.shift="sendMessage"
-    />
-   <button @keydown.enter.shift="sendMessage">送信</button>
+    <input class="message-input" placeholder="Enter a message (send with Shift+Enter)" v-model="content" @keydown.enter.shift="" />
+        <button class="btn btn-sm btn-outline-success" @click="sendMessage">送信</button>
+
   </div>
 </template>
 
@@ -38,7 +34,7 @@ export default {
     const subscription = ref({});
 
     const sendMessage = async () => {
-      if (event.keyCode !== 13 || !content.value) return;
+      //if (event.keyCode !== 13 || !content.value) return;
 
       const message = {
         id: new Date().getTime() + props.username,

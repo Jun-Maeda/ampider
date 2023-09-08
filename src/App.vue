@@ -17,7 +17,6 @@
         <section>
           <!-- 追加 3 -->
           <router-view :username="user.username" />
-          <button @click="sendMessage" class="sendMessage">送信</button>
         </section>
       </main>
     <!-- 追加 4 -->

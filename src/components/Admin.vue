@@ -76,10 +76,10 @@
                                     <div class="text-wrapper-5">1</div>
                                 </div>
                                 <div class="frame-11">
-                                    <div class="text-wrapper-6">北 峻輝</div>
+                                    <div class="text-wrapper-6">谷内 舞</div>
                                 </div>
                                 <div class="frame-12">
-                                    <div class="text-wrapper-7">54297863</div>
+                                    <div class="text-wrapper-7">21040136</div>
                                 </div>
                                 <div class="frame-13">
                                     <div class="text-wrapper-7">安全</div>

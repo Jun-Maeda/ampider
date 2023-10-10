@@ -438,13 +438,13 @@
                                 <div class="text-wrapper-12">5</div>
                                 <div class="text-wrapper-13">0</div>
                                 <div class="overlap-group-2">
-                                    <img class="line" src="img/line-9.svg" />
-                                    <img class="img" src="img/line-7.svg" />
-                                    <img class="line-2" src="img/line-8.svg" />
-                                    <img class="line-3" src="img/line-5.svg" />
-                                    <img class="line-4" src="img/line-2.svg" />
-                                    <img class="line-5" src="img/line.svg" />
-                                    <img class="line-6" src="img/line-3.svg" />
+                                    <img class="line" src="@/images/line-9.svg" />
+                                    <img class="img" src="@/images/line-7.svg" />
+                                    <img class="line-2" src="@/images/line-8.svg" />
+                                    <img class="line-3" src="@/images/line-5.svg" />
+                                    <img class="line-4" src="@/images/line-2.svg" />
+                                    <img class="line-5" src="@/images/line.svg" />
+                                    <img class="line-6" src="@/images/line-3.svg" />
                                     <div class="group">
                                         <div class="text-wrapper-14">1</div>
                                         <div class="element-4"></div>
@@ -473,13 +473,13 @@
                                 <div class="text-wrapper-25">5</div>
                                 <div class="text-wrapper-26">0</div>
                                 <div class="overlap-group-3">
-                                    <img class="line-7" src="img/line-12.svg" />
-                                    <img class="line-8" src="img/line-14.svg" />
-                                    <img class="line-9" src="img/line-13.svg" />
-                                    <img class="line-10" src="img/line-4.svg" />
-                                    <img class="line-11" src="img/line-6.svg" />
-                                    <img class="line-12" src="img/line-10.svg" />
-                                    <img class="line-13" src="img/line-11.svg" />
+                                    <img class="line-7" src="@/images/line-12.svg" />
+                                    <img class="line-8" src="@/images/line-14.svg" />
+                                    <img class="line-9" src="@/images/line-13.svg" />
+                                    <img class="line-10" src="@/images/line-4.svg" />
+                                    <img class="line-11" src="@/images/line-6.svg" />
+                                    <img class="line-12" src="@/images/line-10.svg" />
+                                    <img class="line-13" src="@/images/line-11.svg" />
                                     <div class="group-2">
                                         <div class="text-wrapper-27">1</div>
                                         <div class="element-9"></div>
@@ -504,7 +504,7 @@
                             <div class="text-wrapper-36">1(11%)</div>
                             <div class="overlap-group-4">
                                 <div class="text-wrapper-37">未回答</div>
-                                <img class="ellipse" src="img/ellipse.svg" />
+                                <img class="ellipse" src="@/images/ellipse.svg" />
                             </div>
                             <div class="text-wrapper-38">8(89%)</div>
                             <div class="overlap-2">

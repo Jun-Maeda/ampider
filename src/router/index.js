@@ -1,6 +1,8 @@
 import * as vueRouter from 'vue-router';
 import Home from '@/components/Home.vue';
 import Chat from '@/components/Chat.vue';
+import Admin from '@/components/Admin.vue';
+import Upload from '@/components/Upload.vue';
 
 const routes = [
   {
@@ -13,6 +15,18 @@ const routes = [
     path: '/chat',
     name: 'chat',
     component: Chat,
+    props: true,
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Admin,
+    props: true,
+  },
+    {
+    path: '/upload',
+    name: 'upload',
+    component: Upload,
     props: true,
   },
 ];

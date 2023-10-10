@@ -12,7 +12,6 @@
     </div>
     <input class="message-input" placeholder="Enter a message (send with Shift+Enter)" v-model="content" @keydown.enter.shift="" />
         <button class="btn btn-sm btn-outline-success" @click="sendMessage">送信</button>
-
   </div>
 </template>
 

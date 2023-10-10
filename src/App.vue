@@ -29,22 +29,24 @@
   </authenticator>
 </template>
 
-// <script>
-// import Upload from './components/Upload.vue'
+<script>
+import Upload from './components/Upload.vue'
 
-// export default {
-//   name: 'app',
-//   components: {
-//     Upload
-//   },
-//   data() {
-//     return {
-//       picture: null
-//     }
-//   }
-// }
-// </script>
+export default {
+  name: 'app',
+  components: {
+    Upload
+  },
+  data() {
+    return {
+      picture: null
+    }
+  }
+}
+</script>
 
 <style>
 @import '@/assets/base.css';
+@import '@/assets/admin.css';
+
 </style>

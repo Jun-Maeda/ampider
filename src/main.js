@@ -11,8 +11,8 @@ Amplify.configure(awsconfig);
 import AmplifyVue from '@aws-amplify/ui-vue';
 import '@aws-amplify/ui-vue/styles.css';
 
-import '@/assets/admin.css';
-import './assets/admin.css';
+// import '@/assets/admin.css';
+// import './assets/admin.css';
 
 const app = createApp(App);
 app.config.productionTip = false;

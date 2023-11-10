@@ -28,5 +28,35 @@
         "s3e536ed72": {}
       }
     }
+  },
+  "maeda": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-viteproject-maeda-151116-authRole",
+      "UnauthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-maeda-151116-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-maeda-151116-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-viteproject-maeda-151116-deployment",
+      "UnauthRoleName": "amplify-viteproject-maeda-151116-unauthRole",
+      "StackName": "amplify-viteproject-maeda-151116",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:483152216008:stack/amplify-viteproject-maeda-151116/7bb8df50-6f0f-11ee-930c-0efcdd1bb837",
+      "AmplifyAppId": "dof9zloz8wrhk"
+    },
+    "categories": {
+      "auth": {
+        "viteprojectc3d2abf6": {}
+      },
+      "function": {
+        "S3Triggerdeec0dd2": {
+          "deploymentBucketName": "amplify-viteproject-maeda-151116-deployment",
+          "s3Key": "amplify-builds/S3Triggerdeec0dd2-684b762f474153637067-build.zip"
+        }
+      },
+      "api": {
+        "viteproject": {}
+      },
+      "storage": {
+        "s3e536ed72": {}
+      }
+    }
   }
 }

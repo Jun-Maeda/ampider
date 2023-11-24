@@ -98,12 +98,12 @@ h1 {
 .main-contents {
   float: left;
   width: 100%;
-  height: 100%;
+  height: calc(100% - var(--amplify-space-xxl));
 }
 .message_base {
-  overflow: auto;
-  height: calc(100% - var(--amplify-space-xxl));
-  background-color: #7493bc;
+    overflow: auto;
+    height: calc(100% - var(--amplify-space-xxl));
+    background-color: #7493bc;
 }
 
 .message-input {

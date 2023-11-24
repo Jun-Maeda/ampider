@@ -1,8 +1,9 @@
 import * as vueRouter from 'vue-router'
-import Home from '@/components/Home.vue'
-import Chat from '@/components/Chat.vue'
-import Admin from '@/components/Admin.vue'
-import Upload from '@/components/Upload.vue'
+import Home from '@/views/Home.vue'
+import Chat from '@/views/Chat.vue'
+import Admin from '@/views/Admin.vue'
+import Upload from '@/views/Upload.vue'
+import Test from '@/views/TestPage.vue'
 
 const routes = [
   {
@@ -27,6 +28,12 @@ const routes = [
     path: '/upload',
     name: 'upload',
     component: Upload,
+    props: true,
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: Test,
     props: true,
   },
 ]

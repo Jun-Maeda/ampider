@@ -58,5 +58,47 @@
         "s3e536ed72": {}
       }
     }
+  },
+  "ampider": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-viteproject-ampider-114404-authRole",
+      "UnauthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-ampider-114404-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-ampider-114404-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-viteproject-ampider-114404-deployment",
+      "UnauthRoleName": "amplify-viteproject-ampider-114404-unauthRole",
+      "StackName": "amplify-viteproject-ampider-114404",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:483152216008:stack/amplify-viteproject-ampider-114404/d46e63e0-8cce-11ee-839e-0a9f31ffdf53",
+      "AmplifyAppId": "dof9zloz8wrhk"
+    },
+    "categories": {
+      "auth": {
+        "viteprojectc3d2abf6": {}
+      },
+      "function": {
+        "S3Triggerdeec0dd2": {}
+      }
+    }
+  },
+  "maedadev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-viteproject-maedadev-115758-authRole",
+      "UnauthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-maedadev-115758-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-maedadev-115758-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-viteproject-maedadev-115758-deployment",
+      "UnauthRoleName": "amplify-viteproject-maedadev-115758-unauthRole",
+      "StackName": "amplify-viteproject-maedadev-115758",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:483152216008:stack/amplify-viteproject-maedadev-115758/c5fc8150-8cd0-11ee-a595-0ed2303ff05f",
+      "AmplifyAppId": "dof9zloz8wrhk"
+    },
+    "categories": {
+      "auth": {
+        "viteprojectc3d2abf6": {}
+      },
+      "function": {
+        "S3Triggerdeec0dd2": {}
+      }
+    }
   }
 }

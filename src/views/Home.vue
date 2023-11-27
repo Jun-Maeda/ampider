@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="home">
-      <h1>Welcome to Ampder , {{ username }} !</h1>
+      <h1>Welcome to Ampder , {{ user.username }} !</h1>
       <img src="@/images/Ampider_logo.jpg" />
     </div>
   </v-container>
@@ -14,7 +14,7 @@ export default {
   //   admin
   // },
   props: {
-    username: String,
+    user: Object,
   },
 }
 </script>

@@ -4,7 +4,7 @@
       <v-layout class="rounded rounded-md">
         <v-app-bar scroll-threshold="0">
           <v-app-bar-nav-icon v-on:click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-          <v-toolbar-title>Test Vue</v-toolbar-title>
+          <v-toolbar-title>Ampider</v-toolbar-title>
           <div v-show="login">
             <v-btn icon="mdi-account-cog-outline" size="x-large" />
           </div>
@@ -96,7 +96,7 @@
       </v-list>
     </v-navigation-drawer>
         <v-main>
-          <router-view :username="user.username" />
+          <router-view :user="user" />
         </v-main>
         <v-footer class="bg-grey-lighten-1" app>
           <v-row justify="center" no-gutters>

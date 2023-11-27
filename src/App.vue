@@ -2,7 +2,7 @@
   <authenticator>
     <template v-slot="{ user, signOut }">
       <v-layout class="rounded rounded-md">
-        <v-app-bar scroll-threshold="0">
+        <v-app-bar scroll-threshold="0" class="pa-0">
           <v-app-bar-nav-icon v-on:click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <v-toolbar-title>Ampider</v-toolbar-title>
           <div v-show="login">
@@ -30,6 +30,7 @@
               to="/"
               prepend-icon="mdi-home"
               title="Home"
+              class="mt-1"
         ></v-list-item>
 
         <!-- ユーザー設定 -->

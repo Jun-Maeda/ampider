@@ -123,6 +123,7 @@ export default {
     admin_menus: [
       { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
       { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },
+      { title: 'お知らせ作成', to: '/info_create', icon: 'mdi-map-marker' },
     ],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],
     drawer: false,

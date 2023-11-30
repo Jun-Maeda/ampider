@@ -4,6 +4,7 @@ import Chat from '@/views/Chat.vue'
 import Admin from '@/views/Admin.vue'
 import Upload from '@/views/Upload.vue'
 import Test from '@/views/TestPage.vue'
+import InfoCreate from '@/views/InfoCreate.vue'
 
 const routes = [
   {
@@ -34,6 +35,12 @@ const routes = [
     path: '/test',
     name: 'test',
     component: Test,
+    props: true,
+  },
+  {
+    path: '/info_create',
+    name: 'info_create',
+    component: InfoCreate,
     props: true,
   },
 ]

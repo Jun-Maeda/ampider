@@ -4,7 +4,7 @@
     <template v-slot="{ user, signOut }">
       <main>
         <header>
-          <h2>Ampider</h2>
+          <h1>Ampider</h1>
           <nav class="nav">
             <ul class="list">
               <li>

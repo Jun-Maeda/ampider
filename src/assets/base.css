@@ -1,4 +1,29 @@
-body, body::after, body::before {
+h2 {
+    position: relative;
+    padding: 10px;
+    color: rgb(28, 27, 27)c2c;
+}
+
+h2:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    border-bottom: 3px solid #007db9;
+}
+
+h2:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 70px;
+    border-bottom: 3px solid #aaa;
+}
+
+
+/* body, body::after, body::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -9,7 +34,7 @@ body, body::after, body::before {
   margin-top: 25vh;
 }
 
-/*  header */
+
 header {
   padding: 0px 24px;
   background-color: #242c3c;
@@ -56,7 +81,7 @@ a {
   text-align: center;
 }
 
-/* Home */
+
 
 .home {
   margin: 0px auto;
@@ -79,7 +104,7 @@ h1 {
   margin:auto;
 }
 
-/* Geo */
+
 .map-container {
   width: 100%;
   height: calc(100vh - var(--amplify-space-xxxl));
@@ -93,7 +118,7 @@ h1 {
   height: 100%;
 }
 
-/* Chat */
+
 
 .main-contents {
   float: left;
@@ -138,7 +163,7 @@ h1 {
   font-size: 14px;
 }
 
-/* AI */
+
 .check {
   display: none;
 }
@@ -190,7 +215,7 @@ label:hover {
   background-color: #ec7414;
 }
 
-/* img upload */
+
 .imageUploader {
   text-align:center;
   width: 100%;
@@ -206,7 +231,7 @@ img {
 
 
 
-/*Admin画面*/
+
 .screen {
     background-color: #ffffff;
     display: flex;
@@ -2299,7 +2324,7 @@ img {
 
 
 
-/*管理画面*/
+
 
 .screen {
     background-color: #ffffff;
@@ -4389,4 +4414,4 @@ img {
     background-image: url(./img/image-1.png);
     background-size: cover;
     background-position: 50% 50%;
-}
+} */

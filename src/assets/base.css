@@ -1,27 +1,34 @@
 h2 {
-    position: relative;
-    padding: 10px;
-    color: rgb(28, 27, 27)c2c;
+  position: relative;
+  padding: 10px;
+  color: rgb(28, 27, 27) c2c;
 }
 
 h2:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 250px;
-    border-bottom: 3px solid #007db9;
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  border-bottom: 3px solid #007db9;
 }
 
 h2:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 70px;
-    border-bottom: 3px solid #aaa;
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 70px;
+  border-bottom: 3px solid #aaa;
 }
 
+.amplify-button[data-variation='primary'] {
+  background: #ecb529;
+}
+
+.amplify-button[data-variation='primary']:hover {
+  background: #e6a603 !important;
+}
 
 /* body, body::after, body::before {
   margin: 0;

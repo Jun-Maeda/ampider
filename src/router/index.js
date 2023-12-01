@@ -4,10 +4,10 @@ import Chat from '@/views/Chat.vue'
 import Admin from '@/views/Admin.vue'
 import Upload from '@/views/Upload.vue'
 import Test from '@/views/TestPage.vue'
+import Test2 from '@/views/TestPage2.vue'
 import InfoCreate from '@/views/InfoCreate.vue'
 import InfoList from '@/views/InfoList.vue'
 import InfoDetail from '@/views/InfoDetail.vue'
-
 
 const routes = [
   {
@@ -38,6 +38,12 @@ const routes = [
     path: '/test',
     name: 'test',
     component: Test,
+    props: true,
+  },
+  {
+    path: '/test2',
+    name: 'test2',
+    component: Test2,
     props: true,
   },
   {

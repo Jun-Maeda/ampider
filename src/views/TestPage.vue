@@ -1,33 +1,23 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="7" class="">
-        <v-text-field class="mb-3" label="名前" hide-details="auto" :rules="[rules.required]" />
+    <v-list lines="three">
+      <v-list-item v-for="file in files" :key="file.title" :title="file.title" :subtitle="file.subtitle" :to="file.link">
+        
+        <template v-slot:prepend>
+          <v-avatar :color="file.color">
+            <v-icon color="white">{{ file.icon }}</v-icon>
+          </v-avatar>
+        </template>
+        <template v-slot:title="{ title }">
+          <b v-html="title"></b><p><small>2023/12/01</small></p>
+        </template>
 
-        <v-text-field class="mb-3" label="パスワード" type="input" hint="パスワードを入力してください" />
-        <v-file-input multiple show-size counter label="ファイルを選択してください" />
-        <v-select :items="['items', 'items2', 'items3', 'items4']" label="選択してください" required></v-select>
-
-        <v-autocomplete
-          :items="[
-            { id: 1, name: 'user1' },
-            { id: 2, name: 'user2' },
-            { id: 3, name: 'user3' },
-          ]"
-          label="検索して選択してください"
-          required
-          v-model="autocomp"
-          :item-props="itemProps"
-        ></v-autocomplete>
-        <v-text-field label="日付と時間" type="datetime-local" />
-        <v-text-field label="日付" type="date" />
-
-        <v-text-field label="時間" type="time" />
-      </v-col>
-      <v-col cols="7" class="text-right">
-        <v-btn type="submit" class="mt-2">送信</v-btn>
-      </v-col>
-    </v-row>
+        <!-- <template v-slot:append>
+          <v-btn color="grey-lighten-1" icon="mdi-information" variant="text"></v-btn>
+        </template> -->
+        <v-divider></v-divider>
+      </v-list-item>
+    </v-list>
   </v-container>
 </template>
 
@@ -39,6 +29,21 @@ export default {
     },
     dialog: false,
     autocomp: '',
+    files: [
+      {
+        color: 'blue',
+        icon: 'mdi-clipboard-text',
+        subtitle: '安否確認のテストです。安否確認フォームを入力して回答してください',
+        title: '安否確認テスト',
+        link: 'info_Detail',
+      },
+      {
+        color: 'amber',
+        icon: 'mdi-gesture-tap-button',
+        subtitle: 'あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ',
+        title: '安否確認テスト',
+      },
+    ],
   }),
   methods: {
     itemProps(item) {
@@ -52,6 +57,9 @@ export default {
         }
       }
     },
+    testMethod(){
+      alert('test')
+    }
   },
 }
 </script>

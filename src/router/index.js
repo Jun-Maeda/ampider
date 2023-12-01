@@ -5,6 +5,9 @@ import Admin from '@/views/Admin.vue'
 import Upload from '@/views/Upload.vue'
 import Test from '@/views/TestPage.vue'
 import InfoCreate from '@/views/InfoCreate.vue'
+import InfoList from '@/views/InfoList.vue'
+import InfoDetail from '@/views/InfoDetail.vue'
+
 
 const routes = [
   {
@@ -41,6 +44,18 @@ const routes = [
     path: '/info_create',
     name: 'info_create',
     component: InfoCreate,
+    props: true,
+  },
+  {
+    path: '/info_list',
+    name: 'info_list',
+    component: InfoList,
+    props: true,
+  },
+  {
+    path: '/info_detail',
+    name: 'info_detail',
+    component: InfoDetail,
     props: true,
   },
 ]

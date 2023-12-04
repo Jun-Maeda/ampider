@@ -2,7 +2,6 @@
   <v-container>
     <div class="home">
       <h1>Welcome to Ampder , {{ user.username }} !</h1>
-      <img src="@/images/Ampider_logo.jpg" />
     </div>
   </v-container>
 </template>

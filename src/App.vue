@@ -107,6 +107,7 @@ I18n.putVocabulariesForLanguage('ja', {
   Username: '社員番号', // Username label
   Password: 'パスワード', // Password label
   'Forgot your password?': 'パスワードを忘れた方',
+  'Incorrect username or password.':'IDもしくはPWが間違っています。',
 })
 
 export default {

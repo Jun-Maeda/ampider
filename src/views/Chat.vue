@@ -1,11 +1,11 @@
 <template>
   <div class="main-contents">
-    <div class="message_base">
+    <div class="message_base pb-4">
       <div v-for="message in messages" :key="message.id">
-        <div v-bind:class="[message.owner === username ? 'message' : 'message_opponent']">
+        <div v-bind:class="[message.owner === user.username ? 'message' : 'message_opponent']">
           {{ message.content }}
         </div>
-        <div v-bind:class="[message.owner === username ? 'username' : 'username_opponent']">
+        <div v-bind:class="[message.owner === user.username ? 'username' : 'username_opponent']">
           {{ message.owner }}
         </div>
       </div>
@@ -23,14 +23,17 @@
         </template>
       </v-text-field>
     </v-row>
+    
   </div>
+  
 </template>
 
 <style scoped>
 .main-contents {
   float: left;
   width: 100%;
-  height: calc(100vh - 112px);
+  height: calc(100vh - 120px);
+  padding: 0;
 }
 .message_base {
   overflow: auto;
@@ -47,7 +50,7 @@
   width: 40%;
   margin: 10px 10px 10px auto;
   padding: 20px;
-  background-color: #7ade40;
+  background-color: #7ade40 !important;
   border-radius: 30px;
 }
 .message_opponent {
@@ -71,7 +74,6 @@
 </style>
 <script>
 import { API, graphqlOperation } from '@aws-amplify/api'
-import { useAuthenticator } from '@aws-amplify/ui-vue'
 import { createMessage } from '@/graphql/mutations'
 import { listMessages } from '@/graphql/queries'
 import { onCreateMessage } from '@/graphql/subscriptions'
@@ -79,7 +81,7 @@ import { ref, onBeforeUnmount, onUpdated } from 'vue'
 
 export default {
   props: {
-    username: String,
+    user: Object,
   },
   setup(props) {
     const messages = ref([])
@@ -88,9 +90,10 @@ export default {
 
     const sendMessage = async () => {
       //if (event.keyCode !== 13 || !content.value) return;
+      if (!content.value) return;
 
       const message = {
-        id: new Date().getTime() + props.username,
+        id: new Date().getTime() + props.user.username,
         content: content.value,
       }
 

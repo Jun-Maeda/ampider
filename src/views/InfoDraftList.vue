@@ -12,7 +12,7 @@
       ></v-text-field>
     </v-row>
 
-    <v-data-table :headers="headers" :items="desserts" :search="search">
+    <v-data-table :headers="headers" :items="drafts" :search="search">
       <template v-slot:top>
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
@@ -62,6 +62,11 @@
           </v-card>
         </v-dialog>
       </template>
+
+      <template v-slot:[`item.text`]="{ item }">
+        {{ item.text.slice(0, 12) }}
+        <span v-if="item.text.length > 10">...</span>
+      </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
         <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
@@ -83,12 +88,14 @@ export default {
       {
         title: 'No.',
         key: 'no',
+        // width: '100',
       },
-      { title: 'タイトル', key: 'title' },
-      { title: '更新日', key: 'date' },
-      { title: '本文', key: 'text' },
+      { title: 'タイトル', key: 'title', width: '300', minWidth: '200' },
+      { title: '更新日', key: 'date', width: '200', minWidth: '150' },
+      { title: '本文', key: 'text', width: '400', minWidth: '200' },
+      { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
-    desserts: [],
+    drafts: [],
     editedIndex: -1,
     editedItem: {
       name: '',
@@ -128,10 +135,10 @@ export default {
 
   methods: {
     initialize() {
-      this.desserts = [
+      this.drafts = [
         {
           no: 1,
-          title: '災害が発生しました',
+          title: '災害が発生しました ',
           date: '2023/12/14 15:00',
           text: '災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました',
         },
@@ -157,25 +164,25 @@ export default {
           no: 5,
           title: '災害が発生しました',
           date: '2023/12/14 19:00',
-          text: '災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました',
+          text: '災害が発生しました',
         },
       ]
     },
 
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item)
+      this.editedIndex = this.drafts.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
 
     deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item)
+      this.editedIndex = this.drafts.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
     deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1)
+      this.drafts.splice(this.editedIndex, 1)
       this.closeDelete()
     },
 
@@ -197,9 +204,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        Object.assign(this.drafts[this.editedIndex], this.editedItem)
       } else {
-        this.desserts.push(this.editedItem)
+        this.drafts.push(this.editedItem)
       }
       this.close()
     },

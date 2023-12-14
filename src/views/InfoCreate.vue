@@ -20,6 +20,11 @@
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
+            <v-select label="部署" :items="divisions" v-model="select_divisions" @click="choiceDivision" multiple />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" lg="6">
             <v-select label="組織" :items="organizations" v-model="select_organizations" @click="choiceOrganization" multiple />
           </v-col>
         </v-row>
@@ -60,6 +65,10 @@
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2" v-for="area in select_areas" :key="area">{{ area }}</span></v-col
                   >
+                  <v-col class="mr-auto" cols="3"> 部署：</v-col>
+                  <v-col class="mr-auto" cols="9"
+                    ><span class="mr-2" v-for="division in select_divisions" :key="division">{{ division }}</span>
+                  </v-col>
                   <v-col class="mr-auto" cols="3"> 組織：</v-col>
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2" v-for="organization in select_organizations" :key="organization">{{ organization }}</span>
@@ -109,9 +118,11 @@ export default {
     title: '',
     companies: ['全社', 'PI', 'PCS', 'PAD'],
     select_companys: [],
-    areas: ['test'],
+    areas: [],
     select_areas: [],
-    organizations: ['test2'],
+    divisions: [],
+    select_divisions: [],
+    organizations: [],
     select_organizations: [],
     body_text: '',
     notice_flg: false,
@@ -133,17 +144,21 @@ export default {
       this.dialog = false
     },
     choiceCompany() {
-      this.organization = ''
-      this.area = ''
       this.organizations = []
       this.areas = []
+      this.divisions = []
     },
     choiceArea() {
       this.organizations = []
+      this.divisions = []
       this.areas = this.select_companys
     },
+    choiceDivision() {
+      this.organizations = []
+      this.divisions = this.select_areas
+    },
     choiceOrganization() {
-      this.organizations = this.select_areas
+      this.organizations = this.select_divisions
     },
   },
 }

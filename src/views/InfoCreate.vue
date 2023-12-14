@@ -10,17 +10,17 @@
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
-            <v-select label="会社*" :items="companies" :rules="rules" v-model="company" @click="choiceCompany" />
+            <v-select label="会社*" :items="companies" :rules="select_rules" v-model="select_companys" @click="choiceCompany" multiple />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
-            <v-select label="拠点" :items="areas" v-model="area" @click="choiceArea" />
+            <v-select label="拠点" :items="areas" v-model="select_areas" @click="choiceArea" multiple />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
-            <v-select label="組織" :items="organizations" v-model="organization" @click="choiceOrganization" />
+            <v-select label="組織" :items="organizations" v-model="select_organizations" @click="choiceOrganization" multiple />
           </v-col>
         </v-row>
         <v-row>
@@ -48,25 +48,42 @@
               <v-card-title class="text-h5">以下の内容で投稿してよろしいですか？</v-card-title>
               <v-card-text>
                 <v-row>
-                  <v-col class="mr-auto" cols="12" lg="6"> タイトル：{{ title }} </v-col>
+                  <v-col class="mr-auto" cols="3">タイトル：</v-col>
+                  <v-col class="mr-auto" cols="9">{{ title }}</v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="12" lg="6"> 会社：{{ company }} </v-col>
+                  <v-col class="mr-auto" cols="3"> 会社：</v-col>
+                  <v-col class="mr-auto" cols="9"
+                    ><span class="mr-2" v-for="company in select_companys" :key="company">{{ company }}</span>
+                  </v-col>
+                  <v-col class="mr-auto" cols="3"> 拠点：</v-col>
+                  <v-col class="mr-auto" cols="9"
+                    ><span class="mr-2" v-for="area in select_areas" :key="area">{{ area }}</span></v-col
+                  >
+                  <v-col class="mr-auto" cols="3"> 組織：</v-col>
+                  <v-col class="mr-auto" cols="9"
+                    ><span class="mr-2" v-for="organization in select_organizations" :key="organization">{{ organization }}</span>
+                  </v-col>
                 </v-row>
+                <v-row> </v-row>
+                <v-row> </v-row>
                 <v-row>
-                  <v-col cols="12" lg="6"> 拠点：{{ area }} </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12" lg="6"> 組織：{{ organization }} </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12"> 本文：{{ body_text }} </v-col>
+                  <v-col class="mr-auto" cols="3"> 本文：</v-col>
+                  <v-col class="mr-auto vue-textarea" cols="9"> {{ body_text }} </v-col>
                 </v-row>
                 <v-row>
                   <v-col cols="12">
                     <v-row>
-                      <v-col cols="12"> 通知：{{ notice_flg }} </v-col>
-                      <v-col cols="12"> 訓練：{{ training_flg }} </v-col>
+                      <v-col cols="12">
+                        通知：
+                        <span v-if="notice_flg">通知する</span>
+                        <span v-else>通知しない</span>
+                      </v-col>
+                      <v-col cols="12">
+                        種別：
+                        <span v-if="training_flg">訓練</span>
+                        <span v-else>お知らせ</span>
+                      </v-col>
                     </v-row>
                   </v-col>
                 </v-row>
@@ -88,13 +105,14 @@
 export default {
   data: () => ({
     rules: [(v) => !!v || 'この項目は必須です'],
+    select_rules: [(v) => (v && v.length > 0) || '選択してください'],
     title: '',
     companies: ['全社', 'PI', 'PCS', 'PAD'],
-    company: '',
+    select_companys: [],
     areas: ['test'],
-    area: '',
+    select_areas: [],
     organizations: ['test2'],
-    organization: '',
+    select_organizations: [],
     body_text: '',
     notice_flg: false,
     training_flg: false,
@@ -106,15 +124,13 @@ export default {
 
       if (valid) {
         this.dialog = true
-        
       }
     },
-    createForm(){
-      let success =
-          'お知らせを作成しました。\nタイトル:' + this.title
-        alert(success)
-        this.$refs.form.reset()
-        this.dialog = false
+    createForm() {
+      let success = 'お知らせを作成しました。\nタイトル:' + this.title
+      alert(success)
+      this.$refs.form.reset()
+      this.dialog = false
     },
     choiceCompany() {
       this.organization = ''
@@ -124,11 +140,16 @@ export default {
     },
     choiceArea() {
       this.organizations = []
-      this.areas = ['秋田', '山形', '富山', '東京', this.company]
+      this.areas = this.select_companys
     },
     choiceOrganization() {
-      this.organizations = ['PI', 'PCS', 'PAD', this.area]
+      this.organizations = this.select_areas
     },
   },
 }
 </script>
+<style scoped>
+.vue-textarea {
+  white-space: break-spaces;
+}
+</style>

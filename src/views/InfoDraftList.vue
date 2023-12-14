@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>お知らせ下書き一覧</h2>
+    <h2>下書き一覧</h2>
     <v-row justify="end" class="my-4">
       <v-text-field
         v-model="search"

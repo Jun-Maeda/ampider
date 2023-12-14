@@ -16,9 +16,9 @@
           <div v-show="login">
             <v-btn icon="mdi-logout" size="x-large" @click="signOut" />
           </div>
-          <div v-show="!login">
+          <!-- <div v-show="!login">
             <v-btn icon="mdi-login" size="x-large" />
-          </div>
+          </div> -->
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" absolute temporary>

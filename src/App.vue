@@ -107,7 +107,7 @@ I18n.putVocabulariesForLanguage('ja', {
   Username: '社員番号', // Username label
   Password: 'パスワード', // Password label
   'Forgot your password?': 'パスワードを忘れた方',
-  'Incorrect username or password.':'IDもしくはPWが間違っています。',
+  'Incorrect username or password.': 'IDもしくはPWが間違っています。',
 })
 
 export default {
@@ -119,6 +119,7 @@ export default {
       { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },
       { title: 'お知らせ作成', to: '/info_create', icon: 'mdi-square-edit-outline' },
       { title: 'お知らせ一覧', to: '/info_list', icon: 'mdi-map-marker' },
+      { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
     ],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],
     drawer: false,

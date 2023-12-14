@@ -8,6 +8,7 @@ import Test2 from '@/views/TestPage2.vue'
 import InfoCreate from '@/views/InfoCreate.vue'
 import InfoList from '@/views/InfoList.vue'
 import InfoDetail from '@/views/InfoDetail.vue'
+import InfoDraftList from '@/views/InfoDraftList.vue'
 
 const routes = [
   {
@@ -62,6 +63,12 @@ const routes = [
     path: '/info_detail',
     name: 'info_detail',
     component: InfoDetail,
+    props: true,
+  },
+  {
+    path: '/info_draft_list',
+    name: 'info_draft_list',
+    component: InfoDraftList,
     props: true,
   },
 ]

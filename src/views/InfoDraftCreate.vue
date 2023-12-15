@@ -3,7 +3,7 @@ import { useDraftStore } from '@/stores/draft'
 </script>
 <template>
   <v-container>
-    <h2>お知らせ作成</h2>
+    <h2>下書き編集</h2>
     <div class="mt-8">
       <v-form class="mt-5" ref="form">
         <v-row>
@@ -130,7 +130,12 @@ export default {
     dialog: false,
     draft_store: useDraftStore(),
   }),
-  mounted() {},
+  mounted() {
+    let draft_data = this.draft_store.draft_data
+
+    this.title = draft_data.title
+    this.body_text = draft_data.text
+  },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
     async validate() {
@@ -142,7 +147,8 @@ export default {
     },
     createForm() {
       this.dialog = false
-      // ここに新規作成処理を記載
+
+      // ここに上書き処理記載
 
       // お知らせ一覧へリダイレクト
       this.$router.push({
@@ -151,15 +157,16 @@ export default {
 
       let success = 'お知らせを作成しました。\nタイトル:' + this.title
       alert(success)
-
+      // piniaのリセット
+      this.draft_store.resetDraft()
       this.$refs.form.reset()
     },
     createDraft() {
       this.dialog = false
-      let success = '下書きを保存しました。\nタイトル:' + this.title
-      // 下書きだった場合
 
-      // ここに下書き新規作成処理を記載
+      // ここに下書き更新処理記載
+
+      let success = '下書きを更新しました。\nタイトル:' + this.title
 
       // 下書き一覧へリダイレクト
       this.$router.push({

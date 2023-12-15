@@ -128,7 +128,7 @@ export default {
     editItem(item) {
       this.draft_store.draft_data = item
       this.$router.push({
-        name: 'info_create',
+        name: 'info_draft_create',
       })
     },
 

@@ -1,3 +1,6 @@
+<script setup>
+import { useDraftStore } from '@/stores/draft'
+</script>
 <template>
   <v-container>
     <h2>下書き一覧</h2>
@@ -15,7 +18,7 @@
     <v-data-table :headers="headers" :items="drafts" :search="search">
       <template v-slot:top>
         <v-dialog v-model="dialog" max-width="500px">
-          <v-card>
+          <!-- <v-card>
             <v-card-title>
               <span class="text-h5">{{ formTitle }}</span>
             </v-card-title>
@@ -47,16 +50,16 @@
               <v-btn color="blue-darken-1" variant="text" @click="close"> Cancel </v-btn>
               <v-btn color="blue-darken-1" variant="text" @click="save"> Save </v-btn>
             </v-card-actions>
-          </v-card>
+          </v-card> -->
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5 text-center">削除してよろしいですか？</v-card-title>
-            <p class="text-center">{{ editedItem.name }}</p>
+            <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
+            <p class="text-center">タイトル：{{ editedItem.title }}</p>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue-darken-1" variant="text" @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue-darken-1" variant="text" @click="deleteItemConfirm">OK</v-btn>
+              <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
+              <v-btn color="blue-darken-1" variant="text" @click="deleteItemConfirm">削除</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -96,14 +99,8 @@ export default {
       { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
     drafts: [],
-    editedIndex: -1,
-    editedItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
+    // editedIndex: -1,
+    editedItem: {},
     defaultItem: {
       name: '',
       calories: 0,
@@ -111,6 +108,7 @@ export default {
       carbs: 0,
       protein: 0,
     },
+    draft_store: useDraftStore(),
   }),
 
   computed: {
@@ -137,13 +135,13 @@ export default {
     initialize() {
       this.drafts = [
         {
-          no: 1,
+          no: 5,
           title: '災害が発生しました ',
           date: '2023/12/14 15:00',
           text: '災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました',
         },
         {
-          no: 2,
+          no: 4,
           title: '災害が発生しました',
           date: '2023/12/14 16:00',
           text: '災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました',
@@ -155,13 +153,13 @@ export default {
           text: '災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました',
         },
         {
-          no: 4,
+          no: 2,
           title: '災害が発生しました',
           date: '2023/12/14 18:00',
           text: '災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました災害が発生しました',
         },
         {
-          no: 5,
+          no: 1,
           title: '災害が発生しました',
           date: '2023/12/14 19:00',
           text: '災害が発生しました',
@@ -170,19 +168,23 @@ export default {
     },
 
     editItem(item) {
-      this.editedIndex = this.drafts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
+      //   this.editedIndex = this.drafts.indexOf(item)
+      //   this.editedItem = Object.assign({}, item)
+      //   this.dialog = true
+      this.draft_store.draft_data = item
+      this.$router.push({
+        name: 'info_create',
+      })
     },
 
     deleteItem(item) {
-      this.editedIndex = this.drafts.indexOf(item)
+      //   this.editedIndex = this.drafts.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
     deleteItemConfirm() {
-      this.drafts.splice(this.editedIndex, 1)
+      //   this.drafts.splice(this.editedIndex, 1)
       this.closeDelete()
     },
 
@@ -190,7 +192,7 @@ export default {
       this.dialog = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
+        // this.editedIndex = -1
       })
     },
 
@@ -198,18 +200,18 @@ export default {
       this.dialogDelete = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
+        // this.editedIndex = -1
       })
     },
 
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.drafts[this.editedIndex], this.editedItem)
-      } else {
-        this.drafts.push(this.editedItem)
-      }
-      this.close()
-    },
+    // save() {
+    //   if (this.editedIndex > -1) {
+    //     Object.assign(this.drafts[this.editedIndex], this.editedItem)
+    //   } else {
+    //     this.drafts.push(this.editedItem)
+    //   }
+    //   this.close()
+    // },
   },
 }
 </script>

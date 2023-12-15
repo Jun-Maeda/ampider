@@ -19,6 +19,7 @@
     "maplibre-gl": "^2.4.0",
     "maplibre-gl-js-amplify": "^2.1.0",
     "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.0",
     "vue": "^3.2.47",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.1.6",

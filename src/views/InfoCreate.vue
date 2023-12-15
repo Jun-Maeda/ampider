@@ -15,19 +15,16 @@ import { useDraftStore } from '@/stores/draft'
           <v-col cols="12" lg="6">
             <v-select label="会社*" :items="companies" :rules="select_rules" v-model="select_companys" @click="choiceCompany" multiple />
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" lg="6">
+
+          <v-col v-if="select_companys.length > 0" cols="12" lg="6">
             <v-select label="拠点" :items="areas" v-model="select_areas" @click="choiceArea" multiple />
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" lg="6">
+
+          <v-col v-if="select_areas.length > 0" cols="12" lg="6">
             <v-select label="部署" :items="divisions" v-model="select_divisions" @click="choiceDivision" multiple />
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" lg="6">
+
+          <v-col v-if="select_divisions.length > 0" cols="12" lg="6">
             <v-select label="組織" :items="organizations" v-model="select_organizations" @click="choiceOrganization" multiple />
           </v-col>
         </v-row>
@@ -196,14 +193,20 @@ export default {
       this.organizations = []
       this.areas = []
       this.divisions = []
+      this.select_organizations = []
+      this.select_areas = []
+      this.select_divisions = []
     },
     choiceArea() {
       this.organizations = []
       this.divisions = []
+      this.select_organizations = []
+      this.select_divisions = []
       this.areas = this.select_companys
     },
     choiceDivision() {
       this.organizations = []
+      this.select_organizations = []
       this.divisions = this.select_areas
     },
     choiceOrganization() {

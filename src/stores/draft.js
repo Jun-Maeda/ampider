@@ -2,17 +2,17 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useDraftStore = defineStore(
-  'counter',
+  'draft',
   () => {
-    const draft_data = ref({})
+    const draft_data = ref(null)
 
     function resetDraft() {
-      draft_data.value = {}
+      draft_data.value = null
     }
 
     return { resetDraft, draft_data }
   },
-  // {
-  //   persist: true,
-  // },
+  {
+    persist: true,
+  },
 )

@@ -1,3 +1,6 @@
+<script setup>
+import { useDraftStore } from '@/stores/draft'
+</script>
 <template>
   <v-container>
     <h2>お知らせ作成</h2>
@@ -42,7 +45,7 @@
           </v-col>
         </v-row>
         <v-row justify="end">
-          <v-btn class="mr-3" variant="flat" color="primary" @click="validate">下書き</v-btn>
+          <v-btn class="mr-3" variant="flat" color="primary" @click="createDraft">下書き</v-btn>
           <v-btn variant="flat" color="primary" @click="validate">投稿</v-btn>
 
           <v-dialog v-model="dialog" persistent width="auto">
@@ -128,8 +131,18 @@ export default {
     notice_flg: false,
     training_flg: false,
     dialog: false,
+    draft_store: useDraftStore(),
   }),
+  mounted() {
+    // 下書きからの編集の場合
+    let draft_data = this.draft_store.draft_data
+    if (draft_data !== null) {
+      this.title = draft_data.title
+      this.body_text = draft_data.text
+    }
+  },
   methods: {
+    // 投稿ボタンを押したときのバリデーションチェック
     async validate() {
       const { valid } = await this.$refs.form.validate()
 
@@ -138,10 +151,46 @@ export default {
       }
     },
     createForm() {
+      this.dialog = false
+      let draft_data = this.draft_store.draft_data
+      // 下書きだった場合
+      if (draft_data !== null) {
+        // ここに上書き処理を記載
+      } else {
+        // ここに新規作成処理を記載
+      }
+      // お知らせ一覧へリダイレクト
+      this.$router.push({
+        name: 'info_list',
+      })
+
       let success = 'お知らせを作成しました。\nタイトル:' + this.title
       alert(success)
+      // piniaのリセット
+      this.draft_store.resetDraft()
+
       this.$refs.form.reset()
+    },
+    createDraft() {
       this.dialog = false
+      let draft_data = this.draft_store.draft_data
+      // 下書きだった場合
+      if (draft_data !== null) {
+        // ここに上書き処理を記載
+      } else {
+        // ここに新規作成処理を記載
+      }
+      // 下書き一覧へリダイレクト
+      this.$router.push({
+        name: 'info_draft_list',
+      })
+
+      let success = '下書きを保存しました。\nタイトル:' + this.title
+      alert(success)
+      // piniaのリセット
+      this.draft_store.resetDraft()
+
+      this.$refs.form.reset()
     },
     choiceCompany() {
       this.organizations = []

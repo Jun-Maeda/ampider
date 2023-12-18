@@ -151,7 +151,7 @@ export default {
       // ここに上書き処理記載
 
       // お知らせ一覧へリダイレクト
-      this.$router.push({
+      this.$router.replace({
         name: 'info_list',
       })
 
@@ -169,7 +169,7 @@ export default {
       let success = '下書きを更新しました。\nタイトル:' + this.title
 
       // 下書き一覧へリダイレクト
-      this.$router.push({
+      this.$router.replace({
         name: 'info_draft_list',
       })
 

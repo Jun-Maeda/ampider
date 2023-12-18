@@ -145,8 +145,8 @@ export default {
       // ここに新規作成処理を記載
 
       // お知らせ一覧へリダイレクト
-      this.$router.push({
-        name: 'info_list',
+      this.$router.replace({
+        name: 'info_list'
       })
 
       let success = 'お知らせを作成しました。\nタイトル:' + this.title
@@ -162,8 +162,8 @@ export default {
       // ここに下書き新規作成処理を記載
 
       // 下書き一覧へリダイレクト
-      this.$router.push({
-        name: 'info_draft_list',
+      this.$router.replace({
+        name: 'info_draft_list'
       })
 
       alert(success)

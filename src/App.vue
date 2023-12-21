@@ -126,10 +126,11 @@ export default {
     login: true,
     user_settings: [{ title: '連絡先情報', to: '', icon: 'mdi-clock' }],
     admin_menus: [
-      { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
+      { title: '集計', to: '/chart_detail', icon: 'mdi-heart-pulse' },
       { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },
       { title: 'お知らせ作成', to: '/info_create', icon: 'mdi-square-edit-outline' },
       { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
+      { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
     ],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],
     drawer: false,

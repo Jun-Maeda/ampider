@@ -10,6 +10,7 @@ import InfoList from '@/views/InfoList.vue'
 import InfoDetail from '@/views/InfoDetail.vue'
 import InfoDraftList from '@/views/InfoDraftList.vue'
 import InfoDraftCreate from '@/views/InfoDraftCreate.vue'
+import ChartDetail from '@/views/ChartDetail.vue'
 
 const routes = [
   {
@@ -76,6 +77,12 @@ const routes = [
     path: '/info_draft_create',
     name: 'info_draft_create',
     component: InfoDraftCreate,
+    props: true,
+  },
+  {
+    path: '/chart_detail',
+    name: 'chart_detail',
+    component: ChartDetail,
     props: true,
   },
 ]

@@ -26,6 +26,17 @@
             <!-- ホーム -->
             <v-list-item value="Home" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="Home" class="mt-1"></v-list-item>
 
+            <!-- お知らせ一覧 -->
+            <v-list-item
+              value="お知らせ一覧"
+              color="primary"
+              rounded="xl"
+              to="info_list"
+              prepend-icon="mdi-information-outline"
+              title="お知らせ一覧"
+              class="mt-1"
+            ></v-list-item>
+
             <!-- ユーザー設定 -->
             <v-list-group value="user_settings">
               <template v-slot:activator="{ props }">
@@ -118,7 +129,6 @@ export default {
       { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
       { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },
       { title: 'お知らせ作成', to: '/info_create', icon: 'mdi-square-edit-outline' },
-      { title: 'お知らせ一覧', to: '/info_list', icon: 'mdi-map-marker' },
       { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
     ],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],

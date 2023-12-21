@@ -3,6 +3,7 @@ import { infoDetailStore } from '@/stores/info'
 </script>
 <template>
   <v-container>
+    <h2>お知らせ詳細</h2>
     <v-row class="pt-5">
       <v-col cols="12" sm="4" class="py-0">
         <v-text-field label="タイトル" readonly v-model="info_detail.title"></v-text-field>
@@ -11,7 +12,7 @@ import { infoDetailStore } from '@/stores/info'
         <v-text-field label="日時" readonly v-model="info_detail.datetime"></v-text-field>
       </v-col>
       <v-col cols="12" class="py-0">
-        <v-textarea label="本文" readonly no-resize rows="5" :model-value="info_detail.body_text"></v-textarea>
+        <v-textarea label="本文" readonly no-resize rows="8" :model-value="info_detail.body_text"></v-textarea>
       </v-col>
     </v-row>
     <v-row justify="end">

@@ -6,6 +6,8 @@ import VueAxios from 'vue-axios'
 import vuetify from '@/plugins/vuetify.js'
 import { createPinia } from 'pinia'
 import { createPersistedState } from 'pinia-plugin-persistedstate'
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 
 // Amplify
 import { Amplify } from 'aws-amplify'
@@ -19,6 +21,9 @@ import '@aws-amplify/ui-vue/styles.css'
 // import '@/assets/admin.css';
 // import './assets/admin.css';
 const app = createApp(App)
+
+// datetimepicker
+app.component('VueDatePicker', VueDatePicker)
 
 // pinia
 const pinia = createPinia()

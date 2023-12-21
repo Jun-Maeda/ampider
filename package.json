@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "@aws-amplify/ui-vue": "^2.4.27",
+    "@vuepic/vue-datepicker": "^7.4.0",
     "amazon-cognito-identity-js": "^6.3.6",
+    "apexcharts": "^3.45.0",
     "aws-amplify": "^4.3.46",
     "axios": "^1.6.2",
     "maplibre-gl": "^2.4.0",
@@ -23,6 +25,7 @@
     "vue": "^3.2.47",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.1.6",
+    "vue3-apexcharts": "^1.4.4",
     "vuetify": "^3.4.3"
   },
   "devDependencies": {

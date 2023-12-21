@@ -1,8 +1,18 @@
+<script setup>
+import { ja } from 'date-fns/locale'
+</script>
 <template>
   <v-container>
     <h2>集計</h2>
     <div class="mt-8">
-      <div class="mt-8"></div>
+      <v-row class="mt-5">
+        <v-col cols="12" sm="4" class="pt-0">
+          <v-select label="災害選択" :items="select_disasters" density="compact"></v-select>
+        </v-col>
+        <v-col cols="12" md="4" class="pt-0">
+          <VueDatePicker v-model="dates" range multi-calendars :enable-time-picker="false" :format-locale="ja" />
+        </v-col>
+      </v-row>
       <v-row>
         <v-col cols="12" sm="4">
           <apexchart type="pie" height="400" :options="pie_chart.options" :series="pie_chart.series"></apexchart>
@@ -17,102 +27,9 @@
       </v-row>
     </div>
 
-    <v-row justify="center">
-      <h6>災害速報</h6>
-      <v-col cols="12" md="10">
-        <v-data-table-virtual
-          :headers="headers"
-          :items="disaster"
-          :fixed-header="true"
-          :hide-default-footer="false"
-          disable-pagination
-          item-key="name"
-        >
-          <template v-slot:[`item.rainfall`]="{ value }">
-            <v-tooltip :text="value.detail" location="bottom" max-width="500px">
-              <template v-slot:activator="{ props }">
-                <v-chip v-if="value.alert" :color="getColor(value.alert)" variant="flat" size="x-large" density="compact" v-bind="props">
-                  <span v-on="props" class="my-auto" style="width: 100px">
-                    {{ value.alert }}
-                  </span>
-                </v-chip>
-                <span v-else></span>
-              </template>
-            </v-tooltip>
-          </template>
-          <template v-slot:[`item.flood`]="{ value }">
-            <v-tooltip :text="value.detail" location="bottom" max-width="500px">
-              <template v-slot:activator="{ props }">
-                <v-chip v-if="value.alert" :color="getColor(value.alert)" variant="flat" size="x-large" density="compact" v-bind="props">
-                  <span v-on="props" class="my-auto" style="width: 100px">
-                    {{ value.alert }}
-                  </span>
-                </v-chip>
-                <span v-else></span>
-              </template>
-            </v-tooltip>
-          </template>
-          <template v-slot:[`item.strongWind`]="{ value }">
-            <v-tooltip :text="value.detail" location="bottom" max-width="500px">
-              <template v-slot:activator="{ props }">
-                <v-chip v-if="value.alert" :color="getColor(value.alert)" variant="flat" size="x-large" density="compact" v-bind="props">
-                  <span v-on="props" class="my-auto" style="width: 100px">
-                    {{ value.alert }}
-                  </span>
-                </v-chip>
-                <span v-else></span>
-              </template>
-            </v-tooltip>
-          </template>
-          <template v-slot:[`item.earthquake`]="{ value }">
-            <v-tooltip :text="value.detail" location="bottom" max-width="500px">
-              <template v-slot:activator="{ props }">
-                <v-chip v-if="value.alert" :color="getColor(value.alert)" variant="flat" size="x-large" density="compact" v-bind="props">
-                  <span v-on="props" class="my-auto" style="width: 100px">
-                    {{ value.alert }}
-                  </span>
-                </v-chip>
-                <span v-else></span>
-              </template>
-            </v-tooltip>
-          </template>
-          <template v-slot:[`item.lightning`]="{ value }">
-            <v-tooltip :text="value.detail" location="bottom" max-width="500px">
-              <template v-slot:activator="{ props }">
-                <v-chip v-if="value.alert" :color="getColor(value.alert)" variant="flat" size="x-large" density="compact" v-bind="props">
-                  <span v-on="props" class="my-auto" style="width: 100px">
-                    {{ value.alert }}
-                  </span>
-                </v-chip>
-                <span v-else></span>
-              </template>
-            </v-tooltip>
-          </template>
-          <template v-slot:[`item.heavySnow`]="{ value }">
-            <v-tooltip :text="value.detail" location="bottom" max-width="500px">
-              <template v-slot:activator="{ props }">
-                <v-chip v-if="value.alert" :color="getColor(value.alert)" variant="flat" size="x-large" density="compact" v-bind="props">
-                  <span v-on="props" class="my-auto" style="width: 100px">
-                    {{ value.alert }}
-                  </span>
-                </v-chip>
-                <span v-else></span>
-              </template>
-            </v-tooltip>
-          </template>
-          <template v-slot:[`item.tsunami`]="{ value }">
-            <v-tooltip :text="value.detail" location="bottom" max-width="500px">
-              <template v-slot:activator="{ props }">
-                <v-chip v-if="value.alert" :color="getColor(value.alert)" variant="flat" size="x-large" density="compact" v-bind="props">
-                  <span v-on="props" class="my-auto" style="width: 100px">
-                    {{ value.alert }}
-                  </span>
-                </v-chip>
-                <span v-else></span>
-              </template>
-            </v-tooltip>
-          </template>
-        </v-data-table-virtual>
+    <v-row>
+      <v-col cols="12">
+        <v-data-table :headers="headers" :items="safeties"> </v-data-table>
       </v-col>
     </v-row>
   </v-container>
@@ -155,129 +72,75 @@ export default {
         },
       ],
     },
-    rules: {
-      required: (value) => !!value || 'この項目は必須です',
-    },
-    title: 'test',
-    date: '2023/12/07',
-    text: 'ああああああああああいいいいいいいいいいううううううううううええええええええええおおおおおおおおおおかかかかかかかかかかききききききききききくくくくくくくくくくけけけけけけけけけけここここここここここああああああああああいいいいいいいいいいううううううううううええええええええええおおおおおおおおおおかかかかかかかかかかききききききききききくくくくくくくくくくけけけけけけけけけけここここここここここああああああああああいいいいいいいいいいううううううううううええええええええええおおおおおおおおおおかかかかかかかかかかききききききききききくくくくくくくくくくけけけけけけけけけけここここここここここ',
-    headers: [
-      { title: '拠点名', align: 'center', sortable: false, width: '200', key: 'baseName' },
-      { title: '大雨', align: 'center', sortable: false, width: '100', key: 'rainfall' },
-      { title: '洪水', align: 'center', sortable: false, width: '100', key: 'flood' },
-      { title: '強風', align: 'center', sortable: false, width: '100', key: 'strongWind' },
-      { title: '地震', align: 'center', sortable: false, width: '100', key: 'earthquake' },
-      { title: '雷', align: 'center', sortable: false, width: '100', key: 'lightning' },
-      { title: '大雪', align: 'center', sortable: false, width: '100', key: 'heavySnow' },
-      { title: '津波', align: 'center', sortable: false, width: '100', key: 'tsunami' },
+    select_disasters: [
+      { id: '1', title: '山形県地震' },
+      { id: '1', title: '山形県大雨' },
+      { id: '1', title: '山形県暴風' },
+      { id: '1', title: '山形県洪水' },
     ],
-    disaster: [
+    start_date: '',
+    end_date: '',
+    dates: [],
+    headers: [
+      { title: 'No.', sortable: false, key: 'no' },
+      { title: '氏名', key: 'name' },
+      { title: '社員番号', key: 'employee_number' },
+      { title: '安否', key: 'safety' },
+      { title: '回答時刻', key: 'answer_time' },
+      { title: '出社可否', key: 'attendance_state' },
+      { title: '家族の安否', key: 'family_safety' },
+      { title: '家屋の状態', key: 'house_state' },
+      { title: 'ステップ', key: 'step' },
+      { title: '特記事項', key: 'notice' },
+    ],
+    safeties: [
       {
-        baseName: '東京本社',
-        rainfall: { alert: '注意報', detail: '災害が起きました。' },
-        flood: { alert: '警報', detail: '災害が起きました。' },
-        strongWind: { alert: '注意報', detail: '災害が起きました。' },
-        earthquake: { alert: '震度5', detail: '災害が起きました。' },
-        lightning: { alert: '警報', detail: '災害が起きました。' },
-        heavySnow: { alert: '注意報', detail: '災害が起きました。' },
-        tsunami: { alert: '警報', detail: '災害が起きました。' },
+        no: '1',
+        name: '山田 太郎',
+        employee_number: '11111111',
+        safety: '安全',
+        answer_time: '2023/12/21 1:11',
+        attendance_state: '出社済み',
+        family_safety: '全員無事',
+        house_state: '無事',
+        step: { times: 1, reply: true },
+        notice: 'とくになし',
       },
       {
-        baseName: '秋田BPO',
-        rainfall: {
-          alert: '注意報',
-          detail:
-            '【暴風雪と高波に関する気象警報・注意報】 秋田県では、気圧の傾きが大きくなっているため、西よりの強風が吹き、海上では、大しけとなっています。沿岸の海上では、８日昼前にかけて、高波に警戒してください。また、秋田県では、８日朝まで、強風に注意してください。',
-        },
-        flood: { alert: '警報', detail: 'test' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
+        no: 2,
+        name: '山田 太郎',
+        employee_number: '11111111',
+        safety: '安全',
+        answer_time: '2023/12/21 1:11',
+        attendance_state: '出社済み',
+        family_safety: '全員無事',
+        house_state: '無事',
+        step: { times: 1, reply: true },
+        notice: 'とくになし',
       },
       {
-        baseName: '横手キャンパス',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '注意報', detail: '123456789' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
+        no: 3,
+        name: '山田 太郎',
+        employee_number: '11111111',
+        safety: '安全',
+        answer_time: '2023/12/21 1:11',
+        attendance_state: '出社済み',
+        family_safety: '全員無事',
+        house_state: '無事',
+        step: { times: 1, reply: true },
+        notice: 'とくになし',
       },
       {
-        baseName: 'にかほキャンパス',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '警報', detail: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '潟上ブランチ',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '注意報', detail: '`{+>}~&&$<>}_?*!$' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '山形BPO',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: {
-          alert: '警報',
-          detail: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-        },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '鶴岡ブランチ',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '富山BPO',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '魚沼テラス',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '一関BPO',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
+        no: 4,
+        name: '山田 太郎',
+        employee_number: '11111111',
+        safety: '安全',
+        answer_time: '2023/12/21 1:11',
+        attendance_state: '出社済み',
+        family_safety: '全員無事',
+        house_state: '無事',
+        step: { times: 1, reply: true },
+        notice: 'とくになし',
       },
     ],
   }),

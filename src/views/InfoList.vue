@@ -1,9 +1,12 @@
+<script setup>
+import { infoDetailStore } from '@/stores/info'
+</script>
 <template>
   <v-container>
     <h2>お知らせ一覧</h2>
     <div class="mt-8">
       <v-list lines="three">
-        <v-list-item v-for="file in files" :key="file.title" :title="file.title" :subtitle="file.subtitle" :to="file.link">
+        <v-list-item v-for="file in files" :key="file.title" :title="file.title" :subtitle="file.body_text" @click="editItem(file)">
           <template v-slot:prepend>
             <v-avatar :color="file.color">
               <v-icon color="white">{{ file.icon }}</v-icon>
@@ -45,106 +48,27 @@ export default {
       { title: 'Protein (g)', key: 'protein' },
       { title: 'Iron (%)', key: 'iron' },
     ],
-    desserts: [
-      {
-        name: 'Frozen Yogurt',
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: 1,
-      },
-      {
-        name: 'Ice cream sandwich',
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3,
-        iron: 1,
-      },
-      {
-        name: 'Eclair',
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        iron: 7,
-      },
-      {
-        name: 'Cupcake',
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3,
-        iron: 8,
-      },
-      {
-        name: 'Gingerbread',
-        calories: 356,
-        fat: 16.0,
-        carbs: 49,
-        protein: 3.9,
-        iron: 16,
-      },
-      {
-        name: 'Jelly bean',
-        calories: 375,
-        fat: 0.0,
-        carbs: 94,
-        protein: 0.0,
-        iron: 0,
-      },
-      {
-        name: 'Lollipop',
-        calories: 392,
-        fat: 0.2,
-        carbs: 98,
-        protein: 0,
-        iron: 2,
-      },
-      {
-        name: 'Honeycomb',
-        calories: 408,
-        fat: 3.2,
-        carbs: 87,
-        protein: 6.5,
-        iron: 45,
-      },
-      {
-        name: 'Donut',
-        calories: 452,
-        fat: 25.0,
-        carbs: 51,
-        protein: 4.9,
-        iron: 22,
-      },
-      {
-        name: 'KitKat',
-        calories: 518,
-        fat: 26.0,
-        carbs: 65,
-        protein: 7,
-        iron: 6,
-      },
-    ],
     files: [
       {
         color: 'blue',
         icon: 'mdi-clipboard-text',
-        subtitle: '安否確認のテストです。安否確認フォームを入力して回答してください',
+        body_text: '安否確認のテストです。安否確認フォームを入力して回答してください',
         title: '安否確認テスト',
         link: 'info_Detail',
+        datetime: '2023/12/21 12:00',
       },
       {
         color: 'amber',
         icon: 'mdi-gesture-tap-button',
-        subtitle:
+        body_text:
           'あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ',
         title: '安否確認テスト',
+        datetime: '2023/12/21 13:00',
       },
     ],
     totalis: false,
     total: 100,
+    info_store: infoDetailStore(),
   }),
   mounted() {
     if (this.total < 10) {
@@ -169,6 +93,12 @@ export default {
       } else {
         this.totalis = true
       }
+    },
+    editItem(item) {
+      this.info_store.info_data = item
+      this.$router.push({
+        name: 'info_detail',
+      })
     },
   },
 }

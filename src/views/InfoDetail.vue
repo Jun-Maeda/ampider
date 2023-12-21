@@ -1,3 +1,6 @@
+<script setup>
+import { infoDetailStore } from '@/stores/info'
+</script>
 <template>
   <v-container>
     <v-row class="pt-5">
@@ -12,7 +15,7 @@
       </v-col>
     </v-row>
     <v-row justify="end">
-      <v-btn class="mr-2">戻る</v-btn>
+      <v-btn class="mr-2" @click="$router.back()">戻る</v-btn>
       <v-btn color="red" class="mr-3" @click="deleteItem">削除</v-btn>
     </v-row>
     <v-dialog v-model="dialogDelete" max-width="500px">
@@ -33,14 +36,30 @@
 <script>
 export default {
   data: () => ({
-    info_detail: {
-      title: '一部水没している地域について',
-      datetime: '2023/12/21 11:38',
-      body_text:
-        '一部水没している地域について一部水没している地域について一部水没している地域について\n一部水没している地域について一部水没している地域について',
-    },
+    // info_detail: {
+    //   title: '一部水没している地域について',
+    //   datetime: '2023/12/21 11:38',
+    //   body_text:
+    //     '一部水没している地域について一部水没している地域について一部水没している地域について\n一部水没している地域について一部水没している地域について',
+    // },
+    info_detail: {},
     dialogDelete: false,
+    info_store: infoDetailStore(),
   }),
+  mounted() {
+    let info_data = this.info_store.info_data
+    console.log(info_data)
+
+    // ストアにデータが入っていなければ一覧にリダイレクト
+    if (info_data === null) {
+      // お知らせ一覧へリダイレクト
+      this.$router.replace({
+        name: 'info_list',
+      })
+    } else {
+      this.info_detail = info_data
+    }
+  },
   methods: {
     async validate() {
       const { valid } = await this.$refs.form.validate()
@@ -61,6 +80,7 @@ export default {
       this.dialogDelete = false
     },
     deleteItemConfirm() {
+      this.info_store.resetInfo()
       this.closeDelete()
       alert('削除しました。')
       // お知らせ一覧へリダイレクト

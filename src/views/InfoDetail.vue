@@ -1,127 +1,45 @@
 <template>
   <v-container>
-    <h2>お知らせ一覧</h2>
-    <div class="mt-8">
-      <v-data-table :headers="headers" :items="desserts" item-value="name">
-        <template v-slot:item="{ item }">
-          <tr>
-            <td>{{ item.name }}</td>
-            <td>{{ item.calories }}</td>
-            <td>{{ item.fat }}</td>
-            <td>{{ item.carbs }}</td>
-            <td>{{ item.protein }}</td>
-            <td>{{ item.iron }}</td>
-          </tr>
-        </template>
-      </v-data-table>
-    </div>
+    <v-row class="pt-5">
+      <v-col cols="12" sm="4" class="py-0">
+        <v-text-field label="タイトル" readonly v-model="info_detail.title"></v-text-field>
+      </v-col>
+      <v-col cols="12" sm="3" class="py-0">
+        <v-text-field label="日時" readonly v-model="info_detail.datetime"></v-text-field>
+      </v-col>
+      <v-col cols="12" class="py-0">
+        <v-textarea label="本文" readonly no-resize rows="5" :model-value="info_detail.body_text"></v-textarea>
+      </v-col>
+    </v-row>
+    <v-row justify="end">
+      <v-btn class="mr-2">戻る</v-btn>
+      <v-btn color="red" class="mr-3" @click="deleteItem">削除</v-btn>
+    </v-row>
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
+        <p class="text-center">タイトル：{{ info_detail.title }}</p>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
+          <v-btn color="blue-darken-1" variant="text" @click="deleteItemConfirm()">削除</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 export default {
   data: () => ({
-    rules: [(v) => !!v || 'この項目は必須です'],
-    title: '',
-    areas: ['秋田', '山形', '富山', '東京'],
-    area: '',
-    body_text: '',
-    notice: false,
-    headers: [
-      {
-        title: 'Dessert (100g serving)',
-        align: 'start',
-        sortable: false,
-        key: 'name',
-      },
-      { title: 'Calories', key: 'calories' },
-      { title: 'Fat (g)', key: 'fat' },
-      { title: 'Carbs (g)', key: 'carbs' },
-      { title: 'Protein (g)', key: 'protein' },
-      { title: 'Iron (%)', key: 'iron' },
-    ],
-    desserts: [
-      {
-        name: 'Frozen Yogurt',
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: 1,
-      },
-      {
-        name: 'Ice cream sandwich',
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3,
-        iron: 1,
-      },
-      {
-        name: 'Eclair',
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        iron: 7,
-      },
-      {
-        name: 'Cupcake',
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3,
-        iron: 8,
-      },
-      {
-        name: 'Gingerbread',
-        calories: 356,
-        fat: 16.0,
-        carbs: 49,
-        protein: 3.9,
-        iron: 16,
-      },
-      {
-        name: 'Jelly bean',
-        calories: 375,
-        fat: 0.0,
-        carbs: 94,
-        protein: 0.0,
-        iron: 0,
-      },
-      {
-        name: 'Lollipop',
-        calories: 392,
-        fat: 0.2,
-        carbs: 98,
-        protein: 0,
-        iron: 2,
-      },
-      {
-        name: 'Honeycomb',
-        calories: 408,
-        fat: 3.2,
-        carbs: 87,
-        protein: 6.5,
-        iron: 45,
-      },
-      {
-        name: 'Donut',
-        calories: 452,
-        fat: 25.0,
-        carbs: 51,
-        protein: 4.9,
-        iron: 22,
-      },
-      {
-        name: 'KitKat',
-        calories: 518,
-        fat: 26.0,
-        carbs: 65,
-        protein: 7,
-        iron: 6,
-      },
-    ],
+    info_detail: {
+      title: '一部水没している地域について',
+      datetime: '2023/12/21 11:38',
+      body_text:
+        '一部水没している地域について一部水没している地域について一部水没している地域について\n一部水没している地域について一部水没している地域について',
+    },
+    dialogDelete: false,
   }),
   methods: {
     async validate() {
@@ -132,6 +50,23 @@ export default {
         alert(success)
         this.$refs.form.reset()
       }
+    },
+    deleteItem() {
+      this.dialogDelete = true
+    },
+    close() {
+      this.dialog = false
+    },
+    closeDelete() {
+      this.dialogDelete = false
+    },
+    deleteItemConfirm() {
+      this.closeDelete()
+      alert('削除しました。')
+      // お知らせ一覧へリダイレクト
+      this.$router.replace({
+        name: 'info_list',
+      })
     },
   },
 }

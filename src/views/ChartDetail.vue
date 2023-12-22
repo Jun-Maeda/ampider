@@ -32,10 +32,8 @@ import { ja } from 'date-fns/locale'
         <v-data-table :headers="headers" :items="safeties">
           <template v-slot:[`item.step`]="{ item }">
             <span v-for="step in stepIcons(item.step.times, item.step.reply)" v-bind:key="step">
-              <!-- <v-icon> mdi-download </v-icon> -->
-              <v-icon>{{ step_icons[step] }}</v-icon>
+              <v-icon color="orange">{{ step_icons[step] }}</v-icon>
             </span>
-            <!-- {{ stepIcons(item.step.times, item.step.reply) }} -->
           </template>
         </v-data-table>
       </v-col>
@@ -116,7 +114,7 @@ export default {
       { title: '出社可否', key: 'attendance_state' },
       { title: '家族の安否', key: 'family_safety' },
       { title: '家屋の状態', key: 'house_state' },
-      { title: 'ステップ', key: 'step' },
+      { title: 'ステップ', key: 'step', sortable: false },
       { title: '特記事項', key: 'notice' },
     ],
     safeties: [
@@ -267,10 +265,9 @@ export default {
       var year = now.getFullYear()
       var month = now.getMonth() + 1
       var date = now.getDate()
-      var today = year + month + date
 
       link.href = window.URL.createObjectURL(blob)
-      link.download = this.choice_disaster + '_' + this.user.username + '_' + today + '_result.csv'
+      link.download = this.choice_disaster + '_' + this.user.username + '_' + year + month + date + '_result.csv'
       link.click()
     },
     stepIcons(times, reply) {
@@ -290,10 +287,6 @@ export default {
           steps[i] = 1
         }
       }
-
-      // let step_0 = '<v-icon> mdi-circle-medium </v-icon>'
-      // let step_1 = '<v-icon> mdi-circle </v-icon>'
-      // let step_2 = '<v-icon> mdi-heart-circle-outline </v-icon>'
       return steps
     },
   },

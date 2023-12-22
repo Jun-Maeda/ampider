@@ -2,14 +2,14 @@
   <v-container>
     <v-list lines="three">
       <v-list-item v-for="file in files" :key="file.title" :title="file.title" :subtitle="file.subtitle" :to="file.link">
-        
         <template v-slot:prepend>
           <v-avatar :color="file.color">
             <v-icon color="white">{{ file.icon }}</v-icon>
           </v-avatar>
         </template>
         <template v-slot:title="{ title }">
-          <b v-html="title"></b><p><small>2023/12/01</small></p>
+          <b v-html="title"></b>
+          <p><small>2023/12/01</small></p>
         </template>
 
         <!-- <template v-slot:append>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+
 export default {
   data: () => ({
     rules: {
@@ -40,7 +41,8 @@ export default {
       {
         color: 'amber',
         icon: 'mdi-gesture-tap-button',
-        subtitle: 'あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ',
+        subtitle:
+          'あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ',
         title: '安否確認テスト',
       },
     ],
@@ -57,9 +59,9 @@ export default {
         }
       }
     },
-    testMethod(){
+    testMethod() {
       alert('test')
-    }
+    },
   },
 }
 </script>

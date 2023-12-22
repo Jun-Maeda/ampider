@@ -6,11 +6,11 @@ import { ja } from 'date-fns/locale'
     <h2>集計</h2>
     <div class="mt-8">
       <v-row class="mt-5">
-        <v-col cols="12" sm="4" class="pt-0">
-          <v-select label="災害選択" :items="select_disasters" density="compact"></v-select>
-        </v-col>
         <v-col cols="12" md="4" class="pt-0">
           <VueDatePicker v-model="dates" range multi-calendars :enable-time-picker="false" :format-locale="ja" />
+        </v-col>
+        <v-col cols="12" sm="4" class="pt-0">
+          <v-select v-model="choice_disaster" label="災害選択" :items="select_disasters" density="compact" item-title="title"></v-select>
         </v-col>
       </v-row>
       <v-row>
@@ -22,23 +22,31 @@ import { ja } from 'date-fns/locale'
           <apexchart type="bar" height="400" :options="bar_chart.options" :series="bar_chart.series"></apexchart>
         </v-col>
         <v-col cols="12" sm="4">
-          <apexchart type="bar" height="400" :options="bar_chart.options" :series="bar_chart.series"></apexchart>
+          <apexchart type="bar" height="400" :options="attendance_chart.options" :series="attendance_chart.series"></apexchart>
         </v-col>
       </v-row>
     </div>
 
-    <v-row>
-      <v-col cols="12">
-        <v-data-table :headers="headers" :items="safeties"> </v-data-table>
+    <v-row justify="end">
+      <v-col cols="12" class="pb-0">
+        <v-data-table :headers="headers" :items="safeties">
+          <template v-slot:[`item.step`]="{ item }">
+            <!-- <span :v-for="step in stepIcons(item.step.times, item.step.reply)">
+              <v-icon> mdi-download </v-icon>
+            </span> -->
+            {{ stepIcons(item.step.times, item.step.reply) }}
+          </template>
+        </v-data-table>
       </v-col>
+      <v-btn v-on:click="downloadCSV" variant="text" class="pt-0"><v-icon> mdi-download </v-icon>CSVダウンロード</v-btn>
     </v-row>
   </v-container>
 </template>
 
 <script>
 import { useDisplay } from 'vuetify'
-
 import VueApexCharts from 'vue3-apexcharts'
+
 export default {
   components: {
     apexchart: VueApexCharts,
@@ -59,16 +67,31 @@ export default {
     },
     bar_chart: {
       options: {
-        labels: ['安全', '軽傷', '重症'],
+        labels: ['安全', '軽傷', '重症', '未回答'],
         title: {
-          text: '安否',
+          text: '従業員安否状況',
           align: 'left',
         },
       },
       series: [
         {
           name: '人数',
-          data: [5, 3, 1],
+          data: [5, 3, 1, 1],
+        },
+      ],
+    },
+    attendance_chart: {
+      options: {
+        labels: ['出社済み', '出社可能', '出社不可', '休日', '未回答'],
+        title: {
+          text: '出社可否',
+          align: 'left',
+        },
+      },
+      series: [
+        {
+          name: '人数',
+          data: [5, 3, 1, 1, 3],
         },
       ],
     },
@@ -78,6 +101,7 @@ export default {
       { id: '1', title: '山形県暴風' },
       { id: '1', title: '山形県洪水' },
     ],
+    choice_disaster: '',
     start_date: '',
     end_date: '',
     dates: [],
@@ -95,7 +119,7 @@ export default {
     ],
     safeties: [
       {
-        no: '1',
+        no: 1,
         name: '山田 太郎',
         employee_number: '11111111',
         safety: '安全',
@@ -103,7 +127,7 @@ export default {
         attendance_state: '出社済み',
         family_safety: '全員無事',
         house_state: '無事',
-        step: { times: 1, reply: true },
+        step: { times: 2, reply: true },
         notice: 'とくになし',
       },
       {
@@ -115,7 +139,7 @@ export default {
         attendance_state: '出社済み',
         family_safety: '全員無事',
         house_state: '無事',
-        step: { times: 1, reply: true },
+        step: { times: 3, reply: true },
         notice: 'とくになし',
       },
       {
@@ -172,6 +196,17 @@ export default {
       return textLength
     },
   },
+  watch: {
+    dates: function (newVal) {
+      console.log('日付がかわりました')
+      console.log(newVal)
+    },
+    choice_disaster: function (newVal) {
+      console.log('災害情報がかわりました')
+      console.log(newVal)
+    },
+  },
+  mounted() {},
   methods: {
     itemProps(item) {
       if (item === '') {
@@ -184,25 +219,60 @@ export default {
         }
       }
     },
-    testMethod() {
-      alert('test')
+    downloadCSV() {
+      var csv = '\ufeff' + 'No.,名前,社員番号, 安否, 回答時刻,出社可否, 家族の安否, 家屋の状態, ステップ回数, 返答, 特記事項\n'
+      this.safeties.forEach((el) => {
+        var line =
+          el['no'] +
+          ',' +
+          el['name'] +
+          ',' +
+          el['employee_number'] +
+          ',' +
+          el['safety'] +
+          ',' +
+          el['answer_time'] +
+          ',' +
+          el['attendance_state'] +
+          ',' +
+          el['family_safety'] +
+          ',' +
+          el['house_state'] +
+          ',' +
+          el['step']['times'] +
+          ',' +
+          el['step']['reply'] +
+          ',' +
+          el['notice'] +
+          '\n'
+        csv += line
+      })
+      let blob = new Blob([csv], { type: 'text/csv' })
+      let link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = this.choice_disaster + '_result.csv'
+      link.click()
     },
-    format(text) {
-      var clamp = '...'
-      var length = this.bkPoint
-      console.log(length)
-
-      if (text.length <= length) return text
-      return text.substring(0, length) + clamp
-    },
-    getColor(value) {
-      if (value === '') {
-        return 'white'
-      } else if (value === '注意報') {
-        return 'yellow-lighten-1'
-      } else {
-        return 'red-lighten-1'
+    stepIcons(times, reply) {
+      // 0が未送信、1が送信済み,2が回答済み
+      let steps = [0, 0, 0, 0, 0]
+      let reply_result = 2
+      if (reply === false) {
+        reply_result = 1
       }
+      for (var i in steps) {
+        let send_times = Number(i) + 1
+        console.log(send_times)
+        if (send_times === times) {
+          steps[i] = reply_result
+          break
+        } else {
+          steps[i] = 1
+        }
+      }
+
+      // let step_0 = '<v-icon> mdi-download </v-icon>'
+      return steps
     },
   },
 }

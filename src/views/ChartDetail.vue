@@ -31,10 +31,11 @@ import { ja } from 'date-fns/locale'
       <v-col cols="12" class="pb-0">
         <v-data-table :headers="headers" :items="safeties">
           <template v-slot:[`item.step`]="{ item }">
-            <!-- <span :v-for="step in stepIcons(item.step.times, item.step.reply)">
-              <v-icon> mdi-download </v-icon>
-            </span> -->
-            {{ stepIcons(item.step.times, item.step.reply) }}
+            <span v-for="step in stepIcons(item.step.times, item.step.reply)" v-bind:key="step">
+              <!-- <v-icon> mdi-download </v-icon> -->
+              <v-icon>{{ step_icons[step] }}</v-icon>
+            </span>
+            <!-- {{ stepIcons(item.step.times, item.step.reply) }} -->
           </template>
         </v-data-table>
       </v-col>
@@ -55,6 +56,7 @@ export default {
     user: Object,
   },
   data: () => ({
+    step_icons: ['mdi-circle-medium', 'mdi-radiobox-blank', 'mdi-radiobox-marked'],
     pie_chart: {
       options: {
         labels: ['回答', '未回答'],
@@ -166,6 +168,18 @@ export default {
         step: { times: 1, reply: true },
         notice: 'とくになし',
       },
+      {
+        no: 5,
+        name: '山田 太郎',
+        employee_number: '11111111',
+        safety: '',
+        answer_time: '',
+        attendance_state: '',
+        family_safety: '',
+        house_state: '',
+        step: { times: 2, reply: false },
+        notice: '',
+      },
     ],
   }),
   computed: {
@@ -249,8 +263,14 @@ export default {
       })
       let blob = new Blob([csv], { type: 'text/csv' })
       let link = document.createElement('a')
+      var now = new Date()
+      var year = now.getFullYear()
+      var month = now.getMonth() + 1
+      var date = now.getDate()
+      var today = year + month + date
+
       link.href = window.URL.createObjectURL(blob)
-      link.download = this.choice_disaster + '_result.csv'
+      link.download = this.choice_disaster + '_' + this.user.username + '_' + today + '_result.csv'
       link.click()
     },
     stepIcons(times, reply) {
@@ -271,7 +291,9 @@ export default {
         }
       }
 
-      // let step_0 = '<v-icon> mdi-download </v-icon>'
+      // let step_0 = '<v-icon> mdi-circle-medium </v-icon>'
+      // let step_1 = '<v-icon> mdi-circle </v-icon>'
+      // let step_2 = '<v-icon> mdi-heart-circle-outline </v-icon>'
       return steps
     },
   },

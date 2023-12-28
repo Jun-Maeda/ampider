@@ -35,7 +35,7 @@
     <div class="mt-8">
       <v-row justify="center">
         <h6>災害速報</h6>
-        <v-col cols="12" md="10">
+        <v-col cols="12" xl="10">
           <v-data-table-virtual
             :headers="headers"
             :items="disaster"
@@ -44,10 +44,15 @@
             disable-pagination
             item-key="name"
           >
+            <template v-slot:[`item.baseName`]="{ value }">
+              <div class="text-center mx-auto" style="width: 100px">
+                {{ value }}
+              </div>
+            </template>
             <template v-slot:[`item.rainfall`]="{ value }">
               <div class="text-center">
                 <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" style="width: 100px">
+                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
                     {{ value.alert }}
                   </span>
                 </v-btn>
@@ -56,7 +61,7 @@
             <template v-slot:[`item.flood`]="{ value }">
               <div class="text-center">
                 <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" style="width: 100px">
+                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
                     {{ value.alert }}
                   </span>
                 </v-btn>
@@ -65,7 +70,7 @@
             <template v-slot:[`item.strongWind`]="{ value }">
               <div class="text-center">
                 <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" style="width: 100px">
+                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
                     {{ value.alert }}
                   </span>
                 </v-btn>
@@ -74,7 +79,7 @@
             <template v-slot:[`item.earthquake`]="{ value }">
               <div class="text-center">
                 <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" style="width: 100px">
+                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
                     {{ value.alert }}
                   </span>
                 </v-btn>
@@ -83,7 +88,7 @@
             <template v-slot:[`item.lightning`]="{ value }">
               <div class="text-center">
                 <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" style="width: 100px">
+                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
                     {{ value.alert }}
                   </span>
                 </v-btn>
@@ -92,7 +97,7 @@
             <template v-slot:[`item.heavySnow`]="{ value }">
               <div class="text-center">
                 <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" style="width: 100px">
+                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
                     {{ value.alert }}
                   </span>
                 </v-btn>
@@ -101,7 +106,7 @@
             <template v-slot:[`item.tsunami`]="{ value }">
               <div class="text-center">
                 <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" style="width: 100px">
+                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
                     {{ value.alert }}
                   </span>
                 </v-btn>
@@ -123,7 +128,7 @@
     </div>
     <div class="mt-8">
       <v-row justify="end">
-        <v-btn color="primary" variant="text">過去の災害一覧へ→</v-btn>
+        <v-btn :to="link.oldDisaster" color="primary" variant="text">過去の災害一覧へ→</v-btn>
       </v-row>
     </div>
   </v-container>
@@ -148,7 +153,7 @@ export default {
   data: () => ({
     link: {
       infoList: 'info_list',
-      oldDisaster: '',
+      oldDisaster: 'disaster_list',
     },
     pie_chart: {
       options: {
@@ -187,14 +192,14 @@ export default {
     date: '2023/12/07',
     text: 'ああああああああああいいいいいいいいいいううううううううううええええええええええおおおおおおおおおおかかかかかかかかかかききききききききききくくくくくくくくくくけけけけけけけけけけここここここここここああああああああああいいいいいいいいいいううううううううううええええええええええおおおおおおおおおおかかかかかかかかかかききききききききききくくくくくくくくくくけけけけけけけけけけここここここここここああああああああああいいいいいいいいいいううううううううううええええええええええおおおおおおおおおおかかかかかかかかかかききききききききききくくくくくくくくくくけけけけけけけけけけここここここここここ',
     headers: [
-      { title: '拠点名', align: 'center', sortable: false, width: '200', key: 'baseName' },
-      { title: '大雨', align: 'center', sortable: false, width: '100', key: 'rainfall' },
-      { title: '洪水', align: 'center', sortable: false, width: '100', key: 'flood' },
-      { title: '強風', align: 'center', sortable: false, width: '100', key: 'strongWind' },
-      { title: '地震', align: 'center', sortable: false, width: '100', key: 'earthquake' },
-      { title: '雷', align: 'center', sortable: false, width: '100', key: 'lightning' },
-      { title: '大雪', align: 'center', sortable: false, width: '100', key: 'heavySnow' },
-      { title: '津波', align: 'center', sortable: false, width: '100', key: 'tsunami' },
+      { title: '拠点名', align: 'center', sortable: false, width: '20%', key: 'baseName' },
+      { title: '大雨', align: 'center', sortable: false, width: '10%', key: 'rainfall' },
+      { title: '洪水', align: 'center', sortable: false, width: '10%', key: 'flood' },
+      { title: '強風', align: 'center', sortable: false, width: '10%', key: 'strongWind' },
+      { title: '地震', align: 'center', sortable: false, width: '10%', key: 'earthquake' },
+      { title: '雷', align: 'center', sortable: false, width: '10%', key: 'lightning' },
+      { title: '大雪', align: 'center', sortable: false, width: '10%', key: 'heavySnow' },
+      { title: '津波', align: 'center', sortable: false, width: '10%', key: 'tsunami' },
     ],
     disaster: [
       {
@@ -317,26 +322,31 @@ export default {
           point.chartHeight = 400
           point.textLength = 150
           point.cardHeight = 500
+          point.btnWidth = 'width: 100px'
           break
         case 'lg':
           point.chartHeight = 400
           point.textLength = 90
           point.cardHeight = 500
+          point.btnWidth = 'width: 80px'
           break
         case 'md':
           point.chartHeight = 275
           point.textLength = 70
           point.cardHeight = 400
+          point.btnWidth = 'width: 80px'
           break
         case 'sm':
           point.chartHeight = 250
           point.textLength = 45
           point.cardHeight = 350
+          point.btnWidth = 'width: 50px'
           break
         case 'xs':
           point.chartHeight = 250
           point.textLength = 25
           point.cardHeight = 300
+          point.btnWidth = 'width: 50px'
           break
         default:
           break

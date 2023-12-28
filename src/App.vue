@@ -24,7 +24,24 @@
         <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed">
           <v-list>
             <!-- ホーム -->
-            <v-list-item value="Home" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="Home" class="mt-1"></v-list-item>
+            <!-- <v-list-item value="Home" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="Home" class="mt-1"></v-list-item> -->
+            <v-list-group value="home">
+              <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" title="HOME" prepend-icon="mdi-home"> </v-list-item>
+              </template>
+              <v-list-item
+                v-for="(home, i) in home"
+                v-bind="props"
+                :key="i"
+                :value="home"
+                color="primary"
+                rounded="xl"
+                :to="home.to"
+                :prepend-icon="home.icon"
+                :title="home.title"
+              >
+              </v-list-item>
+            </v-list-group>
 
             <!-- お知らせ一覧 -->
             <v-list-item
@@ -124,6 +141,9 @@ I18n.putVocabulariesForLanguage('ja', {
 export default {
   data: () => ({
     login: true,
+    home: [
+      { title: 'home', to: '/', icon: 'mdi-home' },
+      { title: '過去災害一覧', to: 'disaster_list', icon: 'mdi-weather-pouring' }],
     user_settings: [{ title: '連絡先情報', to: '', icon: 'mdi-clock' }],
     admin_menus: [
       { title: '集計', to: '/chart_detail', icon: 'mdi-heart-pulse' },

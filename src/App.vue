@@ -7,9 +7,13 @@
     </template>
     <template v-slot="{ user, signOut }">
       <v-layout class="rounded rounded-md">
-        <v-app-bar scroll-threshold="0" class="pa-0">
+        <v-app-bar scroll-threshold="0" class="pa-0 bg-orange-accent-3">
           <v-app-bar-nav-icon v-on:click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-          <v-toolbar-title>Ampider</v-toolbar-title>
+          <v-toolbar-title>
+            <v-btn @click="$router.push('/')" variant="text" class="p-0 m-0" height="100%"
+              ><img src="@/images/Ampider_logo.jpg" style="max-width: 130px"
+            /></v-btn>
+          </v-toolbar-title>
           <div v-show="login">
             <v-btn icon="mdi-account-cog-outline" size="x-large" />
           </div>
@@ -21,7 +25,7 @@
           </div> -->
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed">
+        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed" scrim="transparent">
           <v-list>
             <!-- ホーム -->
             <!-- <v-list-item value="Home" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="Home" class="mt-1"></v-list-item> -->
@@ -44,7 +48,7 @@
             </v-list-group>
 
             <!-- お知らせ一覧 -->
-            <v-list-item
+            <!-- <v-list-item
               value="お知らせ一覧"
               color="primary"
               rounded="xl"
@@ -52,7 +56,7 @@
               prepend-icon="mdi-information-outline"
               title="お知らせ一覧"
               class="mt-1"
-            ></v-list-item>
+            ></v-list-item> -->
 
             <!-- ユーザー設定 -->
             <v-list-group value="user_settings">
@@ -143,7 +147,9 @@ export default {
     login: true,
     home: [
       { title: 'home', to: '/', icon: 'mdi-home' },
-      { title: '過去災害一覧', to: 'disaster_list', icon: 'mdi-weather-pouring' }],
+      { title: '過去災害一覧', to: 'disaster_list', icon: 'mdi-weather-pouring' },
+      { title: 'お知らせ一覧', to: 'info_list', icon: 'mdi-information-outline' },
+    ],
     user_settings: [{ title: '連絡先情報', to: '', icon: 'mdi-clock' }],
     admin_menus: [
       { title: '集計', to: '/chart_detail', icon: 'mdi-heart-pulse' },

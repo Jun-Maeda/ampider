@@ -45,6 +45,7 @@ import { useDraftStore } from '@/stores/draft'
         該当するものがありません。
       </template>
     </v-data-table>
+    <v-btn v-on:click="$router.push('/info_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>お知らせ一覧へ</v-btn>
   </v-container>
 </template>
 

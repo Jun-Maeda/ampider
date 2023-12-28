@@ -21,7 +21,7 @@
           </div> -->
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary>
+        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed">
           <v-list>
             <!-- ホーム -->
             <v-list-item value="Home" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="Home" class="mt-1"></v-list-item>

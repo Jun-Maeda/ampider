@@ -15,7 +15,7 @@
             /></v-btn>
           </v-toolbar-title>
           <div v-show="login">
-            <v-btn icon="mdi-account-cog-outline" size="x-large" />
+            <v-btn icon="mdi-account-cog-outline" size="x-large" @click="$router.push('user_setting')" />
           </div>
           <div v-show="login">
             <v-btn icon="mdi-logout" size="x-large" @click="signOut" />
@@ -150,7 +150,7 @@ export default {
       { title: '過去災害一覧', to: 'disaster_list', icon: 'mdi-weather-pouring' },
       { title: 'お知らせ一覧', to: 'info_list', icon: 'mdi-information-outline' },
     ],
-    user_settings: [{ title: '連絡先情報', to: '', icon: 'mdi-clock' }],
+    user_settings: [{ title: '連絡先情報', to: 'user_setting', icon: 'mdi-clock' }],
     admin_menus: [
       { title: '集計', to: '/chart_detail', icon: 'mdi-heart-pulse' },
       { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },

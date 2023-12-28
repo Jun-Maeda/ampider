@@ -316,7 +316,7 @@ export default {
       const { name } = useDisplay()
       var bkpoint = name.value
       console.log(bkpoint)
-      const point = { chartHeight: '', cardHeight: '', textLength: '' }
+      const point = { chartHeight: '', cardHeight: '', textLength: '', btnWidth: '' }
       switch (bkpoint) {
         case 'xl':
           point.chartHeight = 400

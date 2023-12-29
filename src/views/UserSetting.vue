@@ -81,7 +81,7 @@ const props = defineProps({
         </v-row>
         <v-row>
           <v-col cols="4" sm="2">
-            <p><b>住所①</b></p>
+            <p><b>郵便番号</b></p>
           </v-col>
           <v-col cols="8" sm="10">
             <v-row>
@@ -96,7 +96,24 @@ const props = defineProps({
         </v-row>
         <v-row>
           <v-col cols="4" sm="2">
-            <p><b>住所①</b></p>
+            <p><b>都道府県</b></p>
+          </v-col>
+          <v-col cols="8" sm="10">
+            <v-autocomplete
+              ref="country"
+              v-model="pref"
+              density="compact"
+              :items="pref_lists"
+              required
+              style="max-width: 500px"
+              :rules="select_rules"
+            >
+            </v-autocomplete>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="4" sm="2">
+            <p><b>住所</b></p>
           </v-col>
           <v-col cols="8" sm="10"><v-text-field v-model="address" density="compact" required style="max-width: 500px" :rules="rules" /> </v-col>
         </v-row>
@@ -124,7 +141,57 @@ export default {
     training_flg: false,
     dialog: false,
     phone: null,
+    pref_lists: [
+      '北海道',
+      '青森県',
+      '岩手県',
+      '宮城県',
+      '秋田県',
+      '山形県',
+      '福島県',
+      '茨城県',
+      '栃木県',
+      '群馬県',
+      '埼玉県',
+      '千葉県',
+      '東京都',
+      '神奈川県',
+      '新潟県',
+      '富山県',
+      '石川県',
+      '福井県',
+      '山梨県',
+      '長野県',
+      '岐阜県',
+      '静岡県',
+      '愛知県',
+      '三重県',
+      '滋賀県',
+      '京都府',
+      '大阪府',
+      '兵庫県',
+      '奈良県',
+      '和歌山県',
+      '鳥取県',
+      '島根県',
+      '岡山県',
+      '広島県',
+      '山口県',
+      '徳島県',
+      '香川県',
+      '愛媛県',
+      '高知県',
+      '福岡県',
+      '佐賀県',
+      '長崎県',
+      '熊本県',
+      '大分県',
+      '宮崎県',
+      '鹿児島県',
+      '沖縄県',
+    ],
     zipcode: null,
+    pref: null,
     address: null,
     pref_code: null,
     progress: false,
@@ -143,6 +210,15 @@ export default {
     this.area = '横手BPO'
     this.division = 'プロパティ事業部'
     this.organization = '横手ルームサポート'
+    this.axios.get(url + this.zipcode).then((res) => {
+      const addressData = res.data.results[0]
+      this.zipcode = addressData['zipcode']
+      this.pref = addressData['address1']
+      this.pref_code = addressData['prefcode']
+      const address1 = addressData['address2']
+      const address2 = addressData['address3']
+      this.address = address1 + address2
+    })
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
@@ -155,16 +231,16 @@ export default {
     },
     async searchAddressInfo() {
       this.progress = true
-      this.axios
+      await this.axios
         .get(url + this.zipcode)
         .then((res) => {
           const addressData = res.data.results[0]
           this.zipcode = addressData['zipcode']
-          const todofuken = addressData['address1']
+          this.pref = addressData['address1']
+          this.pref_code = addressData['prefcode']
           const address1 = addressData['address2']
           const address2 = addressData['address3']
-          this.pref_code = addressData['prefcode']
-          this.address = todofuken + address1 + address2
+          this.address = address1 + address2
         })
         .catch(({ data }) => {
           alert('郵便番号情報が不正です。\n再度入力してください。')

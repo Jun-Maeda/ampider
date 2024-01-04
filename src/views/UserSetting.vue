@@ -105,14 +105,84 @@ const props = defineProps({
           </v-col>
           <v-col cols="8" sm="10"><v-text-field v-model="address" density="compact" required style="max-width: 500px" :rules="rules" /> </v-col>
         </v-row>
+        <v-row>
+          <v-col cols="4" sm="2">
+            <p><b>メールアドレス</b></p>
+          </v-col>
+          <v-col cols="8" sm="10"><v-text-field v-model="email" density="compact" required style="max-width: 500px" :rules="rules" /> </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="4" sm="2">
+            <p><b>電話番号</b></p>
+          </v-col>
+          <v-col cols="8" sm="10"><v-text-field v-model="load" density="compact" required style="max-width: 500px" :rules="rules" /> </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="2">
+            <p>
+              <b>安否確認<br />通知先・優先順位</b>
+            </p>
+          </v-col>
+          <v-col cols="12" sm="10">
+            <v-row class="mb-4 mr-1" style="max-width: 510px" justify="end"
+              ><v-btn @click="add" class="mr-2">追加</v-btn><v-btn @click="sort">リセット</v-btn></v-row
+            >
+            <draggable
+              v-model="data"
+              type="transition"
+              item-key="id"
+              tag="ul"
+              class="list-group"
+              handle=".handle"
+              @start="dragging = true"
+              @end="dragging = false"
+              ghost-class="ghost"
+              v-bind="dragOptions"
+            >
+              <template #item="{ element, index }">
+                <li list-group-item style="max-width: 500px">
+                  <v-row>
+                    <v-col cols="3" class="my-auto">
+                      <span class="handle" style="cursor: move">
+                        <v-icon icon="mdi-menu"></v-icon>
+                      </span>
+                      <span class="mx-2"
+                        ><b>{{ index + 1 }}</b></span
+                      >
+                    </v-col>
+                    <v-col cols="7">
+                      <v-select
+                        label="種類"
+                        :items="send_type"
+                        item-title="name"
+                        item-value="id"
+                        v-model="element.type"
+                        density="compact"
+                        hide-details=""
+                      />
+                      <v-text-field v-model="element.content" :label="getType(element.type).label" density="compact" hide-details="" class="mt-1" />
+                    </v-col>
+                    <v-col cols="2" class="my-auto pa-0 mx-0">
+                      <v-btn v-on:click="del(index)" variant="text" color="red"><v-icon icon="mdi-close"></v-icon></v-btn>
+                    </v-col>
+                  </v-row>
+                </li>
+              </template>
+            </draggable>
+          </v-col>
+        </v-row>
       </v-form>
     </div>
   </v-container>
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 let url = 'http://zipcloud.ibsnet.co.jp/api/search?zipcode='
 export default {
+  components: {
+    draggable: draggable,
+  },
   data: () => ({
     rules: [(v) => !!v || 'この項目は必須です'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
@@ -183,7 +253,46 @@ export default {
     address: null,
     pref_code: null,
     progress: false,
+    dragging: false,
+    send_type: [
+      {
+        id: 0,
+        name: 'メール',
+        type: 'email',
+        label: 'メールアドレス',
+      },
+      {
+        id: 1,
+        name: '電話番号',
+        type: 'phone',
+        label: '電話番号',
+      },
+    ],
+    data: [
+      {
+        type: 0,
+        content: 'jun126m@prestigein.com',
+      },
+      {
+        type: 1,
+        content: '0120444444',
+      },
+      {
+        type: 1,
+        content: '012033906',
+      },
+    ],
   }),
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost',
+      }
+    },
+  },
   mounted() {
     this.login_user = this.$props.user
     const user_datas = this.login_user.signInUserSession.idToken.payload
@@ -198,15 +307,16 @@ export default {
     this.area = '横手BPO'
     this.division = 'プロパティ事業部'
     this.organization = '横手ルームサポート'
-    this.axios.get(url + this.zipcode).then((res) => {
-      const addressData = res.data.results[0]
-      this.zipcode = addressData['zipcode']
-      this.pref = addressData['address1']
-      this.pref_code = addressData['prefcode']
-      const address1 = addressData['address2']
-      const address2 = addressData['address3']
-      this.address = address1 + address2
-    })
+
+    // this.axios.get(url + this.zipcode).then((res) => {
+    //   const addressData = res.data.results[0]
+    //   this.zipcode = addressData['zipcode']
+    //   this.pref = addressData['address1']
+    //   this.pref_code = addressData['prefcode']
+    //   const address1 = addressData['address2']
+    //   const address2 = addressData['address3']
+    //   this.address = address1 + address2
+    // })
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
@@ -237,6 +347,56 @@ export default {
 
       this.progress = false
     },
+    add() {
+      console.log(this.data.length)
+      if (this.data.length > 4) {
+        alert('5件以上追加できません')
+      } else {
+        this.data.push({
+          type: 0,
+          content: '',
+        })
+      }
+    },
+    del(index) {
+      this.data.splice(index, 1)
+    },
+    sort() {
+      this.data = this.data.sort((a, b) => a.id - b.id)
+    },
+    getType(type_id) {
+      let type = this.send_type.find(function (value) {
+        return value.id == type_id
+      })
+      return type
+    },
   },
 }
 </script>
+<style scoped>
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  padding: 10px;
+  border: solid #555353 0.5px;
+  background-color: rgb(248, 242, 224);
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+
+.no-move {
+  transition: transform 0s;
+}
+
+.ghost {
+  opacity: 0%;
+}
+
+.list-group {
+  min-height: 20px;
+}
+</style>

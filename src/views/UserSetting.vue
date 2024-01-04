@@ -69,18 +69,6 @@ const props = defineProps({
       <v-form class="mt-5" ref="form">
         <v-row>
           <v-col cols="4" sm="2">
-            <p><b>メールアドレス</b></p>
-          </v-col>
-          <v-col cols="8" sm="10"><v-text-field v-model="email" density="compact" required style="max-width: 500px" :rules="rules" /> </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="4" sm="2">
-            <p><b>電話番号</b></p>
-          </v-col>
-          <v-col cols="8" sm="10"><v-text-field v-model="load" density="compact" required style="max-width: 500px" :rules="rules" /> </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="4" sm="2">
             <p><b>郵便番号</b></p>
           </v-col>
           <v-col cols="8" sm="10">

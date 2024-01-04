@@ -17,19 +17,21 @@ const props = defineProps({
   <v-container>
     <h2>連絡先情報</h2>
     <div class="mt-8">
-      <v-row>
-        <v-col cols="4" sm="2">
-          <p><b>社員番号</b></p>
+      <v-row class="">
+        <v-col cols="12" sm="2" class="py-0 py-sm-3">
+          <p class="ma-sm-0"><b>社員番号</b></p>
         </v-col>
-        <v-col cols="8" sm="10"> {{ employee_number }} </v-col>
+        <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ employee_number }} </v-col>
         <!-- {{ login_user }} -->
       </v-row>
+      <v-divider></v-divider>
       <v-row>
-        <v-col cols="4" sm="2">
-          <p><b>名前</b></p>
+        <v-col cols="12" sm="2" class="py-0 py-sm-3">
+          <p class="ma-sm-0"><b>名前</b></p>
         </v-col>
-        <v-col cols="8" sm="10"> {{ user_name }} </v-col>
+        <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ user_name }} </v-col>
       </v-row>
+      <v-divider></v-divider>
       <!-- <v-row>
         <v-col cols="4" sm="2">
           <p><b>苗字</b></p>
@@ -43,35 +45,39 @@ const props = defineProps({
         <v-col cols="8" sm="10"> {{ given_name }} </v-col>
       </v-row> -->
       <v-row>
-        <v-col cols="4" sm="2">
-          <p><b>会社</b></p>
+        <v-col cols="12" sm="2" class="py-0 py-sm-3">
+          <p class="ma-sm-0"><b>会社</b></p>
         </v-col>
-        <v-col cols="8" sm="10"> {{ company }} </v-col>
+        <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ company }} </v-col>
       </v-row>
+      <v-divider></v-divider>
       <v-row>
-        <v-col cols="4" sm="2">
-          <p><b>拠点</b></p>
+        <v-col cols="12" sm="2" class="py-0 py-sm-3">
+          <p class="ma-sm-0"><b>拠点</b></p>
         </v-col>
-        <v-col cols="8" sm="10"> {{ area }} </v-col>
+        <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ area }} </v-col>
       </v-row>
+      <v-divider></v-divider>
       <v-row>
-        <v-col cols="4" sm="2">
-          <p><b>部署</b></p>
+        <v-col cols="12" sm="2" class="py-0 py-sm-3">
+          <p class="ma-sm-0"><b>部署</b></p>
         </v-col>
-        <v-col cols="8" sm="10"> {{ division }} </v-col>
+        <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ division }} </v-col>
       </v-row>
+      <v-divider></v-divider>
       <v-row>
-        <v-col cols="4" sm="2">
-          <p><b>組織</b></p>
+        <v-col cols="12" sm="2" class="py-0 py-sm-3">
+          <p class="ma-sm-0"><b>組織</b></p>
         </v-col>
-        <v-col cols="8" sm="10"> {{ organization }} </v-col>
+        <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ organization }} </v-col>
       </v-row>
+      <v-divider></v-divider>
       <v-form class="mt-5" ref="form">
         <v-row>
-          <v-col cols="4" sm="2">
-            <p><b>郵便番号</b></p>
+          <v-col cols="12" sm="2" class="py-0 py-sm-3">
+            <p class="ma-sm-0"><b>郵便番号</b></p>
           </v-col>
-          <v-col cols="8" sm="10">
+          <v-col cols="12" sm="10" class="py-0 py-sm-3">
             <v-row>
               <v-col cols="7" sm="3" class="pr-0">
                 <v-text-field v-model="zipcode" prefix="〒" density="compact" required style="max-width: 250px" :rules="rules"></v-text-field>
@@ -83,10 +89,10 @@ const props = defineProps({
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="4" sm="2">
-            <p><b>都道府県</b></p>
+          <v-col cols="12" sm="2" class="py-0 py-sm-3">
+            <p class="ma-sm-0"><b>都道府県</b></p>
           </v-col>
-          <v-col cols="8" sm="10">
+          <v-col cols="12" sm="10" class="py-0 py-sm-3">
             <v-autocomplete
               ref="country"
               v-model="pref"
@@ -100,31 +106,40 @@ const props = defineProps({
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="4" sm="2">
-            <p><b>住所</b></p>
+          <v-col cols="12" sm="2" class="py-0 py-sm-3">
+            <p class="ma-sm-0"><b>住所</b></p>
           </v-col>
-          <v-col cols="8" sm="10"><v-text-field v-model="address" density="compact" required style="max-width: 500px" :rules="rules" /> </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="4" sm="2">
-            <p><b>メールアドレス</b></p>
+          <v-col cols="12" sm="10" class="py-0 py-sm-3"
+            ><v-text-field v-model="address" density="compact" required style="max-width: 500px" :rules="rules" />
           </v-col>
-          <v-col cols="8" sm="10"><v-text-field v-model="email" density="compact" required style="max-width: 500px" :rules="rules" /> </v-col>
         </v-row>
+        <v-divider></v-divider>
         <v-row>
-          <v-col cols="4" sm="2">
-            <p><b>電話番号</b></p>
+          <v-col cols="12" sm="2" class="py-0 py-sm-3">
+            <p class="ma-sm-0"><b>メールアドレス</b></p>
           </v-col>
-          <v-col cols="8" sm="10"><v-text-field v-model="load" density="compact" required style="max-width: 500px" :rules="rules" /> </v-col>
+          <v-col cols="12" sm="10" class="py-0 py-sm-3"
+            ><v-text-field v-model="email" density="compact" required style="max-width: 500px" :rules="rules" />
+          </v-col>
         </v-row>
+        <v-divider></v-divider>
         <v-row>
-          <v-col cols="12" sm="2">
-            <p>
+          <v-col cols="12" sm="2" class="py-0 py-sm-3">
+            <p class="ma-sm-0"><b>電話番号</b></p>
+          </v-col>
+          <v-col cols="12" sm="10" class="py-0 py-sm-3"
+            ><v-text-field v-model="load" density="compact" required style="max-width: 500px" :rules="rules" />
+          </v-col>
+        </v-row>
+        <v-divider></v-divider>
+        <v-row>
+          <v-col cols="12" sm="2" class="py-0 py-sm-3">
+            <p class="ma-sm-0">
               <b>安否確認<br />通知先・優先順位</b>
             </p>
           </v-col>
-          <v-col cols="12" sm="10">
-            <v-row class="mb-4 mr-1" style="max-width: 510px" justify="end"
+          <v-col cols="12" sm="10" class="py-0 py-sm-3">
+            <v-row class="mt-1 mb-4 mr-1" style="max-width: 510px" justify="end"
               ><v-btn @click="add" class="mr-2">追加</v-btn><v-btn @click="sort">リセット</v-btn></v-row
             >
             <draggable
@@ -170,6 +185,9 @@ const props = defineProps({
               </template>
             </draggable>
           </v-col>
+          <v-row class="my-3" justify="center">
+            <v-btn class="" color="primary" @click="createForm">更新</v-btn>
+          </v-row>
         </v-row>
       </v-form>
     </div>
@@ -268,20 +286,8 @@ export default {
         label: '電話番号',
       },
     ],
-    data: [
-      {
-        type: 0,
-        content: 'jun126m@prestigein.com',
-      },
-      {
-        type: 1,
-        content: '0120444444',
-      },
-      {
-        type: 1,
-        content: '012033906',
-      },
-    ],
+    data: [],
+    reset_data: [],
   }),
   computed: {
     dragOptions() {
@@ -301,6 +307,21 @@ export default {
     this.given_name = user_datas.given_name
     this.employee_number = this.login_user.username
     this.email = user_datas.email
+    this.data = [
+      {
+        type: 0,
+        content: 'jun126m@prestigein.com',
+      },
+      {
+        type: 1,
+        content: '0120444444',
+      },
+      {
+        type: 1,
+        content: '012033906',
+      },
+    ]
+    this.reset_data = this.data
 
     // 以下はdynamodbから取得するデータに差し替え
     this.company = 'PI'
@@ -339,13 +360,13 @@ export default {
           const address1 = addressData['address2']
           const address2 = addressData['address3']
           this.address = address1 + address2
+          this.progress = false
         })
         .catch(({ data }) => {
+          this.progress = false
           alert('郵便番号情報が不正です。\n再度入力してください。')
           console.log(data.message)
         })
-
-      this.progress = false
     },
     add() {
       console.log(this.data.length)
@@ -362,7 +383,21 @@ export default {
       this.data.splice(index, 1)
     },
     sort() {
-      this.data = this.data.sort((a, b) => a.id - b.id)
+      // this.data = this.data.sort((a, b) => a.type - b.type)
+      this.data = [
+        {
+          type: 0,
+          content: 'jun126m@prestigein.com',
+        },
+        {
+          type: 1,
+          content: '0120444444',
+        },
+        {
+          type: 1,
+          content: '012033906',
+        },
+      ]
     },
     getType(type_id) {
       let type = this.send_type.find(function (value) {

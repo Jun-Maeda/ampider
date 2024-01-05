@@ -75,6 +75,15 @@ const props = defineProps({
       <v-form class="mt-5" ref="form">
         <v-row>
           <v-col cols="12" sm="2" class="py-0 py-sm-3">
+            <p class="ma-sm-0"><b>メールアドレス</b></p>
+          </v-col>
+          <v-col cols="12" sm="10" class="py-0 py-sm-3"
+            ><v-text-field v-model="email" density="compact" required style="max-width: 500px" :rules="[all_rules.required]" />
+          </v-col>
+        </v-row>
+        <!-- <v-divider></v-divider>
+        <v-row>
+          <v-col cols="12" sm="2" class="py-0 py-sm-3">
             <p class="ma-sm-0"><b>郵便番号</b></p>
           </v-col>
           <v-col cols="12" sm="10" class="py-0 py-sm-3">
@@ -112,26 +121,72 @@ const props = defineProps({
           <v-col cols="12" sm="10" class="py-0 py-sm-3"
             ><v-text-field v-model="address" density="compact" required style="max-width: 500px" :rules="rules" />
           </v-col>
-        </v-row>
+        </v-row> -->
         <v-divider></v-divider>
-        <v-row>
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>メールアドレス</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3"
-            ><v-text-field v-model="email" density="compact" required style="max-width: 500px" :rules="rules" />
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
-        <v-row>
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>電話番号</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3"
-            ><v-text-field v-model="load" density="compact" required style="max-width: 500px" :rules="rules" />
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
+        <div v-for="(item, index) in addresses" :key="index">
+          <v-row>
+            <v-col cols="12" class="py-0 py-sm-3">
+              <v-row>
+                <v-col class="ma-sm-0">
+                  <b>住所{{ index + 1 }}</b>
+                </v-col>
+                <v-col>
+                  <v-row justify="end" style="max-width: 500px">
+                    <v-btn v-if="addresses.length > 1" @click="del_address(index)" variant="text" color="red" icon="mdi-close"></v-btn> </v-row
+                ></v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" sm="2" class="py-0 py-sm-3">
+              <p class="ma-sm-0">郵便番号</p>
+            </v-col>
+            <v-col cols="12" sm="10" class="py-0 py-sm-3">
+              <v-row>
+                <v-col cols="7" sm="3" class="pr-0">
+                  <v-text-field
+                    v-model="item.zipcode"
+                    prefix="〒"
+                    density="compact"
+                    required
+                    style="max-width: 250px"
+                    :rules="[all_rules.required]"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="5" sm="9" class="mt-1">
+                  <v-btn @click="searchAddress(index)">自動入力</v-btn>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="2" class="py-0 py-sm-3">
+              <p class="ma-sm-0">都道府県</p>
+            </v-col>
+            <v-col cols="12" sm="10" class="py-0 py-sm-3">
+              <v-autocomplete
+                ref="country"
+                v-model="item.pref"
+                density="compact"
+                :items="pref_lists"
+                required
+                style="max-width: 500px"
+                :rules="[all_rules.select]"
+              >
+              </v-autocomplete>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="2" class="py-0 py-sm-3">
+              <p class="ma-sm-0">住所</p>
+            </v-col>
+            <v-col cols="12" sm="10" class="py-0 py-sm-3"
+              ><v-text-field v-model="item.address" density="compact" required style="max-width: 500px" :rules="[all_rules.required]" />
+            </v-col>
+          </v-row>
+          <!-- 3つまで住所追加可能 -->
+          <v-btn @click="add_address()" v-if="addresses.length == index + 1 && addresses.length < 3" variant="text" icon="mdi-plus"></v-btn>
+          <v-divider></v-divider>
+        </div>
+
         <v-row>
           <v-col cols="12" sm="2" class="py-0 py-sm-3">
             <p class="ma-sm-0">
@@ -143,7 +198,7 @@ const props = defineProps({
               ><v-btn @click="add" class="mr-2">追加</v-btn><v-btn @click="sort">リセット</v-btn></v-row
             >
             <draggable
-              v-model="data"
+              v-model="notifications"
               type="transition"
               item-key="id"
               tag="ul"
@@ -174,11 +229,19 @@ const props = defineProps({
                         v-model="element.type"
                         density="compact"
                         hide-details=""
+                        class="mt-5"
                       />
-                      <v-text-field v-model="element.content" :label="getType(element.type).label" density="compact" hide-details="" class="mt-1" />
+                      <v-text-field
+                        v-model="element.content"
+                        :label="getType(element.type).label"
+                        density="compact"
+                        class="mt-1"
+                        :rules="[all_rules.required, all_rules[getType(element.type).type]]"
+                        :placeholder="getType(element.type).placeholder"
+                      />
                     </v-col>
                     <v-col cols="2" class="my-auto pa-0 mx-0">
-                      <v-btn v-on:click="del(index)" variant="text" color="red"><v-icon icon="mdi-close"></v-icon></v-btn>
+                      <v-btn v-if="notifications.length > 1" @click="del(index)" variant="text" color="red" icon="mdi-close"></v-btn>
                     </v-col>
                   </v-row>
                 </li>
@@ -186,7 +249,7 @@ const props = defineProps({
             </draggable>
           </v-col>
           <v-row class="my-3" justify="center">
-            <v-btn class="" color="primary" @click="createForm">更新</v-btn>
+            <v-btn class="" color="primary" @click="validate">更新</v-btn>
           </v-row>
         </v-row>
       </v-form>
@@ -202,8 +265,17 @@ export default {
     draggable: draggable,
   },
   data: () => ({
-    rules: [(v) => !!v || 'この項目は必須です'],
+    rules: [(v) => !!v || '入力してください'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
+    all_rules: {
+      required: (value) => !!value || '入力してください',
+      email: (value) => /.+@.+\\..+/.test(value) || 'メールアドレスの形式が正しくありません',
+      phone: (value) =>
+        // eslint-disable-next-line no-useless-escape
+        /^(0[5-9]0[0-9]{8}|0[1-9][1-9][0-9]{7})$/.test(value.replace(/[━.*‐.*―.*－.*\-.*ー.*\-]/gi, '')) || '電話番号の形式が正しくありません',
+      max: (value) => (value && value.length <= 100) || '100文字以下で入力してください',
+      select: (value) => (value && value.length > 0) || '選択してください',
+    },
     login_user: null,
     user_name: null,
     family_name: null,
@@ -214,9 +286,6 @@ export default {
     division: null,
     organization: null,
     email: null,
-    training_flg: false,
-    dialog: false,
-    phone: null,
     pref_lists: [
       '北海道',
       '青森県',
@@ -266,6 +335,7 @@ export default {
       '鹿児島県',
       '沖縄県',
     ],
+    addresses: [],
     zipcode: null,
     pref: null,
     address: null,
@@ -278,16 +348,18 @@ export default {
         name: 'メール',
         type: 'email',
         label: 'メールアドレス',
+        placeholder: 'sample@sample.com',
       },
       {
         id: 1,
         name: '電話番号',
         type: 'phone',
         label: '電話番号',
+        placeholder: '09012345678',
       },
     ],
-    data: [],
-    reset_data: [],
+    notifications: [],
+    reset_notifications: [],
   }),
   computed: {
     dragOptions() {
@@ -307,7 +379,27 @@ export default {
     this.given_name = user_datas.given_name
     this.employee_number = this.login_user.username
     this.email = user_datas.email
-    this.data = [
+
+    // 以下はdynamodbから取得するデータに差し替え
+    this.company = 'PI'
+    this.area = '横手BPO'
+    this.division = 'プロパティ事業部'
+    this.organization = '横手ルームサポート'
+    this.addresses = [
+      {
+        zipcode: '0100001',
+        pref: '秋田県',
+        address: '秋田市中通',
+        pref_code: null,
+      },
+      {
+        zipcode: '0191512',
+        pref: '秋田県',
+        address: '仙北郡美郷町',
+        pref_code: null,
+      },
+    ]
+    this.notifications = [
       {
         type: 0,
         content: 'jun126m@prestigein.com',
@@ -321,23 +413,8 @@ export default {
         content: '012033906',
       },
     ]
-    this.reset_data = this.data
-
-    // 以下はdynamodbから取得するデータに差し替え
-    this.company = 'PI'
-    this.area = '横手BPO'
-    this.division = 'プロパティ事業部'
-    this.organization = '横手ルームサポート'
-
-    // this.axios.get(url + this.zipcode).then((res) => {
-    //   const addressData = res.data.results[0]
-    //   this.zipcode = addressData['zipcode']
-    //   this.pref = addressData['address1']
-    //   this.pref_code = addressData['prefcode']
-    //   const address1 = addressData['address2']
-    //   const address2 = addressData['address3']
-    //   this.address = address1 + address2
-    // })
+    const reset_notifications_data = JSON.parse(JSON.stringify(this.notifications))
+    this.reset_notifications = reset_notifications_data
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
@@ -345,8 +422,28 @@ export default {
       const { valid } = await this.$refs.form.validate()
 
       if (valid) {
-        this.dialog = true
+        alert('更新しました。')
       }
+    },
+    async searchAddress(index) {
+      this.progress = true
+      await this.axios
+        .get(url + this.addresses[index].zipcode)
+        .then((res) => {
+          const addressData = res.data.results[0]
+          this.addresses[index].zipcode = addressData['zipcode']
+          this.addresses[index].pref = addressData['address1']
+          this.addresses[index].pref_code = addressData['prefcode']
+          const address1 = addressData['address2']
+          const address2 = addressData['address3']
+          this.addresses[index].address = address1 + address2
+          this.progress = false
+        })
+        .catch(({ data }) => {
+          this.progress = false
+          alert('郵便番号情報が不正です。\n再度入力してください。')
+          console.log(data.message)
+        })
     },
     async searchAddressInfo() {
       this.progress = true
@@ -368,36 +465,37 @@ export default {
           console.log(data.message)
         })
     },
+    add_address() {
+      this.addresses.push({
+        zipcode: null,
+        pref: null,
+        address: null,
+        pref_code: null,
+      })
+    },
+    del_address(index) {
+      this.addresses.splice(index, 1)
+    },
     add() {
-      console.log(this.data.length)
-      if (this.data.length > 4) {
+      console.log(this.notifications.length)
+      if (this.notifications.length > 4) {
         alert('5件以上追加できません')
       } else {
-        this.data.push({
+        this.notifications.push({
           type: 0,
           content: '',
         })
       }
     },
     del(index) {
-      this.data.splice(index, 1)
+      if (this.notifications.length > 1) {
+        this.notifications.splice(index, 1)
+      } else {
+        alert('削除できません。\n通知先は必ず1つ以上登録してください。')
+      }
     },
     sort() {
-      // this.data = this.data.sort((a, b) => a.type - b.type)
-      this.data = [
-        {
-          type: 0,
-          content: 'jun126m@prestigein.com',
-        },
-        {
-          type: 1,
-          content: '0120444444',
-        },
-        {
-          type: 1,
-          content: '012033906',
-        },
-      ]
+      this.notifications = JSON.parse(JSON.stringify(this.reset_notifications))
     },
     getType(type_id) {
       let type = this.send_type.find(function (value) {
@@ -415,7 +513,7 @@ ul {
 }
 li {
   padding: 10px;
-  border: solid #555353 0.5px;
+  border: solid #ddcccc 0.5px;
   background-color: rgb(248, 242, 224);
 }
 

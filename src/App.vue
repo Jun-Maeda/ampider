@@ -2,7 +2,7 @@
   <authenticator :hide-sign-up="true">
     <template v-slot:header>
       <div style="padding: var(--amplify-space-large); text-align: center" class="pb-0">
-        <img class="amplify-image" alt="Amplify logo" src="@/images/Ampider_logo.jpg" style="max-width: 300px" />
+        <img class="amplify-image" alt="Amplify logo" src="@/images/ampider_logo.png" style="max-width: 300px" />
       </div>
     </template>
     <template v-slot="{ user, signOut }">
@@ -11,7 +11,7 @@
           <v-app-bar-nav-icon v-on:click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <v-toolbar-title>
             <v-btn @click="$router.push('/')" variant="text" class="p-0 m-0" height="100%"
-              ><img src="@/images/Ampider_logo.jpg" style="max-width: 130px"
+              ><img src="@/images/ampider_logo.png" style="max-width: 160px"
             /></v-btn>
           </v-toolbar-title>
           <div v-show="login">

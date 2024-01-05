@@ -17,7 +17,8 @@ const props = defineProps({
   <v-container>
     <h2>連絡先情報</h2>
     <div class="mt-8">
-      <v-row class="">
+      <h4>社員情報</h4>
+      <v-row class="mt-3">
         <v-col cols="12" sm="2" class="py-0 py-sm-3">
           <p class="ma-sm-0"><b>社員番号</b></p>
         </v-col>
@@ -59,8 +60,9 @@ const props = defineProps({
         <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ organization }} </v-col>
       </v-row>
       <v-divider></v-divider>
-      <v-form class="mt-5" ref="form">
-        <v-row>
+      <v-form class="mt-8" ref="form">
+        <h4>社員個人情報</h4>
+        <v-row class="mt-3">
           <v-col cols="12" sm="2" class="py-0 py-sm-3">
             <p class="ma-sm-0"><b>メールアドレス</b></p>
           </v-col>
@@ -196,9 +198,69 @@ const props = defineProps({
               </template>
             </draggable>
           </v-col>
-          <v-row class="my-3" justify="center">
-            <v-btn class="" color="primary" @click="validate">更新</v-btn>
+        </v-row>
+        <v-divider></v-divider>
+        <h4 class="mt-5">家族情報</h4>
+        <div v-for="(item, index) in family" :key="index">
+          <v-row>
+            <v-col cols="12" class="py-0 py-sm-3">
+              <v-row>
+                <v-col class="ma-sm-0">
+                  <b>家族{{ index + 1 }}</b>
+                </v-col>
+                <v-col>
+                  <v-row justify="end" style="max-width: 500px">
+                    <v-btn @click="del_family(index)" variant="text" color="red" icon="mdi-close"></v-btn> </v-row
+                ></v-col>
+              </v-row>
+            </v-col>
           </v-row>
+          <v-row>
+            <v-col cols="12" sm="2" class="py-0 py-sm-3">
+              <p class="ma-sm-0">名前</p>
+            </v-col>
+            <v-col cols="12" sm="10" class="py-0 py-sm-3"
+              ><v-text-field v-model="item.name" density="compact" required style="max-width: 500px" :rules="[all_rules.required]" />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="2" class="py-0 py-sm-3">
+              <p class="ma-sm-0">種別</p>
+            </v-col>
+            <v-col cols="12" sm="10" class="py-0 py-sm-3">
+              <v-select
+                label="種類"
+                :items="send_type"
+                item-title="name"
+                item-value="id"
+                v-model="item.type"
+                density="compact"
+                style="max-width: 500px"
+              />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="2" class="py-0 py-sm-3">
+              <p class="ma-sm-0">連絡先</p>
+            </v-col>
+            <v-col cols="12" sm="10" class="py-0 py-sm-3"
+              ><v-text-field
+                v-model="item.content"
+                density="compact"
+                required
+                style="max-width: 500px"
+                :rules="[all_rules.required, all_rules[getType(item.type).type]]"
+              />
+            </v-col>
+          </v-row>
+
+          <v-divider></v-divider>
+        </div>
+        <!-- 3つまで家族追加可能 -->
+        <v-btn v-if="family && family.length < 3" @click="add_family()" variant="text" icon="mdi-plus"></v-btn>
+
+        <v-row class="my-3" justify="center">
+          <v-btn class="" color="primary" @click="validate">更新</v-btn>
         </v-row>
       </v-form>
     </div>
@@ -287,6 +349,7 @@ export default {
     pref: null,
     address: null,
     pref_code: null,
+    family: null,
     progress: false,
     dragging: false,
     send_type: [
@@ -362,6 +425,19 @@ export default {
     ]
     const reset_notifications_data = JSON.parse(JSON.stringify(this.notifications))
     this.reset_notifications = reset_notifications_data
+
+    this.family = [
+      {
+        name: '正月餅太郎',
+        type: 1,
+        content: '0120333906',
+      },
+      {
+        name: '年越蕎麦次郎',
+        type: 0,
+        content: 'jun126m@prestigein.com',
+      },
+    ]
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
@@ -422,6 +498,16 @@ export default {
     },
     del_address(index) {
       this.addresses.splice(index, 1)
+    },
+    add_family() {
+      this.family.push({
+        name: null,
+        type: 1,
+        content: null,
+      })
+    },
+    del_family(index) {
+      this.family.splice(index, 1)
     },
     add() {
       console.log(this.notifications.length)

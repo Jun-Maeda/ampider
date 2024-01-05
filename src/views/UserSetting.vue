@@ -22,7 +22,6 @@ const props = defineProps({
           <p class="ma-sm-0"><b>社員番号</b></p>
         </v-col>
         <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ employee_number }} </v-col>
-        <!-- {{ login_user }} -->
       </v-row>
       <v-divider></v-divider>
       <v-row>
@@ -32,18 +31,6 @@ const props = defineProps({
         <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ user_name }} </v-col>
       </v-row>
       <v-divider></v-divider>
-      <!-- <v-row>
-        <v-col cols="4" sm="2">
-          <p><b>苗字</b></p>
-        </v-col>
-        <v-col cols="8" sm="10"> {{ family_name }} </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="4" sm="2">
-          <p><b>名前</b></p>
-        </v-col>
-        <v-col cols="8" sm="10"> {{ given_name }} </v-col>
-      </v-row> -->
       <v-row>
         <v-col cols="12" sm="2" class="py-0 py-sm-3">
           <p class="ma-sm-0"><b>会社</b></p>
@@ -78,50 +65,10 @@ const props = defineProps({
             <p class="ma-sm-0"><b>メールアドレス</b></p>
           </v-col>
           <v-col cols="12" sm="10" class="py-0 py-sm-3"
-            ><v-text-field v-model="email" density="compact" required style="max-width: 500px" :rules="[all_rules.required]" />
+            ><v-text-field v-model="email" density="compact" required style="max-width: 500px" :rules="[all_rules.required, all_rules.email]" />
           </v-col>
         </v-row>
-        <!-- <v-divider></v-divider>
-        <v-row>
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>郵便番号</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3">
-            <v-row>
-              <v-col cols="7" sm="3" class="pr-0">
-                <v-text-field v-model="zipcode" prefix="〒" density="compact" required style="max-width: 250px" :rules="rules"></v-text-field>
-              </v-col>
-              <v-col cols="5" sm="9" class="mt-1">
-                <v-btn @click="searchAddressInfo">自動入力</v-btn>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>都道府県</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3">
-            <v-autocomplete
-              ref="country"
-              v-model="pref"
-              density="compact"
-              :items="pref_lists"
-              required
-              style="max-width: 500px"
-              :rules="select_rules"
-            >
-            </v-autocomplete>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>住所</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3"
-            ><v-text-field v-model="address" density="compact" required style="max-width: 500px" :rules="rules" />
-          </v-col>
-        </v-row> -->
+
         <v-divider></v-divider>
         <div v-for="(item, index) in addresses" :key="index">
           <v-row>
@@ -148,7 +95,8 @@ const props = defineProps({
                     density="compact"
                     required
                     style="max-width: 250px"
-                    :rules="[all_rules.required]"
+                    :rules="[all_rules.required, all_rules.zipcode]"
+                    placeholder="0130054"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="5" sm="9" class="mt-1">
@@ -265,16 +213,15 @@ export default {
     draggable: draggable,
   },
   data: () => ({
-    rules: [(v) => !!v || '入力してください'],
-    select_rules: [(v) => (v && v.length > 0) || '選択してください'],
     all_rules: {
       required: (value) => !!value || '入力してください',
-      email: (value) => /.+@.+\\..+/.test(value) || 'メールアドレスの形式が正しくありません',
+      email: (value) => /.+@.+/.test(value) || 'メールアドレスの形式が正しくありません',
       phone: (value) =>
         // eslint-disable-next-line no-useless-escape
         /^(0[5-9]0[0-9]{8}|0[1-9][1-9][0-9]{7})$/.test(value.replace(/[━.*‐.*―.*－.*\-.*ー.*\-]/gi, '')) || '電話番号の形式が正しくありません',
       max: (value) => (value && value.length <= 100) || '100文字以下で入力してください',
       select: (value) => (value && value.length > 0) || '選択してください',
+      zipcode: (value) => /^\d{7}$/.test(value) || 'ハイフンを除く半角数字7桁で郵便番号を入力してください',
     },
     login_user: null,
     user_name: null,
@@ -410,7 +357,7 @@ export default {
       },
       {
         type: 1,
-        content: '012033906',
+        content: '0120333906',
       },
     ]
     const reset_notifications_data = JSON.parse(JSON.stringify(this.notifications))

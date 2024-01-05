@@ -61,7 +61,7 @@ const props = defineProps({
       </v-row>
       <v-divider></v-divider>
       <v-form class="mt-8" ref="form">
-        <h4>社員個人情報</h4>
+        <h4>個人設定情報</h4>
         <v-row class="mt-3">
           <v-col cols="12" sm="2" class="py-0 py-sm-3">
             <p class="ma-sm-0"><b>メールアドレス</b></p>

@@ -113,6 +113,23 @@
               >
               </v-list-item>
             </v-list-group>
+            <v-list-group value="settings">
+              <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" title="設定" prepend-icon="mdi-table-cog"> </v-list-item>
+              </template>
+              <v-list-item
+                v-for="(setting, i) in settings"
+                v-bind="props"
+                :key="i"
+                :value="setting"
+                color="primary"
+                rounded="xl"
+                :to="setting.to"
+                :prepend-icon="setting.icon"
+                :title="setting.title"
+              >
+              </v-list-item>
+            </v-list-group>
 
             <v-list-item-group>
               <v-list-item
@@ -177,6 +194,7 @@ export default {
       { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
       // { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
     ],
+    settings: [{ title: '会社情報追加', to: 'company_create', icon: 'mdi-domain' }],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],
     drawer: false,
     links: [

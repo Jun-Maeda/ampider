@@ -14,6 +14,7 @@ import ChartDetail from '@/views/ChartDetail.vue'
 import DisasterList from '@/views/DisasterList.vue'
 import UserSetting from '@/views/UserSetting.vue'
 import DisasterDetail from '@/views/DisasterDetail.vue'
+import EmployeeList from '@/views/EmployeeList.vue'
 
 const routes = [
   {
@@ -104,6 +105,12 @@ const routes = [
     path: '/user_setting',
     name: 'user_setting',
     component: UserSetting,
+    props: true,
+  },
+  {
+    path: '/employee_list',
+    name: 'employee_list',
+    component: EmployeeList,
     props: true,
   },
 ]

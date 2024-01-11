@@ -361,8 +361,6 @@ export default {
     },
     login_user: null,
     user_name: null,
-    family_name: null,
-    given_name: null,
     employee_number: null,
     company: null,
     area: null,
@@ -410,14 +408,13 @@ export default {
   mounted() {
     this.login_user = this.$props.user
     const user_datas = this.login_user.signInUserSession.idToken.payload
-    this.user_name = user_datas.name
-    this.family_name = user_datas.family_name
-    this.given_name = user_datas.given_name
+
     this.employee_number = this.login_user.username
     this.email = user_datas.email
     this.pref_lists = JSON.parse(JSON.stringify(all_prefs))
 
     // 以下はdynamodbから取得するデータに差し替え
+    this.user_name = '笠木 静子'
     this.company = 'PI'
     this.area = '横手BPO'
     this.division = 'プロパティ事業部'

@@ -28,8 +28,26 @@
         <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed" scrim="transparent">
           <v-list>
             <!-- ホーム -->
-            <!-- <v-list-item value="Home" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="Home" class="mt-1"></v-list-item> -->
-            <v-list-group value="home">
+            <v-list-item value="HOME" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="HOME" class="mt-1"></v-list-item>
+            <v-list-item
+              value="過去災害一覧"
+              color="primary"
+              rounded="xl"
+              to="disaster_list"
+              prepend-icon="mdi-weather-pouring"
+              title="過去災害一覧"
+              class="mt-1"
+            ></v-list-item>
+            <v-list-item
+              value="お知らせ一覧"
+              color="primary"
+              rounded="xl"
+              to="info_list"
+              prepend-icon="mdi-information-outline"
+              title="お知らせ一覧"
+              class="mt-1"
+            ></v-list-item>
+            <!-- <v-list-group value="home">
               <template v-slot:activator="{ props }">
                 <v-list-item v-bind="props" title="HOME" prepend-icon="mdi-home"> </v-list-item>
               </template>
@@ -45,7 +63,7 @@
                 :title="home.title"
               >
               </v-list-item>
-            </v-list-group>
+            </v-list-group> -->
 
             <!-- お知らせ一覧 -->
             <!-- <v-list-item

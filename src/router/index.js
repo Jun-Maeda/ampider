@@ -12,6 +12,7 @@ import InfoDraftList from '@/views/InfoDraftList.vue'
 import InfoDraftCreate from '@/views/InfoDraftCreate.vue'
 import ChartDetail from '@/views/ChartDetail.vue'
 import DisasterList from '@/views/DisasterList.vue'
+import DisasterDetail from '@/views/DisasterDetail.vue'
 
 const routes = [
   {
@@ -84,6 +85,12 @@ const routes = [
     path: '/disaster_list',
     name: 'disaster_list',
     component: DisasterList,
+    props: true,
+  },
+  {
+    path: '/disaster_detail',
+    name: 'disaster_detail',
+    component: DisasterDetail,
     props: true,
   },
   {

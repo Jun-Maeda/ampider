@@ -142,13 +142,10 @@ export default {
       return color
     },
     clickItem(item,row) {
-      // this.disaster_store.disaster_data = item
-      // this.$router.push({
-      //   name: 'disaster_detail',
-      // })
-
-      console.log(item)
-      alert(row.item.detail)
+      this.disaster_store.disaster_data = row.item
+      this.$router.push({
+        name: 'disaster_detail',
+      })
     },
   },
 }

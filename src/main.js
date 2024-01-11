@@ -8,6 +8,7 @@ import { createPinia } from 'pinia'
 import { createPersistedState } from 'pinia-plugin-persistedstate'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+import draggable from 'vuedraggable'
 
 // Amplify
 import { Amplify } from 'aws-amplify'
@@ -23,7 +24,7 @@ import '@aws-amplify/ui-vue/styles.css'
 const app = createApp(App)
 
 // datetimepicker
-app.component('VueDatePicker', VueDatePicker)
+app.component('VueDatePicker', VueDatePicker, draggable)
 
 // pinia
 const pinia = createPinia()

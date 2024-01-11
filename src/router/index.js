@@ -12,6 +12,7 @@ import InfoDraftList from '@/views/InfoDraftList.vue'
 import InfoDraftCreate from '@/views/InfoDraftCreate.vue'
 import ChartDetail from '@/views/ChartDetail.vue'
 import DisasterList from '@/views/DisasterList.vue'
+import UserSetting from '@/views/UserSetting.vue'
 import DisasterDetail from '@/views/DisasterDetail.vue'
 
 const routes = [
@@ -97,6 +98,12 @@ const routes = [
     path: '/chart_detail',
     name: 'chart_detail',
     component: ChartDetail,
+    props: true,
+  },
+  {
+    path: '/user_setting',
+    name: 'user_setting',
+    component: UserSetting,
     props: true,
   },
 ]

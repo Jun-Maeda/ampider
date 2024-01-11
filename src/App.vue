@@ -2,7 +2,7 @@
   <authenticator :hide-sign-up="true">
     <template v-slot:header>
       <div style="padding: var(--amplify-space-large); text-align: center" class="pb-0">
-        <img class="amplify-image" alt="Amplify logo" src="@/images/Ampider_logo.jpg" style="max-width: 300px" />
+        <img class="amplify-image" alt="Amplify logo" src="@/images/ampider_logo.png" style="max-width: 300px" />
       </div>
     </template>
     <template v-slot="{ user, signOut }">
@@ -11,11 +11,11 @@
           <v-app-bar-nav-icon v-on:click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <v-toolbar-title>
             <v-btn @click="$router.push('/')" variant="text" class="p-0 m-0" height="100%"
-              ><img src="@/images/Ampider_logo.jpg" style="max-width: 130px"
+              ><img src="@/images/ampider_logo.png" style="max-width: 160px"
             /></v-btn>
           </v-toolbar-title>
           <div v-show="login">
-            <v-btn icon="mdi-account-cog-outline" size="x-large" />
+            <v-btn icon="mdi-account-cog-outline" size="x-large" @click="$router.push('user_setting')" />
           </div>
           <div v-show="login">
             <v-btn icon="mdi-logout" size="x-large" @click="signOut" />
@@ -28,8 +28,26 @@
         <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed" scrim="transparent">
           <v-list>
             <!-- ホーム -->
-            <!-- <v-list-item value="Home" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="Home" class="mt-1"></v-list-item> -->
-            <v-list-group value="home">
+            <v-list-item value="HOME" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="HOME" class="mt-1"></v-list-item>
+            <v-list-item
+              value="過去災害一覧"
+              color="primary"
+              rounded="xl"
+              to="disaster_list"
+              prepend-icon="mdi-weather-pouring"
+              title="過去災害一覧"
+              class="mt-1"
+            ></v-list-item>
+            <v-list-item
+              value="お知らせ一覧"
+              color="primary"
+              rounded="xl"
+              to="info_list"
+              prepend-icon="mdi-information-outline"
+              title="お知らせ一覧"
+              class="mt-1"
+            ></v-list-item>
+            <!-- <v-list-group value="home">
               <template v-slot:activator="{ props }">
                 <v-list-item v-bind="props" title="HOME" prepend-icon="mdi-home"> </v-list-item>
               </template>
@@ -45,7 +63,7 @@
                 :title="home.title"
               >
               </v-list-item>
-            </v-list-group>
+            </v-list-group> -->
 
             <!-- お知らせ一覧 -->
             <!-- <v-list-item
@@ -150,7 +168,7 @@ export default {
       { title: '過去災害一覧', to: 'disaster_list', icon: 'mdi-weather-pouring' },
       { title: 'お知らせ一覧', to: 'info_list', icon: 'mdi-information-outline' },
     ],
-    user_settings: [{ title: '連絡先情報', to: '', icon: 'mdi-clock' }],
+    user_settings: [{ title: '連絡先情報', to: 'user_setting', icon: 'mdi-clock' }],
     admin_menus: [
       { title: '集計', to: '/chart_detail', icon: 'mdi-heart-pulse' },
       { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },

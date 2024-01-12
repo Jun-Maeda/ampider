@@ -13,7 +13,7 @@ import { useCompanyStore } from '@/stores/company_setting'
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
-            <v-autocomplete label="所属部署" v-model="select_divisions" :items="divisions" style="max-width: 300px" :rules="select_rules" multiple>
+            <v-autocomplete label="所属部署" v-model="select_division" :items="divisions" style="max-width: 300px" :rules="select_rules">
             </v-autocomplete>
           </v-col>
         </v-row>
@@ -39,7 +39,7 @@ import { useCompanyStore } from '@/stores/company_setting'
                 <v-row>
                   <v-col class="mr-auto" cols="3"> 所属部署：</v-col>
                   <v-col class="mr-auto" cols="9"
-                    ><span v-for="select_division in select_divisions" :key="select_division" class="mr-2">{{ select_division }}</span>
+                    ><span class="mr-2">{{ select_division }}</span>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -62,7 +62,7 @@ export default {
     rules: [(v) => !!v || 'この項目は必須です'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
     divisions: [],
-    select_divisions: [],
+    select_division: null,
     organization: null,
     dialog: false,
     company_store: useCompanyStore(),
@@ -75,9 +75,9 @@ export default {
       })
     }
     // 部署一覧から取得してくる
-    this.divisions = ['第一事業部', '第二事業部', '第三事業部', '第四事業部']
+    this.divisions = ['第1事業部', '第2事業部', '第3事業部', '第4事業部']
     let my_division = this.company_store.division_data
-    this.select_divisions.push(my_division)
+    this.select_division = my_division
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック

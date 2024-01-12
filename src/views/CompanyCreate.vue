@@ -5,7 +5,8 @@
       <v-form class="mt-5" ref="form">
         <v-row>
           <v-col cols="12" lg="6">
-            <v-select label="会社*" :items="companies" :rules="select_rules" v-model="select_company" @click="choiceCompany" /> </v-col
+            <v-select label="会社*" :items="companies" :rules="select_rules" v-model="select_company" @click="choiceCompany" />
+            <v-autocomplete label="会社*" v-model="select_company" :items="companies" :rules="select_rules"> </v-autocomplete> </v-col
         ></v-row>
         <v-row>
           <v-col v-if="select_company" cols="12" lg="6">

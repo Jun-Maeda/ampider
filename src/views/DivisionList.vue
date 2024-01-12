@@ -19,7 +19,7 @@ import { useCompanyStore } from '@/stores/company_setting'
       </v-col>
       <v-col cols="4">
         <v-row justify="end" class="my-4">
-          <v-btn color="primary" class="mt-3">部署追加</v-btn>
+          <v-btn color="primary" class="mt-3" @click="$router.push('division_create')">部署追加</v-btn>
         </v-row>
       </v-col>
     </v-row>

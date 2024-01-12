@@ -3,7 +3,7 @@ import { useCompanyStore } from '@/stores/company_setting'
 </script>
 <template>
   <v-container>
-    <h2>拠点一覧</h2>
+    <h2>【{{ company_store.company_data }}】拠点一覧</h2>
     <v-row class="mt-3">
       <v-col cols="8">
         <v-row justify="start" class="my-4">
@@ -19,7 +19,7 @@ import { useCompanyStore } from '@/stores/company_setting'
       </v-col>
       <v-col cols="4">
         <v-row justify="end" class="my-4">
-          <v-btn color="primary" class="mt-3">拠点追加</v-btn>
+          <v-btn color="primary" class="mt-3" @click="$router.push('area_create')">拠点追加</v-btn>
         </v-row>
       </v-col>
     </v-row>
@@ -29,7 +29,7 @@ import { useCompanyStore } from '@/stores/company_setting'
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
-            <p class="text-center">タイトル：{{ editedItem.title }}</p>
+            <p class="text-center">拠点名：{{ editedItem.name }}</p>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
@@ -66,10 +66,13 @@ export default {
     company_store: useCompanyStore(),
   }),
 
-  computed: {
-    formTitle() {
-      return 'お知らせ編集'
-    },
+  mounted() {
+    // 会社選択していないで直接アクセスしたら会社一覧へリダイレクト
+    if (this.company_store.company_data === null) {
+      this.$router.push({
+        name: 'company_list',
+      })
+    }
   },
 
   watch: {
@@ -136,7 +139,7 @@ export default {
       this.dialogDelete = false
     },
     clickItem(item, row) {
-      this.company_store.area_data = row.item
+      this.company_store.area_data = row.item.name
       this.$router.push({
         name: 'division_list',
       })

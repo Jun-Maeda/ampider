@@ -3,7 +3,7 @@ import { useCompanyStore } from '@/stores/company_setting'
 </script>
 <template>
   <v-container>
-    <h2>会社一覧</h2>
+    <h2>【{{ company_store.division_data }}】組織一覧</h2>
     <v-row class="mt-3">
       <v-col cols="8">
         <v-row justify="start" class="my-4">
@@ -19,17 +19,17 @@ import { useCompanyStore } from '@/stores/company_setting'
       </v-col>
       <v-col cols="4">
         <v-row justify="end" class="my-4">
-          <v-btn color="primary" class="mt-3">会社追加</v-btn>
+          <v-btn color="primary" class="mt-3">組織追加</v-btn>
         </v-row>
       </v-col>
     </v-row>
 
-    <v-data-table :headers="headers" :items="companies" :search="search">
+    <v-data-table :headers="headers" :items="organizations" :search="search">
       <template v-slot:top>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
-            <p class="text-center">タイトル：{{ editedItem.title }}</p>
+            <p class="text-center">組織名：{{ editedItem.name }}</p>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
@@ -45,7 +45,7 @@ import { useCompanyStore } from '@/stores/company_setting'
       </template>
       <template v-slot:no-data> 該当するものがありません。 </template>
     </v-data-table>
-    <!-- <v-btn v-on:click="$router.push('/info_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>お知らせ一覧へ</v-btn> -->
+    <v-btn v-on:click="$router.push('/division_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>部署一覧へ</v-btn>
   </v-container>
 </template>
 
@@ -61,15 +61,18 @@ export default {
       { title: '連絡先', key: 'mail', width: '400', minWidth: '200' },
       { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
-    companies: [],
+    organizations: [],
     editedItem: {},
     company_store: useCompanyStore(),
   }),
 
-  computed: {
-    formTitle() {
-      return 'お知らせ編集'
-    },
+  mounted() {
+    // 直接アクセスしたら会社一覧へリダイレクト
+    if (this.company_store.division_data === null) {
+      this.$router.push({
+        name: 'company_list',
+      })
+    }
   },
 
   watch: {
@@ -87,24 +90,24 @@ export default {
 
   methods: {
     initialize() {
-      this.companies = [
+      this.organizations = [
         {
-          name: 'PI',
+          name: 'ディーラー',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
         },
         {
-          name: 'PAD',
+          name: 'ルームサポート',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
         },
         {
-          name: 'PGS',
+          name: '自治体',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
         },
         {
-          name: 'PHS',
+          name: '保証',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
         },
@@ -135,12 +138,12 @@ export default {
     closeDelete() {
       this.dialogDelete = false
     },
-    clickItem(item, row) {
-      this.company_store.company_data = row.item
-      this.$router.push({
-        name: 'company_create',
-      })
-    },
+    // clickItem(item, row) {
+    //   this.company_store.division_data = row.item.name
+    //   this.$router.push({
+    //     name: 'organization_list',
+    //   })
+    // },
   },
 }
 </script>

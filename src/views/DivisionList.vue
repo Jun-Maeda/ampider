@@ -3,7 +3,7 @@ import { useCompanyStore } from '@/stores/company_setting'
 </script>
 <template>
   <v-container>
-    <h2>会社一覧</h2>
+    <h2>【{{ company_store.area_data }}】部署一覧</h2>
     <v-row class="mt-3">
       <v-col cols="8">
         <v-row justify="start" class="my-4">
@@ -19,17 +19,17 @@ import { useCompanyStore } from '@/stores/company_setting'
       </v-col>
       <v-col cols="4">
         <v-row justify="end" class="my-4">
-          <v-btn color="primary" class="mt-3">会社追加</v-btn>
+          <v-btn color="primary" class="mt-3">部署追加</v-btn>
         </v-row>
       </v-col>
     </v-row>
 
-    <v-data-table :headers="headers" :items="companies" :search="search" @click:row="clickItem" hover>
+    <v-data-table :headers="headers" :items="divisions" :search="search" @click:row="clickItem" hover>
       <template v-slot:top>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
-            <p class="text-center">タイトル：{{ editedItem.title }}</p>
+            <p class="text-center">部署名：{{ editedItem.name }}</p>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
@@ -45,7 +45,7 @@ import { useCompanyStore } from '@/stores/company_setting'
       </template>
       <template v-slot:no-data> 該当するものがありません。 </template>
     </v-data-table>
-    <!-- <v-btn v-on:click="$router.push('/info_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>お知らせ一覧へ</v-btn> -->
+    <v-btn v-on:click="$router.push('/area_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>拠点一覧へ</v-btn>
   </v-container>
 </template>
 
@@ -61,15 +61,18 @@ export default {
       { title: '連絡先', key: 'mail', width: '400', minWidth: '200' },
       { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
-    companies: [],
+    divisions: [],
     editedItem: {},
     company_store: useCompanyStore(),
   }),
 
-  computed: {
-    formTitle() {
-      return 'お知らせ編集'
-    },
+  mounted() {
+    // 直接アクセスしたら会社一覧へリダイレクト
+    if (this.company_store.area_data === null) {
+      this.$router.push({
+        name: 'company_list',
+      })
+    }
   },
 
   watch: {
@@ -87,24 +90,24 @@ export default {
 
   methods: {
     initialize() {
-      this.companies = [
+      this.divisions = [
         {
-          name: 'PI',
+          name: '第1事業部',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
         },
         {
-          name: 'PAD',
+          name: '第2事業部',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
         },
         {
-          name: 'PGS',
+          name: '第3事業部',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
         },
         {
-          name: 'PHS',
+          name: '第4事業部',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
         },
@@ -136,9 +139,9 @@ export default {
       this.dialogDelete = false
     },
     clickItem(item, row) {
-      this.company_store.company_data = row.item
+      this.company_store.division_data = row.item.name
       this.$router.push({
-        name: 'company_create',
+        name: 'organization_list',
       })
     },
   },

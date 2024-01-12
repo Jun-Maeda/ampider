@@ -1,11 +1,20 @@
+<script setup>
+import { useCompanyStore } from '@/stores/company_setting'
+</script>
 <template>
   <v-container>
-    <h2>会社追加</h2>
+    <h2>拠点追加</h2>
     <div class="mt-8">
       <v-form class="mt-5" ref="form">
         <v-row>
           <v-col cols="12" lg="6">
-            <v-text-field v-model="company" label="会社名" required max-widgh="300px" :rules="rules" />
+            <v-text-field v-model="area" label="拠点名" required max-widgh="300px" :rules="rules" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" lg="6">
+            <v-autocomplete label="所属会社" v-model="select_companys" :items="companys" style="max-width: 300px" :rules="select_rules" multiple>
+            </v-autocomplete>
           </v-col>
         </v-row>
 
@@ -16,15 +25,21 @@
           </v-col>
           <v-dialog v-model="dialog" persistent width="auto">
             <!-- <template v-slot:activator="{ props }">
-              <v-btn @click="validate" color="primary" v-bind="props" >作成</v-btn>
-            </template> -->
+                <v-btn @click="validate" color="primary" v-bind="props" >作成</v-btn>
+              </template> -->
             <v-card>
               <v-card-title class="text-h5">以下の内容で作成してよろしいですか？</v-card-title>
               <v-card-text>
                 <v-row>
-                  <v-col class="mr-auto" cols="3"> 会社：</v-col>
+                  <v-col class="mr-auto" cols="3"> 拠点名：</v-col>
                   <v-col class="mr-auto" cols="9"
-                    ><span class="mr-2">{{ company }}</span>
+                    ><span class="mr-2">{{ area }}</span>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col class="mr-auto" cols="3"> 所属会社：</v-col>
+                  <v-col class="mr-auto" cols="9"
+                    ><span v-for="select_company in select_companys" :key="select_company" class="mr-2">{{ select_company }}</span>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -46,10 +61,18 @@ export default {
   data: () => ({
     rules: [(v) => !!v || 'この項目は必須です'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
-    company: null,
+    companys: [],
+    select_companys: [],
+    area: null,
     dialog: false,
+    company_store: useCompanyStore(),
   }),
-  mounted() {},
+  mounted() {
+    // 会社一覧から取得してくる
+    this.companys = ['PI', 'PGS', 'PAD', 'PHS']
+    let my_company = this.company_store.company_data
+    this.select_companys.push(my_company)
+  },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
     async validate() {
@@ -63,12 +86,12 @@ export default {
       this.dialog = false
       // ここに新規作成処理を記載
 
-      // 会社一覧へリダイレクト
+      // 拠点一覧へリダイレクト
       this.$router.replace({
-        name: 'company_list',
+        name: 'area_list',
       })
 
-      let success = '会社情報を追加しました。'
+      let success = '拠点を追加しました。'
       alert(success)
 
       this.$refs.form.reset()

@@ -194,10 +194,7 @@ export default {
       { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
       // { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
     ],
-    settings: [
-      { title: '会社情報追加', to: 'company_create', icon: 'mdi-domain' },
-      { title: '会社一覧', to: 'company_list', icon: 'mdi-domain' },
-    ],
+    settings: [{ title: '会社一覧', to: 'company_list', icon: 'mdi-domain' }],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],
     drawer: false,
     links: [

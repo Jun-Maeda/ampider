@@ -19,7 +19,7 @@ import { useCompanyStore } from '@/stores/company_setting'
       </v-col>
       <v-col cols="4">
         <v-row justify="end" class="my-4">
-          <v-btn color="primary" class="mt-3">会社追加</v-btn>
+          <v-btn color="primary" class="mt-3" @click="$router.push('company_create')">会社追加</v-btn>
         </v-row>
       </v-col>
     </v-row>
@@ -29,7 +29,7 @@ import { useCompanyStore } from '@/stores/company_setting'
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
-            <p class="text-center">タイトル：{{ editedItem.title }}</p>
+            <p class="text-center">会社名：{{ editedItem.name }}</p>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
@@ -136,7 +136,7 @@ export default {
       this.dialogDelete = false
     },
     clickItem(item, row) {
-      this.company_store.company_data = row.item
+      this.company_store.company_data = row.item.name
       this.$router.push({
         name: 'area_list',
       })

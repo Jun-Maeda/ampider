@@ -90,28 +90,46 @@ export default {
 
   methods: {
     initialize() {
-      this.areas = [
-        {
-          name: '秋田',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-        {
-          name: '山形',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-        {
-          name: '富山',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-        {
-          name: '東京',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-      ]
+      // もしPI系ならすべての拠点を取得
+      if (this.company_store.company_data === 'PI・PCS・PGS') {
+        // ここですべての拠点を取得
+        this.areas = [
+          {
+            name: '秋田',
+            employee_num: '1234567',
+            mail: 'test_test@test.jp',
+          },
+          {
+            name: '山形',
+            employee_num: '1234567',
+            mail: 'test_test@test.jp',
+          },
+          {
+            name: '富山',
+            employee_num: '1234567',
+            mail: 'test_test@test.jp',
+          },
+          {
+            name: '東京',
+            employee_num: '1234567',
+            mail: 'test_test@test.jp',
+          },
+        ]
+      } else {
+        // 取得した会社に紐づく拠点を所得する
+        this.areas = [
+          {
+            name: '秋田',
+            employee_num: '1234567',
+            mail: 'test_test@test.jp',
+          },
+          {
+            name: '山形',
+            employee_num: '1234567',
+            mail: 'test_test@test.jp',
+          },
+        ]
+      }
     },
 
     editItem(item) {

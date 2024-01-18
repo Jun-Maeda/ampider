@@ -40,8 +40,8 @@ import { useCompanyStore } from '@/stores/company_setting'
         </v-dialog>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon v-show="item.adding_flag" size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon v-show="item.adding_flag" size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon v-show="item.adding_flg" size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon v-show="item.adding_flg" size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data> 該当するものがありません。 </template>
     </v-data-table>
@@ -88,24 +88,25 @@ export default {
   methods: {
     initialize() {
       // OBICの事業部カラムに会社名が記載されているもののみ取得
+      // 今はadding_flgで手動追加か判別しているけど、今後会社IDから取得？
       this.companies = [
         {
           name: 'PAD',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
-          adding_flag: false,
+          adding_flg: false,
         },
         {
           name: 'PHS',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
-          adding_flag: false,
+          adding_flg: false,
         },
         {
           name: '(株)プレミア・アンピダー',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
-          adding_flag: true,
+          adding_flg: true,
         },
       ]
       // PI関連は会社名の登録がOBICの事業部カラムにないのでここで作成してすべての拠点に紐づけ
@@ -113,7 +114,7 @@ export default {
         name: 'PI・PCS・PGS',
         employee_num: '1234567',
         mail: 'test_test@test.jp',
-        adding_flag: false,
+        adding_flg: false,
       })
     },
 

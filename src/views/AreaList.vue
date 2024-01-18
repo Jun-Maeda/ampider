@@ -25,7 +25,7 @@ import { useCompanyStore } from '@/stores/company_setting'
     </v-row>
 
     <v-data-table :headers="headers" :items="areas" :search="search" @click:row="clickItem" hover>
-      <template v-slot:top>
+      <!-- <template v-slot:top>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
@@ -38,7 +38,7 @@ import { useCompanyStore } from '@/stores/company_setting'
             </v-card-actions>
           </v-card>
         </v-dialog>
-      </template>
+      </template> -->
       <!-- <template v-slot:[`item.actions`]="{ item }">
         <v-icon size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
         <v-icon size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>

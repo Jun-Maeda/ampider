@@ -28,9 +28,15 @@
               <v-card-title class="text-h5">以下の内容で作成してよろしいですか？</v-card-title>
               <v-card-text>
                 <v-row>
-                  <v-col class="mr-auto" cols="3"> 会社：</v-col>
+                  <v-col class="mr-auto" cols="3"> 会社名：</v-col>
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2">{{ company }}</span>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col class="mr-auto" cols="3"> 所属拠点：</v-col>
+                  <v-col class="mr-auto" cols="9"
+                    ><span v-for="select_area in select_areas" :key="select_area" class="mr-2">{{ select_area }}</span>
                   </v-col>
                 </v-row>
               </v-card-text>

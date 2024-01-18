@@ -17,15 +17,15 @@ import { useCompanyStore } from '@/stores/company_setting'
           ></v-text-field>
         </v-row>
       </v-col>
-      <v-col cols="4">
+      <!-- <v-col cols="4">
         <v-row justify="end" class="my-4">
           <v-btn color="primary" class="mt-3" @click="$router.push('division_create')">事業部追加</v-btn>
         </v-row>
-      </v-col>
+      </v-col> -->
     </v-row>
 
     <v-data-table :headers="headers" :items="divisions" :search="search" @click:row="clickItem" hover>
-      <template v-slot:top>
+      <!-- <template v-slot:top>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
@@ -42,7 +42,7 @@ import { useCompanyStore } from '@/stores/company_setting'
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
         <v-icon size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
-      </template>
+      </template> -->
       <template v-slot:no-data> 該当するものがありません。 </template>
     </v-data-table>
     <v-btn v-on:click="$router.push('/area_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>拠点一覧へ</v-btn>
@@ -107,7 +107,7 @@ export default {
           mail: 'test_test@test.jp',
         },
         {
-          name: '第4事業部',
+          name: 'その他',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
         },

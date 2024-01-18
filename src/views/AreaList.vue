@@ -17,11 +17,11 @@ import { useCompanyStore } from '@/stores/company_setting'
           ></v-text-field>
         </v-row>
       </v-col>
-      <v-col cols="4">
+      <!-- <v-col cols="4">
         <v-row justify="end" class="my-4">
           <v-btn color="primary" class="mt-3" @click="$router.push('area_create')">拠点追加</v-btn>
         </v-row>
-      </v-col>
+      </v-col> -->
     </v-row>
 
     <v-data-table :headers="headers" :items="areas" :search="search" @click:row="clickItem" hover>
@@ -39,10 +39,10 @@ import { useCompanyStore } from '@/stores/company_setting'
           </v-card>
         </v-dialog>
       </template>
-      <template v-slot:[`item.actions`]="{ item }">
+      <!-- <template v-slot:[`item.actions`]="{ item }">
         <v-icon size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
         <v-icon size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
-      </template>
+      </template> -->
       <template v-slot:no-data> 該当するものがありません。 </template>
     </v-data-table>
     <v-btn v-on:click="$router.push('/company_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>会社一覧へ</v-btn>
@@ -59,7 +59,7 @@ export default {
       { title: '名前', key: 'name', width: '300', minWidth: '100' },
       { title: '会社番号', key: 'employee_num', width: '200', minWidth: '150' },
       { title: '連絡先', key: 'mail', width: '400', minWidth: '200' },
-      { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
+      // { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
     areas: [],
     editedItem: {},

@@ -40,8 +40,8 @@ import { useCompanyStore } from '@/stores/company_setting'
         </v-dialog>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon v-show="item.adding_flag" size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon v-show="item.adding_flag" size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data> 該当するものがありません。 </template>
     </v-data-table>
@@ -89,24 +89,28 @@ export default {
     initialize() {
       this.companies = [
         {
-          name: 'PI',
+          name: 'PI、PCS、PGS',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
+          adding_flag: false,
         },
         {
           name: 'PAD',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
-        },
-        {
-          name: 'PGS',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
+          adding_flag: false,
         },
         {
           name: 'PHS',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
+          adding_flag: false,
+        },
+        {
+          name: '(株)プレミア・アンピダー',
+          employee_num: '1234567',
+          mail: 'test_test@test.jp',
+          adding_flag: true,
         },
       ]
     },

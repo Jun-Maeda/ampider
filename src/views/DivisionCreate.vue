@@ -3,12 +3,12 @@ import { useCompanyStore } from '@/stores/company_setting'
 </script>
 <template>
   <v-container>
-    <h2>部署追加</h2>
+    <h2>事業部追加</h2>
     <div class="mt-8">
       <v-form class="mt-5" ref="form">
         <v-row>
           <v-col cols="12" lg="6">
-            <v-text-field v-model="division" label="部署名" required max-widgh="300px" :rules="rules" />
+            <v-text-field v-model="division" label="事業部名" required max-widgh="300px" :rules="rules" />
           </v-col>
         </v-row>
         <v-row>
@@ -31,7 +31,7 @@ import { useCompanyStore } from '@/stores/company_setting'
               <v-card-title class="text-h5">以下の内容で作成してよろしいですか？</v-card-title>
               <v-card-text>
                 <v-row>
-                  <v-col class="mr-auto" cols="3"> 部署名：</v-col>
+                  <v-col class="mr-auto" cols="3"> 事業部名：</v-col>
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2">{{ division }}</span>
                   </v-col>
@@ -92,12 +92,12 @@ export default {
       this.dialog = false
       // ここに新規作成処理を記載
 
-      // 部署一覧へリダイレクト
+      // 事業部一覧へリダイレクト
       this.$router.replace({
         name: 'division_list',
       })
 
-      let success = '部署を追加しました。'
+      let success = '事業部を追加しました。'
       alert(success)
 
       this.$refs.form.reset()

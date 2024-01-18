@@ -3,7 +3,7 @@ import { useCompanyStore } from '@/stores/company_setting'
 </script>
 <template>
   <v-container>
-    <h2>【{{ company_store.area_data }}】部署一覧</h2>
+    <h2>【{{ company_store.area_data }}】事業部一覧</h2>
     <v-row class="mt-3">
       <v-col cols="8">
         <v-row justify="start" class="my-4">
@@ -19,7 +19,7 @@ import { useCompanyStore } from '@/stores/company_setting'
       </v-col>
       <v-col cols="4">
         <v-row justify="end" class="my-4">
-          <v-btn color="primary" class="mt-3" @click="$router.push('division_create')">部署追加</v-btn>
+          <v-btn color="primary" class="mt-3" @click="$router.push('division_create')">事業部追加</v-btn>
         </v-row>
       </v-col>
     </v-row>
@@ -29,7 +29,7 @@ import { useCompanyStore } from '@/stores/company_setting'
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
-            <p class="text-center">部署名：{{ editedItem.name }}</p>
+            <p class="text-center">事業部名：{{ editedItem.name }}</p>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>

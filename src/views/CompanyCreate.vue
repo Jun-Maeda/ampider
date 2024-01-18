@@ -8,6 +8,12 @@
             <v-text-field v-model="company" label="会社名" required max-widgh="300px" :rules="rules" />
           </v-col>
         </v-row>
+        <v-row>
+          <v-col cols="12" lg="6">
+            <v-autocomplete label="所属拠点" v-model="select_areas" :items="areas" style="max-width: 300px" :rules="select_rules" multiple>
+            </v-autocomplete>
+          </v-col>
+        </v-row>
 
         <v-row justify="start">
           <v-col>
@@ -47,9 +53,13 @@ export default {
     rules: [(v) => !!v || 'この項目は必須です'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
     company: null,
+    areas: [],
+    select_areas: [],
     dialog: false,
   }),
-  mounted() {},
+  mounted() {
+    this.areas = ['秋田', '富山', '山形', '東京']
+  },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
     async validate() {

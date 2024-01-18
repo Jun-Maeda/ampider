@@ -3,17 +3,17 @@ import { useCompanyStore } from '@/stores/company_setting'
 </script>
 <template>
   <v-container>
-    <h2>組織追加</h2>
+    <h2>所属追加</h2>
     <div class="mt-8">
       <v-form class="mt-5" ref="form">
         <v-row>
           <v-col cols="12" lg="6">
-            <v-text-field v-model="organization" label="組織名" required max-widgh="300px" :rules="rules" />
+            <v-text-field v-model="organization" label="所属名" required max-widgh="300px" :rules="rules" />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
-            <v-autocomplete label="所属部署" v-model="select_division" :items="divisions" style="max-width: 300px" :rules="select_rules">
+            <v-autocomplete label="所属事業部" v-model="select_division" :items="divisions" style="max-width: 300px" :rules="select_rules">
             </v-autocomplete>
           </v-col>
         </v-row>
@@ -31,13 +31,13 @@ import { useCompanyStore } from '@/stores/company_setting'
               <v-card-title class="text-h5">以下の内容で作成してよろしいですか？</v-card-title>
               <v-card-text>
                 <v-row>
-                  <v-col class="mr-auto" cols="3"> 組織名：</v-col>
+                  <v-col class="mr-auto" cols="3"> 所属名：</v-col>
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2">{{ organization }}</span>
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col class="mr-auto" cols="3"> 所属部署：</v-col>
+                  <v-col class="mr-auto" cols="3"> 所属事業部：</v-col>
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2">{{ select_division }}</span>
                   </v-col>
@@ -74,7 +74,7 @@ export default {
         name: 'company_list',
       })
     }
-    // 部署一覧から取得してくる
+    // 事業部一覧から取得してくる
     this.divisions = ['第1事業部', '第2事業部', '第3事業部', '第4事業部']
     let my_division = this.company_store.division_data
     this.select_division = my_division
@@ -92,12 +92,12 @@ export default {
       this.dialog = false
       // ここに新規作成処理を記載
 
-      // 組織一覧へリダイレクト
+      // 所属一覧へリダイレクト
       this.$router.replace({
         name: 'organization_list',
       })
 
-      let success = '組織を追加しました。'
+      let success = '所属を追加しました。'
       alert(success)
 
       this.$refs.form.reset()

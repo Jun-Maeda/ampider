@@ -21,11 +21,11 @@ import { useDraftStore } from '@/stores/draft'
           </v-col>
 
           <v-col v-if="select_areas.length > 0" cols="12" lg="6">
-            <v-select label="部署" :items="divisions" v-model="select_divisions" @click="choiceDivision" multiple />
+            <v-select label="事業部" :items="divisions" v-model="select_divisions" @click="choiceDivision" multiple />
           </v-col>
 
           <v-col v-if="select_divisions.length > 0" cols="12" lg="6">
-            <v-select label="組織" :items="organizations" v-model="select_organizations" @click="choiceOrganization" multiple />
+            <v-select label="所属" :items="organizations" v-model="select_organizations" @click="choiceOrganization" multiple />
           </v-col>
         </v-row>
         <v-row>
@@ -66,11 +66,11 @@ import { useDraftStore } from '@/stores/draft'
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2" v-for="area in select_areas" :key="area">{{ area }}</span></v-col
                   >
-                  <v-col class="mr-auto" cols="3"> 部署：</v-col>
+                  <v-col class="mr-auto" cols="3"> 事業部：</v-col>
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2" v-for="division in select_divisions" :key="division">{{ division }}</span>
                   </v-col>
-                  <v-col class="mr-auto" cols="3"> 組織：</v-col>
+                  <v-col class="mr-auto" cols="3"> 所属：</v-col>
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2" v-for="organization in select_organizations" :key="organization">{{ organization }}</span>
                   </v-col>

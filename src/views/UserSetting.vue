@@ -48,16 +48,23 @@ const props = defineProps({
       <v-divider></v-divider>
       <v-row>
         <v-col cols="12" sm="2" class="py-0 py-sm-3">
-          <p class="ma-sm-0"><b>部署</b></p>
+          <p class="ma-sm-0"><b>事業部</b></p>
         </v-col>
         <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ division }} </v-col>
       </v-row>
       <v-divider></v-divider>
       <v-row>
         <v-col cols="12" sm="2" class="py-0 py-sm-3">
-          <p class="ma-sm-0"><b>組織</b></p>
+          <p class="ma-sm-0"><b>所属</b></p>
         </v-col>
         <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ organization }} </v-col>
+      </v-row>
+      <v-row>
+        <v-divider></v-divider>
+        <v-col cols="12" sm="2" class="py-0 py-sm-3">
+          <p class="ma-sm-0"><b>役職</b></p>
+        </v-col>
+        <v-col cols="12" sm="10" class="py-0 py-sm-3"> {{ job_title }} </v-col>
       </v-row>
       <v-divider></v-divider>
       <v-form class="mt-8" ref="form">
@@ -366,6 +373,7 @@ export default {
     area: null,
     division: null,
     organization: null,
+    job_title: null,
     email: null,
     pref_lists: [],
     addresses: [],
@@ -419,6 +427,7 @@ export default {
     this.area = '横手BPO'
     this.division = 'プロパティ事業部'
     this.organization = '横手ルームサポート'
+    this.job_title = 'マネージャー'
     this.addresses = ['富山県', '秋田県']
     this.notifications = [
       {

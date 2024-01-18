@@ -87,13 +87,8 @@ export default {
 
   methods: {
     initialize() {
+      // OBICの事業部カラムに会社名が記載されているもののみ取得
       this.companies = [
-        {
-          name: 'PI、PCS、PGS',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-          adding_flag: false,
-        },
         {
           name: 'PAD',
           employee_num: '1234567',
@@ -113,6 +108,13 @@ export default {
           adding_flag: true,
         },
       ]
+      // PI関連は会社名の登録がOBICの事業部カラムにないのでここで作成してすべての拠点に紐づけ
+      this.companies.unshift({
+        name: 'PI・PCS・PGS',
+        employee_num: '1234567',
+        mail: 'test_test@test.jp',
+        adding_flag: false,
+      })
     },
 
     editItem(item) {

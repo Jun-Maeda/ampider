@@ -40,11 +40,12 @@
         </v-dialog>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon size="small" class="me-2" @click.stop="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon v-show="!item.auto_setting" size="small" class="me-2" @click.stop="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon v-show="!item.auto_setting" size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data> 該当するものがありません。 </template>
     </v-data-table>
+    <v-btn v-on:click="downloadCSV" variant="text" class="pt-0"><v-icon> mdi-download </v-icon>CSVダウンロード</v-btn>
     <!-- <v-btn v-on:click="$router.push('/info_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>お知らせ一覧へ</v-btn> -->
   </v-container>
 </template>
@@ -92,26 +93,25 @@ export default {
           name: 'テスト 太郎',
           employee_num: '1234567',
           mail: 'test_test@test.jp',
+          auto_setting: true,
         },
         {
-          name: 'テスト 太郎',
-          employee_num: '1234567',
+          name: 'テスト 次郎',
+          employee_num: '1234568',
           mail: 'test_test@test.jp',
+          auto_setting: true,
         },
         {
-          name: 'テスト 太郎',
-          employee_num: '1234567',
+          name: '手動 追加',
+          employee_num: '1234569',
           mail: 'test_test@test.jp',
+          auto_setting: false,
         },
         {
-          name: 'テスト 太郎',
-          employee_num: '1234567',
+          name: 'テスト 三郎',
+          employee_num: '1234570',
           mail: 'test_test@test.jp',
-        },
-        {
-          name: 'テスト 太郎',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
+          auto_setting: true,
         },
       ]
     },

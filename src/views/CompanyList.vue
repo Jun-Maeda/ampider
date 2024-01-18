@@ -57,7 +57,7 @@ export default {
     dialogDelete: false,
     headers: [
       { title: '名前', key: 'name', width: '300', minWidth: '100' },
-      { title: '会社番号', key: 'employee_num', width: '200', minWidth: '150' },
+      // { title: '会社番号', key: 'company_num', width: '200', minWidth: '150' },
       { title: '連絡先', key: 'mail', width: '400', minWidth: '200' },
       { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
@@ -88,23 +88,23 @@ export default {
   methods: {
     initialize() {
       // OBICの事業部カラムに会社名が記載されているもののみ取得
-      // 今はadding_flgで手動追加か判別しているけど、今後会社IDから取得？
+      // 今はadding_flgで手動追加か判別
       this.companies = [
         {
           name: 'PAD',
-          employee_num: '1234567',
+          company_num: '1234567',
           mail: 'test_test@test.jp',
           adding_flg: false,
         },
         {
           name: 'PHS',
-          employee_num: '1234567',
+          company_num: '1234567',
           mail: 'test_test@test.jp',
           adding_flg: false,
         },
         {
           name: '(株)プレミア・アンピダー',
-          employee_num: '1234567',
+          company_num: 'add_1234567',
           mail: 'test_test@test.jp',
           adding_flg: true,
         },
@@ -112,7 +112,7 @@ export default {
       // PI関連は会社名の登録がOBICの事業部カラムにないのでここで作成してすべての拠点に紐づけ
       this.companies.unshift({
         name: 'PI・PCS・PGS',
-        employee_num: '1234567',
+        company_num: '1234567',
         mail: 'test_test@test.jp',
         adding_flg: false,
       })

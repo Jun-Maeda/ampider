@@ -78,6 +78,7 @@ export default {
     createForm() {
       this.dialog = false
       // ここに新規作成処理を記載
+      // 保存する際にはadding_flgをtrueにして保存する
 
       // 会社一覧へリダイレクト
       this.$router.replace({

@@ -23,35 +23,39 @@
         </v-row>
       </v-col>
     </v-row>
-
-    <v-data-table :headers="headers" :items="employees" :search="search" @click:row="clickItem" hover>
-      <template v-slot:top>
-        <v-dialog v-model="dialogDelete" max-width="500px">
-          <v-card>
-            <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
-            <p class="text-center">名前：{{ editedItem.name }}</p>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
-              <v-btn color="blue-darken-1" variant="text" @click="deleteItemConfirm">削除</v-btn>
-              <v-spacer></v-spacer>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </template>
-      <template v-slot:[`item.actions`]="{ item }">
-        <v-icon v-show="!item.auto_setting" size="small" class="me-2" @click.stop="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon v-show="!item.auto_setting" size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
-      </template>
-      <template v-slot:no-data> 該当するものがありません。 </template>
-    </v-data-table>
-    <v-btn v-on:click="downloadCSV" variant="text" class="pt-0"><v-icon> mdi-download </v-icon>CSVダウンロード</v-btn>
-    <!-- <v-btn v-on:click="$router.push('/info_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>お知らせ一覧へ</v-btn> -->
+    <v-row justify="end">
+      <v-data-table :headers="headers" :items="employees" :search="search" @click:row="clickItem" hover>
+        <template v-slot:top>
+          <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-card>
+              <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
+              <p class="text-center">名前：{{ editedItem.name }}</p>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
+                <v-btn color="blue-darken-1" variant="text" @click="deleteItemConfirm">削除</v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </template>
+        <template v-slot:[`item.actions`]="{ item }">
+          <v-icon v-show="!item.auto_setting" size="small" class="me-2" @click.stop="editItem(item)"> mdi-pencil </v-icon>
+          <v-icon v-show="!item.auto_setting" size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
+        </template>
+        <template v-slot:no-data> 該当するものがありません。 </template>
+      </v-data-table>
+      <v-btn v-on:click="downloadCSV()" variant="text" class="pt-0"><v-icon> mdi-download </v-icon>CSVダウンロード</v-btn>
+      <!-- <v-btn v-on:click="$router.push('/info_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>お知らせ一覧へ</v-btn> -->
+    </v-row>
   </v-container>
 </template>
 
 <script>
 export default {
+  props: {
+    user: Object,
+  },
   data: () => ({
     search: '',
     dialog: false,
@@ -148,6 +152,23 @@ export default {
       this.$router.push({
         name: 'user_setting',
       })
+    },
+    downloadCSV() {
+      var csv = '\ufeff' + '名前,社員番号, メールアドレス, 自動追加フラグ\n'
+      this.employees.forEach((el) => {
+        var line = el['name'] + ',' + el['employee_num'] + ',' + el['mail'] + ',' + el['auto_setting'] + '\n'
+        csv += line
+      })
+      let blob = new Blob([csv], { type: 'text/csv' })
+      let link = document.createElement('a')
+      var now = new Date()
+      var year = now.getFullYear()
+      var month = now.getMonth() + 1
+      var date = now.getDate()
+
+      link.href = window.URL.createObjectURL(blob)
+      link.download = 'employeelist_' + this.user.username + '_' + year + month + date + '_result.csv'
+      link.click()
     },
   },
 }

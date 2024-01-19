@@ -17,143 +17,196 @@ const props = defineProps({
   <v-container>
     <h2>ユーザー追加</h2>
     <div class="mt-8">
-      <v-form class="mt-8" ref="form">
-        <v-row class="mt-3">
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>社員番号*</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3">
-            <v-text-field v-model="employee_number" density="compact" required style="max-width: 500px" :rules="[all_rules.required]" />
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
-        <v-row>
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>名前*</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3">
-            <v-text-field v-model="user_name" density="compact" required style="max-width: 500px" :rules="[all_rules.required]" />
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
-        <v-row class="mt-3">
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>メールアドレス*</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3"
-            ><v-text-field v-model="email" density="compact" required style="max-width: 500px" :rules="[all_rules.required, all_rules.email]" />
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
-        <v-row>
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>会社*</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3">
-            <v-select
-              v-model="company"
-              :items="companies"
-              item-title="name"
-              item-value="name"
-              style="max-width: 500px"
-              :rules="[all_rules.select]"
-              density="compact"
-              @click="choiceCompany"
-            ></v-select>
-          </v-col>
-        </v-row>
-        <v-divider v-if="company"></v-divider>
-        <v-row v-if="company">
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>拠点*</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3">
-            <v-select v-model="area" :items="areas" style="max-width: 500px" :rules="[all_rules.select]" density="compact" @click="choiceArea">
-            </v-select>
-          </v-col>
-        </v-row>
-        <v-divider v-if="area"></v-divider>
-        <v-row v-if="area">
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>事業部</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3">
-            <v-select v-model="division" :items="divisions" style="max-width: 500px" density="compact" @click="choiceDivision"></v-select>
-          </v-col>
-        </v-row>
-        <v-divider v-if="division"></v-divider>
-        <v-row v-if="division">
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>所属</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3">
-            <v-select v-model="organization" :items="organizations" style="max-width: 500px" density="compact" @click="choiceOrganization"></v-select>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-divider></v-divider>
-          <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>役職</b></p>
-          </v-col>
-          <v-col cols="12" sm="10" class="py-0 py-sm-3">
-            <v-select v-model="job_title" :items="job_titles" style="max-width: 500px" :rules="[all_rules.select]" density="compact"></v-select>
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
-        <v-row class="my-3" justify="end">
-          <v-btn class="mr-2" @click="$router.push('/employee_list')">戻る</v-btn>
-          <v-btn class="" color="primary" @click="validate">作成</v-btn>
-        </v-row>
-        <v-dialog v-model="dialog" persistent style="max-width: 800px">
-          <!-- <template v-slot:activator="{ props }">
-              <v-btn @click="validate" color="primary" v-bind="props" >作成</v-btn>
-            </template> -->
-          <v-card>
-            <v-card-title class="text-h5">以下の内容でユーザー追加してよろしいですか？</v-card-title>
-            <v-card-text>
-              <v-row>
-                <v-col class="mr-auto" cols="3"> 社員番号：</v-col>
-                <v-col class="mr-auto" cols="9"
-                  ><span class="mr-2">{{ employee_number }}</span>
-                </v-col>
-                <v-col class="mr-auto" cols="3"> 名前：</v-col>
-                <v-col class="mr-auto" cols="9"
-                  ><span class="mr-2">{{ user_name }}</span>
-                </v-col>
-                <v-col class="mr-auto" cols="3"> メール：</v-col>
-                <v-col class="mr-auto" cols="9"
-                  ><span class="mr-2">{{ email }}</span>
-                </v-col>
-                <v-col class="mr-auto" cols="3"> 会社：</v-col>
-                <v-col class="mr-auto" cols="9"
-                  ><span class="mr-2">{{ company }}</span>
-                </v-col>
-                <v-col class="mr-auto" cols="3"> 拠点：</v-col>
-                <v-col class="mr-auto" cols="9"
-                  ><span class="mr-2">{{ area }}</span></v-col
-                >
-                <v-col class="mr-auto" cols="3"> 事業部：</v-col>
-                <v-col class="mr-auto" cols="9"
-                  ><span class="mr-2">{{ division }}</span>
-                </v-col>
-                <v-col class="mr-auto" cols="3"> 所属：</v-col>
-                <v-col class="mr-auto" cols="9"
-                  ><span class="mr-2">{{ organization }}</span>
-                </v-col>
-                <v-col class="mr-auto" cols="3"> 役職：</v-col>
-                <v-col class="mr-auto" cols="9"
-                  ><span class="mr-2">{{ job_title }}</span>
+      <v-expansion-panels class="mb-3">
+        <v-expansion-panel title="ファイルアップロード">
+          <v-expansion-panel-text>
+            <v-form ref="file_form" class="mt-8">
+              <v-row class="mt-3">
+                <v-col cols="12" class="py-0 py-sm-3">
+                  <v-file-input
+                    label="csvファイルを選択してください"
+                    density="compact"
+                    :rules="[all_rules.select, all_rules.file_rule]"
+                  ></v-file-input>
                 </v-col>
               </v-row>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="green-darken-1" variant="text" @click="dialog = false">キャンセル</v-btn>
-              <v-btn color="green-darken-1" variant="text" @click="createForm">作成</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-form>
+              <v-divider></v-divider>
+              <v-row class="my-3 pr-2" justify="end">
+                <v-btn class="" color="primary" @click="file_validate">作成</v-btn>
+              </v-row>
+
+              <v-dialog v-model="file_dialog" persistent style="max-width: 800px">
+                <!-- <template v-slot:activator="{ props }">
+              <v-btn @click="validate" color="primary" v-bind="props" >作成</v-btn>
+            </template> -->
+                <v-card>
+                  <v-card-title class="text-h5">以下のユーザーを追加します</v-card-title>
+                  <v-card-text>
+                    <v-data-table :headers="headers" :items="file_users"></v-data-table>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green-darken-1" variant="text" @click="file_dialog = false">キャンセル</v-btn>
+                    <v-btn color="green-darken-1" variant="text" @click="createForm">作成</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-form>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+
+      <v-expansion-panels>
+        <v-expansion-panel title="フォーム入力">
+          <v-expansion-panel-text>
+            <v-form ref="form" class="mt-8">
+              <v-row class="mt-3">
+                <v-col cols="12" sm="2" class="py-0 py-sm-3">
+                  <p class="ma-sm-0"><b>社員番号*</b></p>
+                </v-col>
+                <v-col cols="12" sm="10" class="py-0 py-sm-3">
+                  <v-text-field v-model="employee_number" density="compact" required style="max-width: 500px" :rules="[all_rules.required]" />
+                </v-col>
+              </v-row>
+              <v-divider></v-divider>
+              <v-row>
+                <v-col cols="12" sm="2" class="py-0 py-sm-3">
+                  <p class="ma-sm-0"><b>名前*</b></p>
+                </v-col>
+                <v-col cols="12" sm="10" class="py-0 py-sm-3">
+                  <v-text-field v-model="user_name" density="compact" required style="max-width: 500px" :rules="[all_rules.required]" />
+                </v-col>
+              </v-row>
+              <v-divider></v-divider>
+              <v-row class="mt-3">
+                <v-col cols="12" sm="2" class="py-0 py-sm-3">
+                  <p class="ma-sm-0"><b>メールアドレス*</b></p>
+                </v-col>
+                <v-col cols="12" sm="10" class="py-0 py-sm-3"
+                  ><v-text-field v-model="email" density="compact" required style="max-width: 500px" :rules="[all_rules.required, all_rules.email]" />
+                </v-col>
+              </v-row>
+              <v-divider></v-divider>
+              <v-row>
+                <v-col cols="12" sm="2" class="py-0 py-sm-3">
+                  <p class="ma-sm-0"><b>会社*</b></p>
+                </v-col>
+                <v-col cols="12" sm="10" class="py-0 py-sm-3">
+                  <v-select
+                    v-model="company"
+                    :items="companies"
+                    item-title="name"
+                    item-value="name"
+                    style="max-width: 500px"
+                    :rules="[all_rules.select]"
+                    density="compact"
+                    @click="choiceCompany"
+                  ></v-select>
+                </v-col>
+              </v-row>
+              <v-divider v-if="company"></v-divider>
+              <v-row v-if="company">
+                <v-col cols="12" sm="2" class="py-0 py-sm-3">
+                  <p class="ma-sm-0"><b>拠点*</b></p>
+                </v-col>
+                <v-col cols="12" sm="10" class="py-0 py-sm-3">
+                  <v-select v-model="area" :items="areas" style="max-width: 500px" :rules="[all_rules.select]" density="compact" @click="choiceArea">
+                  </v-select>
+                </v-col>
+              </v-row>
+              <v-divider v-if="area"></v-divider>
+              <v-row v-if="area">
+                <v-col cols="12" sm="2" class="py-0 py-sm-3">
+                  <p class="ma-sm-0"><b>事業部</b></p>
+                </v-col>
+                <v-col cols="12" sm="10" class="py-0 py-sm-3">
+                  <v-select v-model="division" :items="divisions" style="max-width: 500px" density="compact" @click="choiceDivision"></v-select>
+                </v-col>
+              </v-row>
+              <v-divider v-if="division"></v-divider>
+              <v-row v-if="division">
+                <v-col cols="12" sm="2" class="py-0 py-sm-3">
+                  <p class="ma-sm-0"><b>所属</b></p>
+                </v-col>
+                <v-col cols="12" sm="10" class="py-0 py-sm-3">
+                  <v-select
+                    v-model="organization"
+                    :items="organizations"
+                    style="max-width: 500px"
+                    density="compact"
+                    @click="choiceOrganization"
+                  ></v-select>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-divider></v-divider>
+                <v-col cols="12" sm="2" class="py-0 py-sm-3">
+                  <p class="ma-sm-0"><b>役職</b></p>
+                </v-col>
+                <v-col cols="12" sm="10" class="py-0 py-sm-3">
+                  <v-select v-model="job_title" :items="job_titles" style="max-width: 500px" :rules="[all_rules.select]" density="compact"></v-select>
+                </v-col>
+              </v-row>
+              <v-divider></v-divider>
+              <v-row class="my-3 pr-2" justify="end">
+                <v-btn class="" color="primary" @click="validate">作成</v-btn>
+              </v-row>
+              <v-dialog v-model="dialog" persistent style="max-width: 800px">
+                <!-- <template v-slot:activator="{ props }">
+              <v-btn @click="validate" color="primary" v-bind="props" >作成</v-btn>
+            </template> -->
+                <v-card>
+                  <v-card-title class="text-h5">以下の内容でユーザー追加してよろしいですか？</v-card-title>
+                  <v-card-text>
+                    <v-row>
+                      <v-col class="mr-auto" cols="3"> 社員番号：</v-col>
+                      <v-col class="mr-auto" cols="9"
+                        ><span class="mr-2">{{ employee_number }}</span>
+                      </v-col>
+                      <v-col class="mr-auto" cols="3"> 名前：</v-col>
+                      <v-col class="mr-auto" cols="9"
+                        ><span class="mr-2">{{ user_name }}</span>
+                      </v-col>
+                      <v-col class="mr-auto" cols="3"> メール：</v-col>
+                      <v-col class="mr-auto" cols="9"
+                        ><span class="mr-2">{{ email }}</span>
+                      </v-col>
+                      <v-col class="mr-auto" cols="3"> 会社：</v-col>
+                      <v-col class="mr-auto" cols="9"
+                        ><span class="mr-2">{{ company }}</span>
+                      </v-col>
+                      <v-col class="mr-auto" cols="3"> 拠点：</v-col>
+                      <v-col class="mr-auto" cols="9"
+                        ><span class="mr-2">{{ area }}</span></v-col
+                      >
+                      <v-col class="mr-auto" cols="3"> 事業部：</v-col>
+                      <v-col class="mr-auto" cols="9"
+                        ><span class="mr-2">{{ division }}</span>
+                      </v-col>
+                      <v-col class="mr-auto" cols="3"> 所属：</v-col>
+                      <v-col class="mr-auto" cols="9"
+                        ><span class="mr-2">{{ organization }}</span>
+                      </v-col>
+                      <v-col class="mr-auto" cols="3"> 役職：</v-col>
+                      <v-col class="mr-auto" cols="9"
+                        ><span class="mr-2">{{ job_title }}</span>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green-darken-1" variant="text" @click="dialog = false">キャンセル</v-btn>
+                    <v-btn color="green-darken-1" variant="text" @click="createForm">作成</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-form>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+      <v-row class="my-3 pr-1" justify="end">
+        <v-btn class="mr-2" @click="$router.push('/employee_list')">戻る</v-btn>
+      </v-row>
     </div>
   </v-container>
 </template>
@@ -170,6 +223,7 @@ export default {
       max: (value) => (value && value.length <= 100) || '100文字以下で入力してください',
       select: (value) => (value && value.length > 0) || '選択してください',
       zipcode: (value) => /^\d{7}$/.test(value) || 'ハイフンを除く半角数字7桁で郵便番号を入力してください',
+      file_rule: (value) => (value && /^.*\.(csv)$/.test(value[0].name)) || 'この拡張子は変換できません。CSVファイルを選択してください ',
     },
     login_user: null,
     user_name: null,
@@ -186,6 +240,18 @@ export default {
     job_title: null,
     email: null,
     dialog: false,
+    file_dialog: false,
+    file_users: [],
+    headers: [
+      { title: '社員番号', key: 'employee_num', width: '200', minWidth: '150' },
+      { title: '名前', key: 'name', width: '300', minWidth: '100' },
+      { title: 'メールアドレス', key: 'mail', width: '400', minWidth: '200' },
+      { title: '会社', key: 'company', width: '400', minWidth: '200' },
+      { title: '拠点', key: 'area', width: '400', minWidth: '200' },
+      { title: '事業部', key: 'division', width: '400', minWidth: '200' },
+      { title: '所属', key: 'organization', width: '400', minWidth: '200' },
+      { title: '役職', key: 'job_title', width: '400', minWidth: '200' },
+    ],
   }),
   mounted() {
     this.companies = [
@@ -217,6 +283,47 @@ export default {
 
       if (valid) {
         this.dialog = true
+      }
+    },
+    async file_validate() {
+      const { valid } = await this.$refs.file_form.validate()
+
+      if (valid) {
+        // ここでCSVの中身を確認する
+        this.file_users = [
+          {
+            employee_num: '12345',
+            name: '淡谷 のり子',
+            mail: 'awaya@test.com',
+            company: 'PI',
+            area: '横手',
+            division: '第1事業部',
+            organization: '横手ルームサポート',
+            job_title: 'MG-1',
+          },
+          {
+            employee_num: '12346',
+            name: '宮崎 駿',
+            mail: 'awaya@test.com',
+            company: 'PI',
+            area: '横手',
+            division: '第1事業部',
+            organization: '横手ルームサポート',
+            job_title: 'SV-1',
+          },
+          {
+            employee_num: '12347',
+            name: '高畑 勲',
+            mail: 'awaya@test.com',
+            company: 'PI',
+            area: '横手',
+            division: '第1事業部',
+            organization: '横手ルームサポート',
+            job_title: 'A-1',
+          },
+        ]
+
+        this.file_dialog = true
       }
     },
     createForm() {

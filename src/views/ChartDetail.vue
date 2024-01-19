@@ -29,7 +29,7 @@ import { ja } from 'date-fns/locale'
 
     <v-row justify="end">
       <v-col cols="12" class="pb-0">
-        <v-data-table :headers="headers" :items="safeties">
+        <v-data-table :headers="headers" :items="safeties" class="fixed-column">
           <template v-slot:[`item.step`]="{ item }">
             <span v-for="step in stepIcons(item.step.times, item.step.reply)" v-bind:key="step">
               <v-icon color="orange">{{ step_icons[step] }}</v-icon>
@@ -106,16 +106,16 @@ export default {
     end_date: '',
     dates: [],
     headers: [
-      { title: 'No.', sortable: false, key: 'no' },
-      { title: '氏名', key: 'name' },
-      { title: '社員番号', key: 'employee_number' },
-      { title: '安否', key: 'safety' },
-      { title: '回答時刻', key: 'answer_time' },
-      { title: '出社可否', key: 'attendance_state' },
-      { title: '家族の安否', key: 'family_safety' },
-      { title: '家屋の状態', key: 'house_state' },
-      { title: 'ステップ', key: 'step', sortable: false },
-      { title: '特記事項', key: 'notice' },
+      // { title: 'No.', sortable: false, key: 'no' },
+      { title: '氏名', key: 'name', minWidth: '120' },
+      { title: '社員番号', key: 'employee_number', minWidth: '100' },
+      { title: '安否', key: 'safety', minWidth: '120' },
+      { title: '回答時刻', key: 'answer_time', minWidth: '180' },
+      { title: '出社可否', key: 'attendance_state', minWidth: '150' },
+      { title: '家族の安否', key: 'family_safety', minWidth: '120' },
+      { title: '家屋の状態', key: 'house_state', minWidth: '130' },
+      { title: 'ステップ', key: 'step', sortable: false, minWidth: '180' },
+      { title: '特記事項', key: 'notice', minWidth: '200' },
     ],
     safeties: [
       {
@@ -292,3 +292,45 @@ export default {
   },
 }
 </script>
+<style scoped>
+.fixed-column ::v-deep td,
+th {
+  min-width: 100px;
+}
+
+.fixed-column ::v-deep th:nth-child(1) {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background-color: white;
+  max-width: 100px;
+  word-break: break-all;
+}
+
+.fixed-column ::v-deep td:nth-child(1) {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: white;
+  max-width: 100px;
+  word-break: break-all;
+}
+/* 
+.fixed-column ::v-deep th:nth-child(2) {
+  position: sticky;
+  left: 100px;
+  z-index: 2;
+  background-color: white;
+  max-width: 100px;
+  word-break: break-all;
+}
+
+.fixed-column ::v-deep td:nth-child(2) {
+  position: sticky;
+  left: 100px;
+  z-index: 1;
+  background-color: white;
+  max-width: 100px;
+  word-break: break-all;
+} */
+</style>

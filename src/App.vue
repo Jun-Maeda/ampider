@@ -113,6 +113,23 @@
               >
               </v-list-item>
             </v-list-group>
+            <v-list-group value="settings">
+              <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" title="設定" prepend-icon="mdi-table-cog"> </v-list-item>
+              </template>
+              <v-list-item
+                v-for="(setting, i) in settings"
+                v-bind="props"
+                :key="i"
+                :value="setting"
+                color="primary"
+                rounded="xl"
+                :to="setting.to"
+                :prepend-icon="setting.icon"
+                :title="setting.title"
+              >
+              </v-list-item>
+            </v-list-group>
 
             <v-list-item-group>
               <v-list-item
@@ -168,15 +185,17 @@ export default {
       { title: '過去災害一覧', to: 'disaster_list', icon: 'mdi-weather-pouring' },
       { title: 'お知らせ一覧', to: 'info_list', icon: 'mdi-information-outline' },
     ],
-    user_settings: [{ title: '連絡先情報', to: 'user_setting', icon: 'mdi-clock' }],
+    user_settings: [{ title: '連絡先情報', to: 'user_setting', icon: 'mdi-account-cog-outline' }],
     admin_menus: [
-      { title: '集計', to: '/chart_detail', icon: 'mdi-heart-pulse' },
-      { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },
+      { title: '集計', to: '/chart_detail', icon: 'mdi-chart-bar' },
+      { title: '従業員一覧', to: '/employee_list', icon: 'mdi-account-multiple' },
+      // { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },
       { title: 'お知らせ作成', to: '/info_create', icon: 'mdi-square-edit-outline' },
       { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
-      { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
+      // { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
       { title: '通知設定', to: '/notification_setting', icon: 'mdi-clock' },
     ],
+    settings: [{ title: '会社一覧', to: 'company_list', icon: 'mdi-domain' }],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],
     drawer: false,
     links: [

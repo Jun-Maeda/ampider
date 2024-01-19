@@ -14,6 +14,15 @@ import ChartDetail from '@/views/ChartDetail.vue'
 import DisasterList from '@/views/DisasterList.vue'
 import UserSetting from '@/views/UserSetting.vue'
 import DisasterDetail from '@/views/DisasterDetail.vue'
+import EmployeeList from '@/views/EmployeeList.vue'
+import CompanyCreate from '@/views/CompanyCreate.vue'
+import AreaCreate from '@/views/AreaCreate.vue'
+import DivisionCreate from '@/views/DivisionCreate.vue'
+import OrganizationCreate from '@/views/OrganizationCreate.vue'
+import CompanyList from '@/views/CompanyList.vue'
+import AreaList from '@/views/AreaList.vue'
+import DivisionList from '@/views/DivisionList.vue'
+import OrganizationList from '@/views/OrganizationList.vue'
 import NotificationSetting from '@/views/NotificationSetting.vue'
 
 const routes = [
@@ -105,6 +114,60 @@ const routes = [
     path: '/user_setting',
     name: 'user_setting',
     component: UserSetting,
+    props: true,
+  },
+  {
+    path: '/employee_list',
+    name: 'employee_list',
+    component: EmployeeList,
+    props: true,
+  },
+  {
+    path: '/company_create',
+    name: 'company_create',
+    component: CompanyCreate,
+    props: true,
+  },
+  {
+    path: '/area_create',
+    name: 'area_create',
+    component: AreaCreate,
+    props: true,
+  },
+  {
+    path: '/division_create',
+    name: 'division_create',
+    component: DivisionCreate,
+    props: true,
+  },
+  {
+    path: '/organization_create',
+    name: 'organization_create',
+    component: OrganizationCreate,
+    props: true,
+  },
+  {
+    path: '/company_list',
+    name: 'company_list',
+    component: CompanyList,
+    props: true,
+  },
+  {
+    path: '/area_list',
+    name: 'area_list',
+    component: AreaList,
+    props: true,
+  },
+  {
+    path: '/division_list',
+    name: 'division_list',
+    component: DivisionList,
+    props: true,
+  },
+  {
+    path: '/organization_list',
+    name: 'organization_list',
+    component: OrganizationList,
     props: true,
   },
   {

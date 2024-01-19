@@ -291,7 +291,7 @@ const props = defineProps({
         <!-- 3つまで家族追加可能 -->
         <v-btn v-if="family && family.length < 3" @click="add_family()" variant="text" icon="mdi-plus"></v-btn>
 
-        <v-row class="my-3" justify="center">
+        <v-row class="my-3" justify="end">
           <v-btn class="" color="primary" @click="validate">更新</v-btn>
         </v-row>
       </v-form>

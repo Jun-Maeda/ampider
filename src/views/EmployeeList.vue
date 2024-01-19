@@ -19,7 +19,7 @@
       </v-col>
       <v-col cols="4">
         <v-row justify="end" class="my-4">
-          <v-btn color="primary" class="mt-3">ユーザー追加</v-btn>
+          <v-btn color="primary" class="mt-3" @click="$router.push('user_create')">ユーザー追加</v-btn>
         </v-row>
       </v-col>
     </v-row>

@@ -15,6 +15,7 @@ import DisasterList from '@/views/DisasterList.vue'
 import UserSetting from '@/views/UserSetting.vue'
 import DisasterDetail from '@/views/DisasterDetail.vue'
 import EmployeeList from '@/views/EmployeeList.vue'
+import UserCreate from '@/views/UserCreate.vue'
 import CompanyCreate from '@/views/CompanyCreate.vue'
 import CompanyEdit from '@/views/CompanyEdit.vue'
 import AreaCreate from '@/views/AreaCreate.vue'
@@ -114,6 +115,12 @@ const routes = [
     path: '/user_setting',
     name: 'user_setting',
     component: UserSetting,
+    props: true,
+  },
+  {
+    path: '/user_create',
+    name: 'user_create',
+    component: UserCreate,
     props: true,
   },
   {

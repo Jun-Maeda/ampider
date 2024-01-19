@@ -21,7 +21,7 @@ import { useCompanyStore } from '@/stores/company_setting'
         <v-row justify="start">
           <v-col>
             <v-btn class="mr-2" @click="$router.push('/company_list')">戻る</v-btn>
-            <v-btn variant="flat" color="primary" @click="validate">更新</v-btn>
+            <v-btn color="primary" @click="validate">更新</v-btn>
           </v-col>
           <v-dialog v-model="dialog" persistent width="auto">
             <!-- <template v-slot:activator="{ props }">

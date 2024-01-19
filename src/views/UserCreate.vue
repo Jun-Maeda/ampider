@@ -20,10 +20,14 @@ const props = defineProps({
       <v-expansion-panels class="mb-3">
         <v-expansion-panel title="ファイルアップロード">
           <v-expansion-panel-text>
-            <v-form ref="file_form" class="mt-8">
-              <v-row class="mt-3">
+            <v-row justify="end" class="mt-3">
+              <v-btn v-on:click="downloadCSV()" variant="text" class="pt-0"><v-icon> mdi-download </v-icon>フォーマットダウンロード</v-btn>
+            </v-row>
+            <v-form ref="file_form" class="mt-3">
+              <v-row>
                 <v-col cols="12" class="py-0 py-sm-3">
                   <v-file-input
+                    v-model="import_file"
                     label="csvファイルを選択してください"
                     density="compact"
                     :rules="[all_rules.select, all_rules.file_rule]"
@@ -42,7 +46,7 @@ const props = defineProps({
                 <v-card>
                   <v-card-title class="text-h5">以下のユーザーを追加します</v-card-title>
                   <v-card-text>
-                    <v-data-table :headers="headers" :items="file_users"></v-data-table>
+                    <v-data-table-virtual :headers="headers" :items="file_users"></v-data-table-virtual>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -252,6 +256,7 @@ export default {
       { title: '所属', key: 'organization', width: '400', minWidth: '200' },
       { title: '役職', key: 'job_title', width: '400', minWidth: '200' },
     ],
+    import_file: null,
   }),
   mounted() {
     this.companies = [
@@ -322,7 +327,6 @@ export default {
             job_title: 'A-1',
           },
         ]
-
         this.file_dialog = true
       }
     },
@@ -362,6 +366,15 @@ export default {
     },
     choiceOrganization() {
       this.organizations = [this.division]
+    },
+    downloadCSV() {
+      var csv = '\ufeff' + '社員番号,名前, メールアドレス, 会社, 拠点,事業部, 所属,役職\n'
+      let blob = new Blob([csv], { type: 'text/csv' })
+      let link = document.createElement('a')
+
+      link.href = window.URL.createObjectURL(blob)
+      link.download = 'user_format.csv'
+      link.click()
     },
   },
 }

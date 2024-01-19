@@ -175,6 +175,7 @@ export default {
       { title: 'お知らせ作成', to: '/info_create', icon: 'mdi-square-edit-outline' },
       { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
       { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
+      { title: '通知設定', to: '/notification_setting', icon: 'mdi-clock' },
     ],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],
     drawer: false,

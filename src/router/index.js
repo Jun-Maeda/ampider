@@ -14,6 +14,7 @@ import ChartDetail from '@/views/ChartDetail.vue'
 import DisasterList from '@/views/DisasterList.vue'
 import UserSetting from '@/views/UserSetting.vue'
 import DisasterDetail from '@/views/DisasterDetail.vue'
+import NotificationSetting from '@/views/NotificationSetting.vue'
 
 const routes = [
   {
@@ -104,6 +105,12 @@ const routes = [
     path: '/user_setting',
     name: 'user_setting',
     component: UserSetting,
+    props: true,
+  },
+  {
+    path: '/notification_setting',
+    name: 'notification_setting',
+    component: NotificationSetting,
     props: true,
   },
 ]

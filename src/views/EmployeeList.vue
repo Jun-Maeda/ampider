@@ -1,5 +1,5 @@
 <script setup>
-// import { useCompanyStore } from '@/stores/company_setting'
+import { useUserEditStore } from '@/stores/user_edit'
 </script>
 <template>
   <v-container>
@@ -69,13 +69,8 @@ export default {
     employees: [],
     editedItem: {},
     employee_store: null,
+    user_edit_store: useUserEditStore(),
   }),
-
-  computed: {
-    formTitle() {
-      return 'お知らせ編集'
-    },
-  },
 
   watch: {
     dialog(val) {
@@ -121,12 +116,10 @@ export default {
     },
 
     editItem(item) {
-      this.draft_store.draft_data = item
-      // ユーザー追加と同じページに移動
-      // this.$router.push({
-
-      //   name: 'info_draft_create',
-      // })
+      this.user_edit_store.user_data = item
+      this.$router.push({
+        name: 'user_edit',
+      })
     },
 
     deleteItem(item) {

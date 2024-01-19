@@ -45,7 +45,7 @@ import { useDraftStore } from '@/stores/draft'
           <v-btn class="mr-3" variant="flat" color="primary" @click="createDraft">下書き</v-btn>
           <v-btn color="primary" @click="validate">投稿</v-btn>
 
-          <v-dialog v-model="dialog" persistent width="auto">
+          <v-dialog v-model="dialog" persistent style="max-width: 800px">
             <!-- <template v-slot:activator="{ props }">
               <v-btn @click="validate" color="primary" v-bind="props" >作成</v-btn>
             </template> -->

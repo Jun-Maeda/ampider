@@ -1,4 +1,5 @@
 <script setup>
+import { useUserEditStore } from '@/stores/user_edit'
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   user: Object,
@@ -15,15 +16,15 @@ const props = defineProps({
   >
   </v-progress-circular>
   <v-container>
-    <h2>ユーザー追加</h2>
+    <h2>ユーザー編集</h2>
     <div class="mt-8">
       <v-form class="mt-8" ref="form">
         <v-row class="mt-3">
           <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <p class="ma-sm-0"><b>社員番号*</b></p>
+            <p class="ma-sm-0"><b>社員番号</b></p>
           </v-col>
           <v-col cols="12" sm="10" class="py-0 py-sm-3">
-            <v-text-field v-model="employee_number" density="compact" required style="max-width: 500px" :rules="[all_rules.required]" />
+            {{ employee_number }}
           </v-col>
         </v-row>
         <v-divider></v-divider>
@@ -102,14 +103,14 @@ const props = defineProps({
         <v-divider></v-divider>
         <v-row class="my-3" justify="end">
           <v-btn class="mr-2" @click="$router.push('/employee_list')">戻る</v-btn>
-          <v-btn class="" color="primary" @click="validate">作成</v-btn>
+          <v-btn class="" color="primary" @click="validate">更新</v-btn>
         </v-row>
         <v-dialog v-model="dialog" persistent style="max-width: 800px">
           <!-- <template v-slot:activator="{ props }">
               <v-btn @click="validate" color="primary" v-bind="props" >作成</v-btn>
             </template> -->
           <v-card>
-            <v-card-title class="text-h5">以下の内容でユーザー追加してよろしいですか？</v-card-title>
+            <v-card-title class="text-h5">以下の内容で更新してよろしいですか？</v-card-title>
             <v-card-text>
               <v-row>
                 <v-col class="mr-auto" cols="3"> 社員番号：</v-col>
@@ -149,7 +150,7 @@ const props = defineProps({
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="green-darken-1" variant="text" @click="dialog = false">キャンセル</v-btn>
-              <v-btn color="green-darken-1" variant="text" @click="createForm">作成</v-btn>
+              <v-btn color="green-darken-1" variant="text" @click="createForm">更新</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -186,8 +187,32 @@ export default {
     job_title: null,
     email: null,
     dialog: false,
+    user_edit_store: useUserEditStore(),
   }),
   mounted() {
+    let user_data = this.user_edit_store.user_data
+    this.employee_number = user_data.employee_num
+    // この下で社員番号から情報を取得してくる
+    let get_user_data = {
+      name: '手動 追加',
+      email: 'test_test@test.jp',
+      employee_num: '1234570',
+      company: 'PI',
+      area: '横手',
+      division: '第1事業部',
+      organization: '横手ルームサポート',
+      job_title: 'A-1',
+    }
+    this.user_name = get_user_data.name
+    this.email = get_user_data.email
+    this.company = get_user_data.company
+    this.area = get_user_data.area
+    this.division = get_user_data.division
+    this.organization = get_user_data.organization
+    this.job_title = get_user_data.job_title
+
+    // ここで会社一覧や役職一覧を取得
+
     this.companies = [
       {
         name: 'PAD',
@@ -228,7 +253,7 @@ export default {
         name: 'employee_list',
       })
 
-      let success = '従業員を作成しました。'
+      let success = '従業員情報を更新しました。'
       alert(success)
 
       this.$refs.form.reset()

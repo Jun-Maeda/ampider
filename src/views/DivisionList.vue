@@ -57,9 +57,9 @@ export default {
     dialogDelete: false,
     headers: [
       { title: '名前', key: 'name', width: '300', minWidth: '100' },
-      { title: '会社番号', key: 'employee_num', width: '200', minWidth: '150' },
+      // { title: '会社番号', key: 'employee_num', width: '200', minWidth: '150' },
       { title: '連絡先', key: 'mail', width: '400', minWidth: '200' },
-      { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
+      // { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
     divisions: [],
     editedItem: {},

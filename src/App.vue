@@ -185,7 +185,7 @@ export default {
       { title: '過去災害一覧', to: 'disaster_list', icon: 'mdi-weather-pouring' },
       { title: 'お知らせ一覧', to: 'info_list', icon: 'mdi-information-outline' },
     ],
-    user_settings: [{ title: '連絡先情報', to: 'user_setting', icon: 'mdi-clock' }],
+    user_settings: [{ title: '連絡先情報', to: 'user_setting', icon: 'mdi-account-cog-outline' }],
     admin_menus: [
       { title: '集計', to: '/chart_detail', icon: 'mdi-chart-bar' },
       { title: '従業員一覧', to: '/employee_list', icon: 'mdi-account-multiple' },

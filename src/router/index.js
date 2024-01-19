@@ -16,6 +16,7 @@ import UserSetting from '@/views/UserSetting.vue'
 import DisasterDetail from '@/views/DisasterDetail.vue'
 import EmployeeList from '@/views/EmployeeList.vue'
 import CompanyCreate from '@/views/CompanyCreate.vue'
+import CompanyEdit from '@/views/CompanyEdit.vue'
 import AreaCreate from '@/views/AreaCreate.vue'
 import DivisionCreate from '@/views/DivisionCreate.vue'
 import OrganizationCreate from '@/views/OrganizationCreate.vue'
@@ -125,6 +126,12 @@ const routes = [
     path: '/company_create',
     name: 'company_create',
     component: CompanyCreate,
+    props: true,
+  },
+  {
+    path: '/company_edit',
+    name: 'company_edit',
+    component: CompanyEdit,
     props: true,
   },
   {

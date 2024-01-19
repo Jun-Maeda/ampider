@@ -40,7 +40,7 @@ import { useCompanyStore } from '@/stores/company_setting'
         </v-dialog>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon v-show="item.adding_flg" size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon v-show="item.adding_flg" size="small" class="me-2" @click.stop="editItem(item)"> mdi-pencil </v-icon>
         <v-icon v-show="item.adding_flg" size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data> 該当するものがありません。 </template>
@@ -66,11 +66,11 @@ export default {
     company_store: useCompanyStore(),
   }),
 
-  computed: {
-    formTitle() {
-      return 'お知らせ編集'
-    },
-  },
+  // computed: {
+  //   formTitle() {
+  //     return 'お知らせ編集'
+  //   },
+  // },
 
   watch: {
     dialog(val) {
@@ -119,9 +119,9 @@ export default {
     },
 
     editItem(item) {
-      this.draft_store.draft_data = item
+      this.company_store.company_edit = item
       this.$router.push({
-        name: 'info_draft_create',
+        name: 'company_edit',
       })
     },
 

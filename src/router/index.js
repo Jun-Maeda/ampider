@@ -36,9 +36,7 @@ const routes = [
     name: 'chat',
     component: Chat,
     props: true,
-    strict: true,
   },
-  { path: '/chat/', redirect: '/chat' },
   {
     path: '/admin',
     name: 'admin',

@@ -36,7 +36,7 @@ const routes = [
     name: 'chat',
     component: Chat,
     props: true,
-    pathToRegexpOptions: { strict: true },
+    strict: true,
   },
   { path: '/chat/', redirect: '/chat' },
   {

@@ -24,7 +24,8 @@ import { useUserEditStore } from '@/stores/user_edit'
       </v-col>
     </v-row>
     <v-row justify="end">
-      <v-data-table :headers="headers" :items="employees" :search="search" @click:row="clickItem" hover>
+      <v-data-table :headers="headers" :items="employees" :search="search" hover>
+        <!-- <v-data-table :headers="headers" :items="employees" :search="search" @click:row="clickItem" hover> -->
         <template v-slot:top>
           <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
@@ -38,6 +39,10 @@ import { useUserEditStore } from '@/stores/user_edit'
               </v-card-actions>
             </v-card>
           </v-dialog>
+        </template>
+        <template v-slot:[`item.auto_setting`]="{ item }">
+          <v-icon v-show="item.auto_setting" size="small" class="me-2"> mdi-checkbox-marked </v-icon>
+          <v-icon v-show="!item.auto_setting" size="small"> mdi-checkbox-blank </v-icon>
         </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon v-show="!item.auto_setting" size="small" class="me-2" @click.stop="editItem(item)"> mdi-pencil </v-icon>
@@ -64,6 +69,7 @@ export default {
       { title: '名前', key: 'name', width: '300', minWidth: '100' },
       { title: '社員番号', key: 'employee_num', width: '200', minWidth: '150' },
       { title: 'メールアドレス', key: 'mail', width: '400', minWidth: '200' },
+      { title: '自動追加', key: 'auto_setting', width: '100', minWidth: '200' },
       { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
     employees: [],

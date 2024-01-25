@@ -32,12 +32,13 @@ const routes = [
     props: true,
   },
   {
-    path: '/chat/',
+    path: '/chat',
     name: 'chat',
     component: Chat,
     props: true,
     pathToRegexpOptions: { strict: true },
   },
+  { path: '/chat/', redirect: '/chat' },
   {
     path: '/admin',
     name: 'admin',

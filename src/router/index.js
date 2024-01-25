@@ -48,7 +48,6 @@ const routes = [
     name: 'upload',
     component: Upload,
     props: true,
-    strict: true,
   },
   {
     path: '/test',
@@ -109,7 +108,6 @@ const routes = [
     name: 'chart_detail',
     component: ChartDetail,
     props: true,
-    strict: true,
   },
   {
     path: '/user_setting',

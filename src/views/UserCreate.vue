@@ -31,10 +31,12 @@ const props = defineProps({
                     label="csvファイルを選択してください"
                     density="compact"
                     :rules="[all_rules.select, all_rules.file_rule]"
+                    @change="fileChange"
                   ></v-file-input>
                 </v-col>
               </v-row>
               <v-divider></v-divider>
+
               <v-row class="my-3 pr-2" justify="end">
                 <v-btn class="" color="primary" @click="file_validate">作成</v-btn>
               </v-row>
@@ -215,7 +217,7 @@ const props = defineProps({
   </v-container>
 </template>
 
-<script>
+<script charset="UTF-8">
 export default {
   data: () => ({
     all_rules: {
@@ -256,6 +258,7 @@ export default {
       { title: '所属', key: 'organization', width: '400', minWidth: '200' },
       { title: '役職', key: 'job_title', width: '400', minWidth: '200' },
     ],
+    csv_headers: [],
     import_file: null,
   }),
   mounted() {
@@ -290,43 +293,57 @@ export default {
         this.dialog = true
       }
     },
+    fileChange(e) {
+      this.file_users = []
+      const file = e.target.files[0]
+      const reader = new FileReader()
+      reader.readAsText(file, 'UTF-8')
+
+      const loadFunc = () => {
+        const lines_contents = reader.result.split('\n')
+        let lines = lines_contents.filter(function (s) {
+          return s !== ''
+        })
+        console.log(lines)
+
+        for (let line in lines) {
+          const workerData = lines[line].split(',')
+          console.log(workerData.length)
+          if (workerData.length == 1) {
+            alert('不正なCSVファイルです。コンマ区切りのCSVに変換してください。')
+            this.import_file = null
+            return workerData
+          } else if (line == 0) {
+            this.csv_headers = line
+          } else if (!workerData[1] || !workerData[2] || !workerData[3] || !workerData[7]) {
+            alert('必須項目に未入力の登録があります。ファイルを再度確認してください。')
+            this.import_file = null
+            return workerData
+          } else {
+            const worker = {
+              employee_num: workerData[0],
+              name: workerData[1],
+              mail: workerData[2],
+              company: workerData[3],
+              area: workerData[4],
+              division: workerData[5],
+              organization: workerData[6],
+              job_title: workerData[7],
+            }
+            this.file_users.push(worker)
+          }
+        }
+      }
+
+      reader.onload = loadFunc
+
+      reader.readAsBinaryString(file)
+      console.log(this.file_users)
+    },
     async file_validate() {
       const { valid } = await this.$refs.file_form.validate()
 
       if (valid) {
-        // ここでCSVの中身を確認する
-        this.file_users = [
-          {
-            employee_num: '12345',
-            name: '淡谷 のり子',
-            mail: 'awaya@test.com',
-            company: 'PI',
-            area: '横手',
-            division: '第1事業部',
-            organization: '横手ルームサポート',
-            job_title: 'MG-1',
-          },
-          {
-            employee_num: '12346',
-            name: '宮崎 駿',
-            mail: 'awaya@test.com',
-            company: 'PI',
-            area: '横手',
-            division: '第1事業部',
-            organization: '横手ルームサポート',
-            job_title: 'SV-1',
-          },
-          {
-            employee_num: '12347',
-            name: '高畑 勲',
-            mail: 'awaya@test.com',
-            company: 'PI',
-            area: '横手',
-            division: '第1事業部',
-            organization: '横手ルームサポート',
-            job_title: 'A-1',
-          },
-        ]
         this.file_dialog = true
       }
     },
@@ -368,8 +385,9 @@ export default {
       this.organizations = [this.division]
     },
     downloadCSV() {
-      var csv = '\ufeff' + '社員番号,名前, メールアドレス, 会社, 拠点,事業部, 所属,役職\n'
-      let blob = new Blob([csv], { type: 'text/csv' })
+      var csv = '\ufeff' + '社員番号*,名前*, メールアドレス*, 会社*, 拠点,事業部, 所属,役職*\n'
+      let bom = new Uint8Array([0xef, 0xbb, 0xbf])
+      let blob = new Blob([bom, csv], { type: 'text/csv;charset=utf-8' })
       let link = document.createElement('a')
 
       link.href = window.URL.createObjectURL(blob)

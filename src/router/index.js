@@ -109,6 +109,7 @@ const routes = [
     name: 'chart_detail',
     component: ChartDetail,
     props: true,
+    strict: true,
   },
   {
     path: '/user_setting',

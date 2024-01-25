@@ -48,6 +48,7 @@ const routes = [
     name: 'upload',
     component: Upload,
     props: true,
+    strict: true,
   },
   {
     path: '/test',

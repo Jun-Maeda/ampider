@@ -25,7 +25,7 @@
           </div> -->
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed" scrim="transparent">
+        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed; width: 270px" scrim="transparent">
           <v-list>
             <!-- ホーム -->
             <v-list-item value="HOME" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="HOME" class="mt-1"></v-list-item>
@@ -192,6 +192,7 @@ export default {
       // { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },
       { title: 'お知らせ作成', to: '/info_create', icon: 'mdi-square-edit-outline' },
       { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
+      { title: '手動安否確認', to: '/manual_safety_conf', icon: 'mdi-car-brake-alert' },
       // { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
     ],
     settings: [{ title: '会社一覧', to: 'company_list', icon: 'mdi-domain' }],

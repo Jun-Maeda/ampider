@@ -1,9 +1,6 @@
-<script setup>
-import { useDraftStore } from '@/stores/draft'
-</script>
 <template>
   <v-container>
-    <h2>下書き編集</h2>
+    <h2>手動安否確認</h2>
     <div class="mt-8">
       <v-form class="mt-5" ref="form">
         <v-row>
@@ -36,22 +33,19 @@ import { useDraftStore } from '@/stores/draft'
         <v-row>
           <v-col cols="12">
             <v-row>
-              <v-checkbox v-model="notice_flg" label="通知" color="info" hide-details></v-checkbox>
               <v-checkbox v-model="training_flg" label="訓練" color="info" hide-details></v-checkbox>
             </v-row>
           </v-col>
         </v-row>
         <v-row justify="end">
-          <v-btn class="mr-2" @click="$router.push('/info_draft_list')">戻る</v-btn>
-          <v-btn class="mr-2" variant="flat" color="primary" @click="createDraft">下書き</v-btn>
-          <v-btn color="primary" @click="validate">投稿</v-btn>
+          <v-btn color="primary" @click="validate">確認</v-btn>
 
-          <v-dialog v-model="dialog" persistent width="auto">
+          <v-dialog v-model="dialog" persistent style="max-width: 800px">
             <!-- <template v-slot:activator="{ props }">
               <v-btn @click="validate" color="primary" v-bind="props" >作成</v-btn>
             </template> -->
             <v-card>
-              <v-card-title class="text-h5">以下の内容で投稿してよろしいですか？</v-card-title>
+              <v-card-title class="text-h5">以下の内容で安否確認をしてよろしいですか？</v-card-title>
               <v-card-text>
                 <v-row>
                   <v-col class="mr-auto" cols="3">タイトル：</v-col>
@@ -72,13 +66,9 @@ import { useDraftStore } from '@/stores/draft'
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2" v-for="organization in select_organizations" :key="organization">{{ organization }}</span>
                   </v-col>
+
                   <v-col class="mr-auto" cols="3"> 本文：</v-col>
                   <v-col class="mr-auto vue-textarea" cols="9"> {{ body_text }} </v-col>
-                  <v-col class="mr-auto" cols="3"> 通知：</v-col>
-                  <v-col class="mr-auto" cols="9"
-                    ><span v-if="notice_flg">通知する</span>
-                    <span v-else>通知しない</span>
-                  </v-col>
                   <v-col class="mr-auto" cols="3"> 種別：</v-col>
                   <v-col class="mr-auto" cols="9"
                     ><span v-if="training_flg">訓練</span>
@@ -89,7 +79,7 @@ import { useDraftStore } from '@/stores/draft'
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="green-darken-1" variant="text" @click="dialog = false">キャンセル</v-btn>
-                <v-btn color="green-darken-1" variant="text" @click="createForm">投稿</v-btn>
+                <v-btn color="green-darken-1" variant="text" @click="createForm">実行</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -104,7 +94,7 @@ export default {
   data: () => ({
     rules: [(v) => !!v || 'この項目は必須です'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
-    title: '',
+    title: '【訓練】',
     companies: ['全社', 'PI', 'PCS', 'PAD'],
     select_companys: [],
     areas: [],
@@ -114,17 +104,10 @@ export default {
     organizations: [],
     select_organizations: [],
     body_text: '',
-    notice_flg: false,
-    training_flg: false,
+    training_flg: true,
     dialog: false,
-    draft_store: useDraftStore(),
   }),
-  mounted() {
-    let draft_data = this.draft_store.draft_data
-
-    this.title = draft_data.title
-    this.body_text = draft_data.text
-  },
+  mounted() {},
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
     async validate() {
@@ -136,35 +119,13 @@ export default {
     },
     createForm() {
       this.dialog = false
+      // ここに新規作成処理を記載
 
-      // ここに上書き処理記載
+      // ページ更新
+      this.$router.go({ path: this.$router.currentRoute.path, force: true })
 
-      // お知らせ一覧へリダイレクト
-      this.$router.replace({
-        name: 'info_list',
-      })
-
-      let success = 'お知らせを作成しました。\nタイトル:' + this.title
+      let success = '安否確認を開始しました。\nタイトル:' + this.title
       alert(success)
-      // piniaのリセット
-      this.draft_store.resetDraft()
-      this.$refs.form.reset()
-    },
-    createDraft() {
-      this.dialog = false
-
-      // ここに下書き更新処理記載
-
-      let success = '下書きを更新しました。\nタイトル:' + this.title
-
-      // 下書き一覧へリダイレクト
-      this.$router.replace({
-        name: 'info_draft_list',
-      })
-
-      alert(success)
-      // piniaのリセット
-      this.draft_store.resetDraft()
 
       this.$refs.form.reset()
     },

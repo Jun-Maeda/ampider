@@ -217,7 +217,8 @@ const props = defineProps({
   </v-container>
 </template>
 
-<script charset="UTF-8">
+<script>
+import Encoding from 'encoding-japanese'
 export default {
   data: () => ({
     all_rules: {
@@ -298,7 +299,7 @@ export default {
       this.file_users = []
       const file = e.target.files[0]
       const reader = new FileReader()
-      reader.readAsText(file, 'UTF-8')
+      reader.readAsText(file, 'Shift_JIS')
 
       const loadFunc = () => {
         const lines_contents = reader.result.split('\n')
@@ -386,13 +387,28 @@ export default {
       this.organizations = [this.division]
     },
     downloadCSV() {
-      var csv = '\ufeff' + '社員番号*,名前*, メールアドレス*, 会社*, 拠点,事業部, 所属,役職*\n'
-      let bom = new Uint8Array([0xef, 0xbb, 0xbf])
-      let blob = new Blob([bom, csv], { type: 'text/csv;charset=utf-8' })
-      let link = document.createElement('a')
+      // var csv = '\ufeff' + '社員番号*,名前*, メールアドレス*, 会社*, 拠点,事業部, 所属,役職*\n'
+      // let bom = new Uint8Array([0xef, 0xbb, 0xbf])
+      // let blob = new Blob([bom, csv], { type: 'text/csv;charset=utf-8' })
+      // let link = document.createElement('a')
 
-      link.href = window.URL.createObjectURL(blob)
-      link.download = 'user_format.csv'
+      // link.href = window.URL.createObjectURL(blob)
+      // link.download = 'user_format.csv'
+      // link.click()
+
+      // SHIFT-JISにエンコード
+      const csvData = [['社員番号*,名前*, メールアドレス*, 会社*, 拠点,事業部, 所属,役職*']].map((row) => row.join(',')).join('\r\n')
+      const sjisData = Encoding.convert(csvData, { to: 'SJIS', from: 'UNICODE', type: 'arraybuffer' })
+
+      // 先にUint16ArrayからUint8Arrayに変換する
+      const uint8Array = new Uint8Array(sjisData)
+      // Blobでデータを作成
+      const blob = new Blob([uint8Array], { type: 'text/csv;charset=shift-jis;' })
+
+      // ダウンロードリンクを作成
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(blob)
+      link.download = 'export.csv'
       link.click()
     },
   },

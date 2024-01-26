@@ -68,7 +68,7 @@ const props = defineProps({
       </v-row>
       <v-divider></v-divider>
       <v-form class="mt-8" ref="form">
-        <h4>個人設定情報</h4>
+        <h4>個人設定</h4>
         <v-row class="mt-3">
           <v-col cols="12" sm="2" class="py-0 py-sm-3">
             <p class="ma-sm-0"><b>メールアドレス</b></p>
@@ -358,7 +358,8 @@ export default {
   data: () => ({
     all_rules: {
       required: (value) => !!value || '入力してください',
-      email: (value) => /.+@.+/.test(value) || 'メールアドレスの形式が正しくありません',
+      email: (value) =>
+        /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/.test(value) || 'メールアドレスの形式が正しくありません',
       phone: (value) =>
         // eslint-disable-next-line no-useless-escape
         /^(0[5-9]0[0-9]{8}|0[1-9][1-9][0-9]{7})$/.test(value.replace(/[━.*‐.*―.*－.*\-.*ー.*\-]/gi, '')) || '電話番号の形式が正しくありません',

@@ -1,66 +1,56 @@
 <template>
-  <v-container>
-    <v-list lines="three">
-      <v-list-item v-for="file in files" :key="file.title" :title="file.title" :subtitle="file.subtitle" :to="file.link">
-        <template v-slot:prepend>
-          <v-avatar :color="file.color">
-            <v-icon color="white">{{ file.icon }}</v-icon>
-          </v-avatar>
-        </template>
-        <template v-slot:title="{ title }">
-          <b v-html="title"></b>
-          <p><small>2023/12/01</small></p>
-        </template>
+  <v-card>
+    <div class="d-flex flex-row">
+      <v-tabs v-model="tab" bg-color="primary" direction="direction">
+        <v-tab value="one">カウント</v-tab>
+        <v-tab value="two">スイッチ</v-tab>
+        <v-tab value="three">テキストエリア</v-tab>
+      </v-tabs>
 
-        <!-- <template v-slot:append>
-          <v-btn color="grey-lighten-1" icon="mdi-information" variant="text"></v-btn>
-        </template> -->
-        <v-divider></v-divider>
-      </v-list-item>
-    </v-list>
-  </v-container>
+      <v-card-text>
+        <v-window v-model="tab">
+          <v-window-item value="one">
+            <v-container fluid> </v-container>
+          </v-window-item>
+
+          <v-window-item value="two">
+            <v-container fluid> </v-container>
+          </v-window-item>
+
+          <v-window-item value="three">
+            <v-container fluid> </v-container>
+          </v-window-item>
+        </v-window>
+      </v-card-text>
+    </div>
+  </v-card>
 </template>
 
 <script>
 export default {
   data: () => ({
-    rules: {
-      required: (value) => !!value || 'この項目は必須です',
-    },
-    dialog: false,
-    autocomp: '',
-    files: [
-      {
-        color: 'blue',
-        icon: 'mdi-clipboard-text',
-        subtitle: '安否確認のテストです。安否確認フォームを入力して回答してください',
-        title: '安否確認テスト',
-        link: 'info_Detail',
-      },
-      {
-        color: 'amber',
-        icon: 'mdi-gesture-tap-button',
-        subtitle:
-          'あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ',
-        title: '安否確認テスト',
-      },
-    ],
+    tab: null,
+    message: '',
+    timer: null,
+    input: '',
+    hello: '名前を入力してください',
   }),
+  mounted() {
+    this.timer = setInterval(() => {
+      this.count++
+      this.message = 'カウント:' + this.count
+    }, 1000)
+  },
   methods: {
-    itemProps(item) {
-      if (item === '') {
-        return ''
-      } else {
-        return {
-          title: item.name,
-          subtitle: item.id,
-          value: item.id,
-        }
-      }
+    stopButton() {
+      clearInterval(this.timer)
     },
-    testMethod() {
-      alert('test')
+    name_input() {
+      this.hello = 'こんにちは' + this.input
     },
+  },
+  created() {
+    this.count = 0
   },
 }
 </script>

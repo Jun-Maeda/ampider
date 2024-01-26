@@ -18,11 +18,15 @@ import { disasterDetailStore } from '@/stores/disaster'
       <v-data-table :headers="headers" :items="disaster" :search="search" density="compact" @click:row="clickItem">
         <template v-slot:[`item.type`]="{ value }">
           <v-chip variant="flat" :color="getColor(value)">
-          <p class="my-auto">{{ format(value) }}</p>
+            <p class="my-auto">{{ format(value) }}</p>
           </v-chip>
         </template>
         <template v-slot:[`item.detail`]="{ value }">
           <p>{{ format(value) }}</p>
+        </template>
+        <template v-slot:no-data>
+          <!-- <v-btn color="primary" @click="initialize"> Reset </v-btn> -->
+          該当するものがありません。
         </template>
       </v-data-table>
     </div>
@@ -141,7 +145,7 @@ export default {
       }
       return color
     },
-    clickItem(item,row) {
+    clickItem(item, row) {
       this.disaster_store.disaster_data = row.item
       this.$router.push({
         name: 'disaster_detail',

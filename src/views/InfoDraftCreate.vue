@@ -44,7 +44,7 @@ import { useDraftStore } from '@/stores/draft'
         <v-row justify="end">
           <v-btn class="mr-2" @click="$router.push('/info_draft_list')">戻る</v-btn>
           <v-btn class="mr-2" variant="flat" color="primary" @click="createDraft">下書き</v-btn>
-          <v-btn variant="flat" color="primary" @click="validate">投稿</v-btn>
+          <v-btn color="primary" @click="validate">投稿</v-btn>
 
           <v-dialog v-model="dialog" persistent width="auto">
             <!-- <template v-slot:activator="{ props }">

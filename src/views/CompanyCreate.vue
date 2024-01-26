@@ -5,20 +5,29 @@
       <v-form class="mt-5" ref="form">
         <v-row>
           <v-col cols="12" lg="6">
-            <v-text-field v-model="company" label="会社名" required max-widgh="300px" :rules="rules" />
+            <v-text-field v-model="company" label="会社名" required style="max-width: 500px" :rules="rules" density="compact" />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
-            <v-autocomplete label="所属拠点" v-model="select_areas" :items="areas" style="max-width: 300px" :rules="select_rules" multiple>
+            <v-autocomplete
+              label="所属拠点"
+              v-model="select_areas"
+              :items="areas"
+              style="max-width: 500px"
+              :rules="select_rules"
+              density="compact"
+              multiple
+            >
             </v-autocomplete>
           </v-col>
         </v-row>
-
-        <v-row justify="start">
-          <v-col>
-            <v-btn class="mr-2" @click="$router.push('/company_list')">戻る</v-btn>
-            <v-btn variant="flat" color="primary" @click="validate">追加</v-btn>
+        <v-row>
+          <v-col cols="12" lg="6">
+            <v-row justify="end">
+              <v-btn class="mr-2" @click="$router.push('/company_list')">戻る</v-btn>
+              <v-btn color="primary" @click="validate">追加</v-btn>
+            </v-row>
           </v-col>
           <v-dialog v-model="dialog" persistent width="auto">
             <!-- <template v-slot:activator="{ props }">

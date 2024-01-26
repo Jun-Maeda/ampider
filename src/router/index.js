@@ -15,7 +15,10 @@ import DisasterList from '@/views/DisasterList.vue'
 import UserSetting from '@/views/UserSetting.vue'
 import DisasterDetail from '@/views/DisasterDetail.vue'
 import EmployeeList from '@/views/EmployeeList.vue'
+import UserCreate from '@/views/UserCreate.vue'
+import UserEdit from '@/views/UserEdit.vue'
 import CompanyCreate from '@/views/CompanyCreate.vue'
+import CompanyEdit from '@/views/CompanyEdit.vue'
 import AreaCreate from '@/views/AreaCreate.vue'
 import DivisionCreate from '@/views/DivisionCreate.vue'
 import OrganizationCreate from '@/views/OrganizationCreate.vue'
@@ -116,6 +119,18 @@ const routes = [
     props: true,
   },
   {
+    path: '/user_create',
+    name: 'user_create',
+    component: UserCreate,
+    props: true,
+  },
+  {
+    path: '/user_edit',
+    name: 'user_edit',
+    component: UserEdit,
+    props: true,
+  },
+  {
     path: '/employee_list',
     name: 'employee_list',
     component: EmployeeList,
@@ -125,6 +140,12 @@ const routes = [
     path: '/company_create',
     name: 'company_create',
     component: CompanyCreate,
+    props: true,
+  },
+  {
+    path: '/company_edit',
+    name: 'company_edit',
+    component: CompanyEdit,
     props: true,
   },
   {

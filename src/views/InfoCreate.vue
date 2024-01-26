@@ -95,6 +95,7 @@ import { useDraftStore } from '@/stores/draft'
         </v-row>
       </v-form>
     </div>
+    <v-btn v-on:click="$router.push('/info_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>お知らせ一覧へ</v-btn>
   </v-container>
 </template>
 

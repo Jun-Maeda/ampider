@@ -4,98 +4,154 @@ import { infoDetailStore } from '@/stores/info'
 <template>
   <v-container>
     <h2>お知らせ一覧</h2>
-    <div class="mt-8">
-      <v-list lines="three">
-        <v-list-item v-for="file in files" :key="file.title" :title="file.title" :subtitle="file.body_text" @click="editItem(file)">
-          <template v-slot:prepend>
-            <v-avatar :color="file.color">
-              <v-icon color="white">{{ file.icon }}</v-icon>
-            </v-avatar>
-          </template>
-          <template v-slot:title="{ title }">
-            <b v-html="title"></b>
-            <p><small>2023/12/01</small></p>
-          </template>
-          <v-divider></v-divider>
-        </v-list-item>
-      </v-list>
-      <div class="text-center" v-show="totalis">
-        <v-pagination active-color="orange" v-model="page" :length="5" rounded="circle"></v-pagination>
-      </div>
-    </div>
+    <v-row justify="end" class="my-4">
+      <v-text-field
+        v-model="search"
+        label="検索"
+        prepend-inner-icon="mdi-magnify"
+        variant="outlined"
+        hide-details
+        class="v-col-sm-10 v-col-md-4 pa-0"
+      ></v-text-field>
+    </v-row>
+
+    <v-data-table :headers="headers" :items="drafts" :search="search" @click:row="clickItem" hover items-per-page-text="表示行数">
+      <!-- <template v-slot:top>
+        <v-dialog v-model="dialog" max-width="500px"> </v-dialog>
+        <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-card>
+            <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
+            <p class="text-center">タイトル：{{ editedItem.title }}</p>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
+              <v-btn color="blue-darken-1" variant="text" @click="deleteItemConfirm">削除</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </template> -->
+
+      <template v-slot:[`item.body_text`]="{ item }">
+        {{ item.body_text.slice(0, 12) }}
+        <span v-if="item.body_text.length > 10">...</span>
+      </template>
+      <!-- <template v-slot:[`item.actions`]="{ item }">
+        <v-icon size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
+      </template> -->
+      <template v-slot:no-data>
+        <!-- <v-btn color="primary" @click="initialize"> Reset </v-btn> -->
+        該当するものがありません。
+      </template>
+    </v-data-table>
+    <v-btn v-on:click="$router.push('/info_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>お知らせ一覧へ</v-btn>
   </v-container>
 </template>
 
 <script>
 export default {
   data: () => ({
-    rules: [(v) => !!v || 'この項目は必須です'],
-    title: '',
-    areas: ['秋田', '山形', '富山', '東京'],
-    area: '',
-    body_text: '',
-    notice: false,
+    search: '',
+    dialog: false,
+    dialogDelete: false,
     headers: [
       {
-        title: 'Dessert (100g serving)',
-        align: 'start',
-        sortable: false,
-        key: 'name',
+        title: 'No.',
+        key: 'no',
+        width: '100',
       },
-      { title: 'Calories', key: 'calories' },
-      { title: 'Fat (g)', key: 'fat' },
-      { title: 'Carbs (g)', key: 'carbs' },
-      { title: 'Protein (g)', key: 'protein' },
-      { title: 'Iron (%)', key: 'iron' },
+      { title: 'タイトル', key: 'title', width: '300', minWidth: '200' },
+      { title: '更新日', key: 'datetime', width: '200', minWidth: '150' },
+      { title: '本文', key: 'body_text', width: '400', minWidth: '200' },
+      // { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
-    files: [
-      {
-        color: 'blue',
-        icon: 'mdi-clipboard-text',
-        body_text: '安否確認のテストです。安否確認フォームを入力して回答してください',
-        title: '安否確認テスト',
-        link: 'info_Detail',
-        datetime: '2023/12/21 12:00',
-      },
-      {
-        color: 'amber',
-        icon: 'mdi-gesture-tap-button',
-        body_text:
-          'あああああああああああああああああああああああああ\nああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ',
-        title: '安否確認テスト',
-        datetime: '2023/12/21 13:00',
-      },
-    ],
-    totalis: false,
-    total: 100,
+    editedItem: {},
     info_store: infoDetailStore(),
   }),
-  mounted() {
-    if (this.total < 10) {
-      this.totalis = false
-    } else {
-      this.totalis = true
-    }
+
+  // computed: {
+  //   formTitle() {
+  //     return 'お知らせ編集'
+  //   },
+  // },
+
+  watch: {
+    dialog(val) {
+      val || this.close()
+    },
+    dialogDelete(val) {
+      val || this.closeDelete()
+    },
   },
+
+  created() {
+    this.initialize()
+  },
+
   methods: {
-    async validate() {
-      const { valid } = await this.$refs.form.validate()
-      if (valid) {
-        let success =
-          '以下の内容で作成しました。\nタイトル:' + this.title + '\n拠点:' + this.area + '\n内容:' + this.body_text + '\n共有:' + this.notice
-        alert(success)
-        this.$refs.form.reset()
-      }
+    initialize() {
+      this.drafts = [
+        {
+          no: 5,
+          title: '地震が発生したので気を付けて！ ',
+          datetime: '2023/12/14 15:00',
+          body_text:
+            '地震が発生したので気を付けて！地震が発生したので気を付けて！地震が発生したので気を付けて！地震が発生したので気を付けて！地震が発生したので気を付けて！',
+        },
+        {
+          no: 4,
+          title: '火山が噴火したから気を付けてね',
+          datetime: '2023/12/14 16:00',
+          body_text: '火山が噴火したから気を付けてね火山が噴火したから気を付けてね火山が噴火したから気を付けてね火山が噴火したから気を付けてね',
+        },
+        {
+          no: 3,
+          title: '大雨だからひどいよ',
+          datetime: '2023/12/14 17:00',
+          body_text: '大雨だからひどいよ大雨だからひどいよ大雨だからひどいよ大雨だからひどいよ大雨だからひどいよ',
+        },
+        {
+          no: 2,
+          title: '風が強いよ！',
+          datetime: '2023/12/14 18:00',
+          body_text: '風が強いよ！風が強いよ！風が強いよ！風が強いよ！風が強いよ！風が強いよ！風が強いよ！',
+        },
+        {
+          no: 1,
+          title: '災害が発生しました',
+          datetime: '2023/12/14 19:00',
+          body_text: '災害が発生しました',
+        },
+      ]
     },
-    async totalCheak() {
-      if (this.total < 10) {
-        this.totalis = false
-      } else {
-        this.totalis = true
-      }
-    },
-    editItem(item) {
-      this.info_store.info_data = item
+
+    // editItem(item) {
+    //   this.draft_store.draft_data = item
+    //   this.$router.push({
+    //     name: 'info_draft_create',
+    //   })
+    // },
+
+    // deleteItem(item) {
+    //   this.editedItem = item
+    //   this.dialogDelete = true
+    // },
+
+    // deleteItemConfirm() {
+    //   this.closeDelete()
+    //   alert('削除しました。')
+    // },
+
+    // close() {
+    //   this.dialog = false
+    // },
+
+    // closeDelete() {
+    //   this.dialogDelete = false
+    // },
+    clickItem(item, row) {
+      this.info_store.info_data = row.item
       this.$router.push({
         name: 'info_detail',
       })

@@ -15,7 +15,7 @@ import { disasterDetailStore } from '@/stores/disaster'
       ></v-text-field>
     </v-row>
     <div class="mt-8">
-      <v-data-table :headers="headers" :items="disaster" :search="search" density="compact" @click:row="clickItem">
+      <v-data-table :headers="headers" :items="disaster" :search="search" density="compact" @click:row="clickItem" items-per-page-text="表示行数">
         <template v-slot:[`item.type`]="{ value }">
           <v-chip variant="flat" :color="getColor(value)">
             <p class="my-auto">{{ format(value) }}</p>

@@ -29,7 +29,7 @@ import { ja } from 'date-fns/locale'
 
     <v-row justify="end">
       <v-col cols="12" class="pb-0">
-        <v-data-table :headers="headers" :items="safeties" class="fixed-column">
+        <v-data-table :headers="headers" :items="safeties" class="fixed-column" items-per-page-text="表示行数">
           <template v-slot:[`item.step`]="{ item }">
             <span v-for="step in stepIcons(item.step.times, item.step.reply)" v-bind:key="step">
               <v-icon color="orange">{{ step_icons[step] }}</v-icon>

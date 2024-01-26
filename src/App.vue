@@ -79,7 +79,7 @@
             <!-- ユーザー設定 -->
             <v-list-group value="user_settings">
               <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="ユーザー設定" prepend-icon="mdi-phone-outgoing"> </v-list-item>
+                <v-list-item v-bind="props" title="ユーザー設定" prepend-icon="mdi-account-cog-outline"> </v-list-item>
               </template>
               <v-list-item
                 v-for="(user_setting, i) in user_settings"
@@ -98,7 +98,7 @@
             <!-- 管理 -->
             <v-list-group value="admin_menus">
               <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="管理" prepend-icon="mdi-image-filter-hdr"> </v-list-item>
+                <v-list-item v-bind="props" title="管理" prepend-icon="mdi-cog"> </v-list-item>
               </template>
               <v-list-item
                 v-for="(admin_menu, i) in admin_menus"
@@ -185,7 +185,7 @@ export default {
       { title: '過去災害一覧', to: 'disaster_list', icon: 'mdi-weather-pouring' },
       { title: 'お知らせ一覧', to: 'info_list', icon: 'mdi-information-outline' },
     ],
-    user_settings: [{ title: '連絡先情報', to: 'user_setting', icon: 'mdi-account-cog-outline' }],
+    user_settings: [{ title: '連絡先情報', to: 'user_setting', icon: 'mdi-account-edit' }],
     admin_menus: [
       { title: '集計', to: '/chart_detail', icon: 'mdi-chart-bar' },
       { title: '従業員一覧', to: '/employee_list', icon: 'mdi-account-multiple' },
@@ -195,7 +195,7 @@ export default {
       // { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
     ],
     settings: [{ title: '会社一覧', to: 'company_list', icon: 'mdi-domain' }],
-    items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],
+    items: [{ title: 'chat', to: '/chat', icon: 'mdi-chat' }],
     drawer: false,
     links: [
       { name: 'Home', to: '/' },

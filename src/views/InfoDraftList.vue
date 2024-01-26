@@ -59,7 +59,7 @@ export default {
       {
         title: 'No.',
         key: 'no',
-        // width: '100',
+        width: '100',
       },
       { title: 'タイトル', key: 'title', width: '300', minWidth: '200' },
       { title: '更新日', key: 'date', width: '200', minWidth: '150' },

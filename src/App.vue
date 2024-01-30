@@ -25,7 +25,7 @@
           </div> -->
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed; width: 270px" scrim="transparent">
+        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed" scrim="transparent">
           <v-list>
             <!-- ホーム -->
             <v-list-item value="HOME" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="HOME" class="mt-1"></v-list-item>
@@ -79,7 +79,7 @@
             <!-- ユーザー設定 -->
             <v-list-group value="user_settings">
               <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="ユーザー設定" prepend-icon="mdi-account-cog-outline"> </v-list-item>
+                <v-list-item v-bind="props" title="ユーザー設定" prepend-icon="mdi-phone-outgoing"> </v-list-item>
               </template>
               <v-list-item
                 v-for="(user_setting, i) in user_settings"
@@ -98,7 +98,7 @@
             <!-- 管理 -->
             <v-list-group value="admin_menus">
               <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="管理" prepend-icon="mdi-cog"> </v-list-item>
+                <v-list-item v-bind="props" title="管理" prepend-icon="mdi-image-filter-hdr"> </v-list-item>
               </template>
               <v-list-item
                 v-for="(admin_menu, i) in admin_menus"
@@ -147,7 +147,9 @@
           </v-list>
         </v-navigation-drawer>
         <v-main>
-          <router-view :user="user" />
+          <section>
+            <router-view :user="user" />
+          </section>
         </v-main>
         <v-footer class="bg-grey-lighten-1" app>
           <v-row justify="center" no-gutters>
@@ -185,18 +187,17 @@ export default {
       { title: '過去災害一覧', to: 'disaster_list', icon: 'mdi-weather-pouring' },
       { title: 'お知らせ一覧', to: 'info_list', icon: 'mdi-information-outline' },
     ],
-    user_settings: [{ title: '連絡先情報', to: 'user_setting', icon: 'mdi-account-edit' }],
+    user_settings: [{ title: '連絡先情報', to: 'user_setting', icon: 'mdi-account-cog-outline' }],
     admin_menus: [
       { title: '集計', to: '/chart_detail', icon: 'mdi-chart-bar' },
       { title: '従業員一覧', to: '/employee_list', icon: 'mdi-account-multiple' },
       // { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },
       { title: 'お知らせ作成', to: '/info_create', icon: 'mdi-square-edit-outline' },
       { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
-      { title: '手動安否確認', to: '/manual_safety_conf', icon: 'mdi-car-brake-alert' },
       // { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
     ],
     settings: [{ title: '会社一覧', to: 'company_list', icon: 'mdi-domain' }],
-    items: [{ title: 'chat', to: '/chat', icon: 'mdi-chat' }],
+    items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],
     drawer: false,
     links: [
       { name: 'Home', to: '/' },

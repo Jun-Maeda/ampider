@@ -34,12 +34,7 @@ import { useDraftStore } from '@/stores/draft'
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12">
-            <v-row>
-              <v-checkbox v-model="notice_flg" label="通知" color="info" hide-details></v-checkbox>
-              <v-checkbox v-model="training_flg" label="訓練" color="info" hide-details></v-checkbox>
-            </v-row>
-          </v-col>
+          <v-col cols="12"> </v-col>
         </v-row>
         <v-row justify="end">
           <v-btn class="mr-2" @click="$router.push('/info_draft_list')">戻る</v-btn>
@@ -56,8 +51,6 @@ import { useDraftStore } from '@/stores/draft'
                 <v-row>
                   <v-col class="mr-auto" cols="3">タイトル：</v-col>
                   <v-col class="mr-auto" cols="9">{{ title }}</v-col>
-                </v-row>
-                <v-row>
                   <v-col class="mr-auto" cols="3"> 会社：</v-col>
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2" v-for="company in select_companys" :key="company">{{ company }}</span>
@@ -74,28 +67,8 @@ import { useDraftStore } from '@/stores/draft'
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2" v-for="organization in select_organizations" :key="organization">{{ organization }}</span>
                   </v-col>
-                </v-row>
-                <v-row> </v-row>
-                <v-row> </v-row>
-                <v-row>
                   <v-col class="mr-auto" cols="3"> 本文：</v-col>
                   <v-col class="mr-auto vue-textarea" cols="9"> {{ body_text }} </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12">
-                    <v-row>
-                      <v-col cols="12">
-                        通知：
-                        <span v-if="notice_flg">通知する</span>
-                        <span v-else>通知しない</span>
-                      </v-col>
-                      <v-col cols="12">
-                        種別：
-                        <span v-if="training_flg">訓練</span>
-                        <span v-else>お知らせ</span>
-                      </v-col>
-                    </v-row>
-                  </v-col>
                 </v-row>
               </v-card-text>
               <v-card-actions>
@@ -126,8 +99,6 @@ export default {
     organizations: [],
     select_organizations: [],
     body_text: '',
-    notice_flg: false,
-    training_flg: false,
     dialog: false,
     draft_store: useDraftStore(),
   }),

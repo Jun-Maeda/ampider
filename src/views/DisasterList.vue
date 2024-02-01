@@ -15,14 +15,21 @@ import { disasterDetailStore } from '@/stores/disaster'
       ></v-text-field>
     </v-row>
     <div class="mt-8">
-      <v-data-table :headers="headers" :items="disaster" :search="search" density="compact" @click:row="clickItem">
+      <v-data-table :headers="headers" :items="disaster" :search="search" density="compact" @click:row="clickItem" items-per-page-text="表示行数">
         <template v-slot:[`item.type`]="{ value }">
           <v-chip variant="flat" :color="getColor(value)">
-          <p class="my-auto">{{ format(value) }}</p>
+            <p class="my-auto">{{ format(value) }}</p>
           </v-chip>
         </template>
-        <template v-slot:[`item.detail`]="{ value }">
+        <!-- <template v-slot:[`item.detail`]="{ value }">
           <p>{{ format(value) }}</p>
+        </template> -->
+        <template v-slot:[`item.title`]="{ item }">
+          <p>【{{ item.type }}】{{ item.date }} {{ item.location }} {{ item.Level }}</p>
+        </template>
+        <template v-slot:no-data>
+          <!-- <v-btn color="primary" @click="initialize"> Reset </v-btn> -->
+          該当するものがありません。
         </template>
       </v-data-table>
     </div>
@@ -39,7 +46,7 @@ export default {
       { title: '場所', align: 'start', width: '15%', key: 'location' },
       { title: '災害種別', align: 'start', width: '15%', key: 'type' },
       { title: 'レベル', align: 'start', width: '15%', key: 'Level' },
-      { title: '詳細', align: 'start', width: '40%', key: 'detail' },
+      { title: 'タイトル', align: 'start', width: '40%', key: 'title' },
     ],
     disaster: [
       {
@@ -141,7 +148,7 @@ export default {
       }
       return color
     },
-    clickItem(item,row) {
+    clickItem(item, row) {
       this.disaster_store.disaster_data = row.item
       this.$router.push({
         name: 'disaster_detail',

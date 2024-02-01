@@ -11,7 +11,7 @@
           <v-app-bar-nav-icon v-on:click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <v-toolbar-title>
             <v-btn @click="$router.push('/')" variant="text" class="p-0 m-0" height="100%"
-              ><img src="@/images/ampider_logo.png" style="max-width: 160px"
+              ><img src="@/images/ampider_logo.png" style="max-width: 160px" :style="{ 'background-color': 'rgba(0,0,0,0)' }"
             /></v-btn>
           </v-toolbar-title>
           <div v-show="login">
@@ -25,7 +25,7 @@
           </div> -->
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed" scrim="transparent">
+        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed; width: 270px" scrim="transparent">
           <v-list>
             <!-- ホーム -->
             <v-list-item value="HOME" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="HOME" class="mt-1"></v-list-item>
@@ -47,39 +47,11 @@
               title="お知らせ一覧"
               class="mt-1"
             ></v-list-item>
-            <!-- <v-list-group value="home">
-              <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="HOME" prepend-icon="mdi-home"> </v-list-item>
-              </template>
-              <v-list-item
-                v-for="(home, i) in home"
-                v-bind="props"
-                :key="i"
-                :value="home"
-                color="primary"
-                rounded="xl"
-                :to="home.to"
-                :prepend-icon="home.icon"
-                :title="home.title"
-              >
-              </v-list-item>
-            </v-list-group> -->
-
-            <!-- お知らせ一覧 -->
-            <!-- <v-list-item
-              value="お知らせ一覧"
-              color="primary"
-              rounded="xl"
-              to="info_list"
-              prepend-icon="mdi-information-outline"
-              title="お知らせ一覧"
-              class="mt-1"
-            ></v-list-item> -->
 
             <!-- ユーザー設定 -->
             <v-list-group value="user_settings">
               <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="ユーザー設定" prepend-icon="mdi-phone-outgoing"> </v-list-item>
+                <v-list-item v-bind="props" title="ユーザー設定" prepend-icon="mdi-account"> </v-list-item>
               </template>
               <v-list-item
                 v-for="(user_setting, i) in user_settings"
@@ -98,7 +70,7 @@
             <!-- 管理 -->
             <v-list-group value="admin_menus">
               <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="管理" prepend-icon="mdi-image-filter-hdr"> </v-list-item>
+                <v-list-item v-bind="props" title="管理" prepend-icon="mdi-cog"> </v-list-item>
               </template>
               <v-list-item
                 v-for="(admin_menu, i) in admin_menus"
@@ -147,16 +119,18 @@
           </v-list>
         </v-navigation-drawer>
         <v-main>
-          <router-view :user="user" />
+          <section>
+            <router-view :user="user" />
+          </section>
         </v-main>
-        <v-footer class="bg-grey-lighten-1" app>
+        <!-- <v-footer class="bg-grey-lighten-1" app>
           <v-row justify="center" no-gutters>
             <v-btn v-for="link in links" :key="link" color="white" variant="text" class="mx-2 v-col-3 v-col-md-1" rounded="xl" :to="link.to">
               {{ link.name }}
             </v-btn>
             <v-col class="text-center mt-4" cols="12"> {{ new Date().getFullYear() }} — <strong>Vuetify</strong> </v-col>
           </v-row>
-        </v-footer>
+        </v-footer> -->
       </v-layout>
     </template>
   </authenticator>
@@ -189,14 +163,12 @@ export default {
     admin_menus: [
       { title: '集計', to: '/chart_detail', icon: 'mdi-chart-bar' },
       { title: '従業員一覧', to: '/employee_list', icon: 'mdi-account-multiple' },
-      // { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },
       { title: 'お知らせ作成', to: '/info_create', icon: 'mdi-square-edit-outline' },
       { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
-      // { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
-      { title: '通知設定', to: '/notification_setting', icon: 'mdi-clock' },
+      { title: '手動安否確認', to: '/manual_safety_conf', icon: 'mdi-alert' },
     ],
     settings: [{ title: '会社一覧', to: 'company_list', icon: 'mdi-domain' }],
-    items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],
+    items: [{ title: 'chat', to: '/chat', icon: 'mdi-chat' }],
     drawer: false,
     links: [
       { name: 'Home', to: '/' },

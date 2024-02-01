@@ -113,7 +113,7 @@
               </div>
             </template>
           </v-data-table-virtual>
-          <v-dialog v-model="modal" max-width="500px">
+          <v-dialog v-model="modal" max-width="500px" @input="modal = false">
             <v-card>
               <v-card-text class="text-center">{{ modalDetail }}</v-card-text>
               <v-card-actions>

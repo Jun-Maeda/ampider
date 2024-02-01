@@ -26,6 +26,7 @@ import CompanyList from '@/views/CompanyList.vue'
 import AreaList from '@/views/AreaList.vue'
 import DivisionList from '@/views/DivisionList.vue'
 import OrganizationList from '@/views/OrganizationList.vue'
+import ManualSafetyConf from '@/views/ManualSafetyConf.vue'
 import NotificationSetting from '@/views/NotificationSetting.vue'
 
 const routes = [
@@ -93,6 +94,12 @@ const routes = [
     path: '/info_draft_create',
     name: 'info_draft_create',
     component: InfoDraftCreate,
+    props: true,
+  },
+  {
+    path: '/manual_safety_conf',
+    name: 'manual_safety_conf',
+    component: ManualSafetyConf,
     props: true,
   },
   {

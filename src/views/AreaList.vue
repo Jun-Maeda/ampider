@@ -24,7 +24,7 @@ import { useCompanyStore } from '@/stores/company_setting'
       </v-col> -->
     </v-row>
 
-    <v-data-table :headers="headers" :items="areas" :search="search" @click:row="clickItem" hover>
+    <v-data-table :headers="headers" :items="areas" :search="search" @click:row="clickItem" hover items-per-page-text="表示行数">
       <!-- <template v-slot:top>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>

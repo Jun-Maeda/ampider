@@ -29,6 +29,18 @@ h2:after {
 .amplify-button[data-variation='primary']:hover {
   background: #e6a603 !important;
 }
+html {
+    width: 100%;
+    overflow: hidden !important;
+  }
+
+
+
+section {
+  width: 100%;
+  height: calc(100vh - var(--amplify-space-xxxl));
+  overflow: auto;
+}
 
 /* body, body::after, body::before {
   margin: 0;

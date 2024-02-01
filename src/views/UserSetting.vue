@@ -580,7 +580,7 @@ export default {
 }
 </script>
 <style scoped>
-ul {
+.list-group {
   list-style-type: none;
   padding: 0;
 }

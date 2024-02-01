@@ -265,7 +265,7 @@ const props = defineProps({
           </v-row>
           <v-row>
             <v-col cols="12" sm="2" class="py-0 py-sm-3">
-              <p class="ma-sm-0">連絡種別</p>
+              <p class="ma-sm-0">連絡方法</p>
             </v-col>
             <v-col cols="12" sm="10" class="py-0 py-sm-3">
               <v-select :items="send_type" item-title="name" item-value="id" v-model="item.type" density="compact" style="max-width: 500px" />
@@ -469,6 +469,8 @@ export default {
 
       if (valid) {
         alert('更新しました。')
+      } else {
+        alert('入力内容にエラーがあります。確認してください')
       }
     },
     // 住所自動入力

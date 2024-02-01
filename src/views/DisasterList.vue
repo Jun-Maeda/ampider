@@ -21,8 +21,11 @@ import { disasterDetailStore } from '@/stores/disaster'
             <p class="my-auto">{{ format(value) }}</p>
           </v-chip>
         </template>
-        <template v-slot:[`item.detail`]="{ value }">
+        <!-- <template v-slot:[`item.detail`]="{ value }">
           <p>{{ format(value) }}</p>
+        </template> -->
+        <template v-slot:[`item.title`]="{ item }">
+          <p>【{{ item.type }}】{{ item.date }} {{ item.location }} {{ item.Level }}</p>
         </template>
         <template v-slot:no-data>
           <!-- <v-btn color="primary" @click="initialize"> Reset </v-btn> -->
@@ -43,7 +46,7 @@ export default {
       { title: '場所', align: 'start', width: '15%', key: 'location' },
       { title: '災害種別', align: 'start', width: '15%', key: 'type' },
       { title: 'レベル', align: 'start', width: '15%', key: 'Level' },
-      { title: '詳細', align: 'start', width: '40%', key: 'detail' },
+      { title: 'タイトル', align: 'start', width: '40%', key: 'title' },
     ],
     disaster: [
       {

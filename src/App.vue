@@ -10,7 +10,7 @@
         <v-app-bar scroll-threshold="0" class="pa-0 bg-orange-accent-3">
           <v-app-bar-nav-icon v-on:click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <v-toolbar-title>
-            <v-btn to="/" variant="text" class="p-0 m-0" height="100%"
+            <v-btn @click="$router.push('/')" variant="text" class="p-0 m-0" height="100%"
               ><img src="@/images/ampider_logo.png" style="max-width: 160px" :style="{ 'background-color': 'rgba(0,0,0,0)' }"
             /></v-btn>
           </v-toolbar-title>
@@ -25,7 +25,7 @@
           </div> -->
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed" scrim="transparent">
+        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed; width: 270px" scrim="transparent">
           <v-list>
             <!-- ホーム -->
             <v-list-item value="HOME" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="HOME" class="mt-1"></v-list-item>
@@ -51,7 +51,7 @@
             <!-- ユーザー設定 -->
             <v-list-group value="user_settings">
               <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="ユーザー設定" prepend-icon="mdi-phone-outgoing"> </v-list-item>
+                <v-list-item v-bind="props" title="ユーザー設定" prepend-icon="mdi-account"> </v-list-item>
               </template>
               <v-list-item
                 v-for="(user_setting, i) in user_settings"
@@ -70,7 +70,7 @@
             <!-- 管理 -->
             <v-list-group value="admin_menus">
               <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="管理" prepend-icon="mdi-image-filter-hdr"> </v-list-item>
+                <v-list-item v-bind="props" title="管理" prepend-icon="mdi-cog"> </v-list-item>
               </template>
               <v-list-item
                 v-for="(admin_menu, i) in admin_menus"
@@ -168,7 +168,7 @@ export default {
       { title: '手動安否確認', to: '/manual_safety_conf', icon: 'mdi-alert' },
     ],
     settings: [{ title: '会社一覧', to: 'company_list', icon: 'mdi-domain' }],
-    items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],
+    items: [{ title: 'chat', to: '/chat', icon: 'mdi-chat' }],
     drawer: false,
     links: [
       { name: 'Home', to: '/' },

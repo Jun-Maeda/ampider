@@ -167,7 +167,10 @@ export default {
       { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
       { title: '手動安否確認', to: '/manual_safety_conf', icon: 'mdi-alert' },
     ],
-    settings: [{ title: '会社一覧', to: 'company_list', icon: 'mdi-domain' }],
+    settings: [
+      { title: '会社一覧', to: 'company_list', icon: 'mdi-domain' },
+      { title: '通知設定', to: '/notification_setting', icon: 'mdi-alert' },
+    ],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-chat' }],
     drawer: false,
     links: [

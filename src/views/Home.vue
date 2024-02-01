@@ -42,7 +42,11 @@
           <v-col cols="12" sm="4">
             <v-card class="mx-auto" :height="bkPoint.cardHeight" :variant="elevated">
               <v-card-item>
-                <apexchart type="bar" :height="bkPoint.chartHeight" :options="family_bar_chart.options" :series="family_bar_chart.series"></apexchart>
+                <!-- <apexchart type="bar" :height="bkPoint.chartHeight" :options="family_bar_chart.options" :series="family_bar_chart.series"></apexchart>
+                 -->
+                <v-data-table-virtual :headers="family_headers" :items="families">
+                  <template v-slot:no-data> 該当するものがありません。 </template>
+                </v-data-table-virtual>
               </v-card-item>
             </v-card>
           </v-col>
@@ -224,6 +228,7 @@ export default {
           data: [5, 3, 1],
         },
       ],
+      families: [],
     },
     rules: {
       required: (value) => !!value || 'この項目は必須です',
@@ -245,6 +250,10 @@ export default {
       { title: '雷', align: 'center', sortable: false, width: '10%', key: 'lightning' },
       { title: '大雪', align: 'center', sortable: false, width: '10%', key: 'heavySnow' },
       { title: '津波', align: 'center', sortable: false, width: '10%', key: 'tsunami' },
+    ],
+    family_headers: [
+      { title: '家族名', align: 'left', sortable: false, width: '40%', key: 'name' },
+      { title: '安否結果', align: 'left', sortable: false, width: '40%', key: 'result' },
     ],
     disaster: [
       {
@@ -356,6 +365,7 @@ export default {
       },
     ],
   }),
+
   computed: {
     bkPoint: function () {
       const { name } = useDisplay()
@@ -398,6 +408,13 @@ export default {
       }
       return point
     },
+  },
+  created() {
+    this.families = [
+      { name: '家族1', result: '安全' },
+      { name: '家族2', result: '安全' },
+      { name: '家族3', result: '安全' },
+    ]
   },
   methods: {
     itemProps(item) {

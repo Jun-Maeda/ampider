@@ -26,6 +26,7 @@ import AreaList from '@/views/AreaList.vue'
 import DivisionList from '@/views/DivisionList.vue'
 import OrganizationList from '@/views/OrganizationList.vue'
 import ManualSafetyConf from '@/views/ManualSafetyConf.vue'
+import NotificationSetting from '@/views/NotificationSetting.vue'
 
 const routes = [
   {
@@ -188,6 +189,12 @@ const routes = [
     path: '/organization_list',
     name: 'organization_list',
     component: OrganizationList,
+    props: true,
+  },
+  {
+    path: '/notification_setting',
+    name: 'notification_setting',
+    component: NotificationSetting,
     props: true,
   },
 ]

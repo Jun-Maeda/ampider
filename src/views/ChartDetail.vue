@@ -3,7 +3,17 @@ import { ja } from 'date-fns/locale'
 </script>
 <template>
   <v-container>
-    <h2>集計</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>集計</h2> -->
     <div class="mt-8">
       <v-row class="mt-5">
         <v-col cols="12" md="4" class="pt-0">
@@ -54,6 +64,12 @@ export default {
     user: Object,
   },
   data: () => ({
+    link: [
+      {
+        title: '集計',
+        disabled: false,
+      },
+    ],
     step_icons: ['mdi-circle-medium', 'mdi-radiobox-blank', 'mdi-radiobox-marked'],
     pie_chart: {
       options: {

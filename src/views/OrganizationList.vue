@@ -12,6 +12,7 @@ import { useCompanyStore } from '@/stores/company_setting'
         </v-breadcrumbs>
       </v-row>
     </div>
+    <v-divider></v-divider>
     <h2>【{{ company_store.division_data }}】所属一覧</h2>
     <v-row class="mt-3">
       <v-col cols="8">

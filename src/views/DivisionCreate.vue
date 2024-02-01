@@ -1,3 +1,4 @@
+<!-- 現在使用していません -->
 <script setup>
 import { useCompanyStore } from '@/stores/company_setting'
 </script>

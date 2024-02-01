@@ -1,6 +1,16 @@
 <template>
   <v-container>
-    <h2>HOME</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="bread_link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>HOME</h2> -->
     <div class="mt-8">
       <h6>お知らせ</h6>
       <v-card color="black" variant="outlined">
@@ -158,6 +168,12 @@ export default {
     user: Object,
   },
   data: () => ({
+    bread_link: [
+      {
+        title: 'HOME',
+        disabled: false,
+      },
+    ],
     link: {
       infoList: 'info_list',
       oldDisaster: 'disaster_list',

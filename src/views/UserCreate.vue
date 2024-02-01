@@ -15,7 +15,17 @@ const props = defineProps({
   >
   </v-progress-circular>
   <v-container>
-    <h2>ユーザー追加</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>ユーザー追加</h2> -->
     <div class="mt-8">
       <v-expansion-panels class="mb-3">
         <v-expansion-panel title="ファイルアップロード">
@@ -221,6 +231,17 @@ const props = defineProps({
 import Encoding from 'encoding-japanese'
 export default {
   data: () => ({
+    link: [
+      {
+        title: '従業員一覧',
+        disabled: false,
+        href: 'employee_list',
+      },
+      {
+        title: 'ユーザー追加',
+        disabled: true,
+      },
+    ],
     all_rules: {
       required: (value) => !!value || '入力してください',
       email: (value) =>

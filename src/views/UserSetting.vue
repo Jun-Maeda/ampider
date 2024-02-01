@@ -15,7 +15,17 @@ const props = defineProps({
   >
   </v-progress-circular>
   <v-container>
-    <h2>連絡先情報</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>連絡先情報</h2> -->
     <div class="mt-8">
       <h4>社員情報</h4>
       <v-row class="mt-3">
@@ -356,6 +366,12 @@ export default {
     draggable: draggable,
   },
   data: () => ({
+    link: [
+      {
+        title: '連絡先情報',
+        disabled: false,
+      },
+    ],
     all_rules: {
       required: (value) => !!value || '入力してください',
       email: (value) =>

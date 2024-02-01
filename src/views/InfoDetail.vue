@@ -13,7 +13,7 @@ import { infoDetailStore } from '@/stores/info'
       </v-row>
     </div>
     <v-divider></v-divider>
-    <h2>お知らせ詳細</h2>
+    <!-- <h2>お知らせ詳細</h2> -->
     <div class="mt-8">
       <v-row>
         <v-col cols="12" sm="4" class="py-0">

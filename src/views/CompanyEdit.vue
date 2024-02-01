@@ -3,7 +3,17 @@ import { useCompanyStore } from '@/stores/company_setting'
 </script>
 <template>
   <v-container>
-    <h2>会社編集</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>会社編集</h2> -->
     <div class="mt-8">
       <v-form class="mt-5" ref="form">
         <v-row>
@@ -66,6 +76,17 @@ export default {
     select_areas: [],
     dialog: false,
     company_store: useCompanyStore(),
+    link: [
+      {
+        title: '会社一覧',
+        disabled: false,
+        href: 'company_list',
+      },
+      {
+        title: '会社編集',
+        disabled: true,
+      },
+    ],
   }),
   mounted() {
     let company_edit = this.company_store.company_edit

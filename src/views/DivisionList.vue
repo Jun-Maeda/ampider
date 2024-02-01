@@ -12,7 +12,8 @@ import { useCompanyStore } from '@/stores/company_setting'
         </v-breadcrumbs>
       </v-row>
     </div>
-    <h2>【{{ company_store.area_data }}】事業部一覧</h2>
+    <v-divider></v-divider>
+    <!-- <h2>【{{ company_store.area_data }}】事業部一覧</h2> -->
     <v-row class="mt-3">
       <v-col cols="8">
         <v-row justify="start" class="my-4">

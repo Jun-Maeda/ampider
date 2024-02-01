@@ -12,7 +12,8 @@ import { useDraftStore } from '@/stores/draft'
         </v-breadcrumbs>
       </v-row>
     </div>
-    <h2>下書き編集</h2>
+    <v-divider></v-divider>
+    <!-- <h2>下書き編集</h2> -->
     <div class="mt-8">
       <v-form class="mt-5" ref="form">
         <v-row>
@@ -117,7 +118,7 @@ export default {
         href: 'info_draft_list',
       },
       {
-        title: '下書き詳細',
+        title: '下書き編集',
         disabled: true,
         // href: 'disaster_detail',
       },

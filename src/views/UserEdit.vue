@@ -25,7 +25,8 @@ const props = defineProps({
         </v-breadcrumbs>
       </v-row>
     </div>
-    <h2>ユーザー編集</h2>
+    <v-divider></v-divider>
+    <!-- <h2>ユーザー編集</h2> -->
     <div class="mt-8">
       <v-form class="mt-8" ref="form">
         <v-row class="mt-3">

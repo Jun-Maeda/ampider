@@ -1,6 +1,16 @@
 <template>
   <v-container>
-    <h2>会社追加</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>会社追加</h2> -->
     <div class="mt-8">
       <v-form class="mt-5" ref="form">
         <v-row>
@@ -24,7 +34,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
-            <v-row justify="end">
+            <v-row justify="end" style="max-width: 510px">
               <v-btn class="mr-2" @click="$router.push('/company_list')">戻る</v-btn>
               <v-btn color="primary" @click="validate">追加</v-btn>
             </v-row>
@@ -71,6 +81,17 @@ export default {
     areas: [],
     select_areas: [],
     dialog: false,
+    link: [
+      {
+        title: '会社一覧',
+        disabled: false,
+        href: 'company_list',
+      },
+      {
+        title: '会社追加',
+        disabled: true,
+      },
+    ],
   }),
   mounted() {
     this.areas = ['秋田', '富山', '山形', '東京']

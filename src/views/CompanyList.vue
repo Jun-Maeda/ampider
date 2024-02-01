@@ -3,7 +3,17 @@ import { useCompanyStore } from '@/stores/company_setting'
 </script>
 <template>
   <v-container>
-    <h2>会社一覧</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>会社一覧</h2> -->
     <v-row class="mt-3">
       <v-col cols="8">
         <v-row justify="start" class="my-4">
@@ -52,6 +62,12 @@ import { useCompanyStore } from '@/stores/company_setting'
 <script>
 export default {
   data: () => ({
+    link: [
+      {
+        title: '会社一覧',
+        disabled: false,
+      },
+    ],
     search: '',
     dialog: false,
     dialogDelete: false,

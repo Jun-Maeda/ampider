@@ -1,7 +1,6 @@
 import * as vueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Chat from '@/views/Chat.vue'
-import Admin from '@/views/Admin.vue'
 import Upload from '@/views/Upload.vue'
 import Test from '@/views/TestPage.vue'
 import Test2 from '@/views/TestPage2.vue'
@@ -19,9 +18,9 @@ import UserCreate from '@/views/UserCreate.vue'
 import UserEdit from '@/views/UserEdit.vue'
 import CompanyCreate from '@/views/CompanyCreate.vue'
 import CompanyEdit from '@/views/CompanyEdit.vue'
-import AreaCreate from '@/views/AreaCreate.vue'
-import DivisionCreate from '@/views/DivisionCreate.vue'
-import OrganizationCreate from '@/views/OrganizationCreate.vue'
+// import AreaCreate from '@/views/AreaCreate.vue'
+// import DivisionCreate from '@/views/DivisionCreate.vue'
+// import OrganizationCreate from '@/views/OrganizationCreate.vue'
 import CompanyList from '@/views/CompanyList.vue'
 import AreaList from '@/views/AreaList.vue'
 import DivisionList from '@/views/DivisionList.vue'
@@ -39,12 +38,6 @@ const routes = [
     path: '/chat',
     name: 'chat',
     component: Chat,
-    props: true,
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    component: Admin,
     props: true,
   },
   {
@@ -155,24 +148,24 @@ const routes = [
     component: CompanyEdit,
     props: true,
   },
-  {
-    path: '/area_create',
-    name: 'area_create',
-    component: AreaCreate,
-    props: true,
-  },
-  {
-    path: '/division_create',
-    name: 'division_create',
-    component: DivisionCreate,
-    props: true,
-  },
-  {
-    path: '/organization_create',
-    name: 'organization_create',
-    component: OrganizationCreate,
-    props: true,
-  },
+  // {
+  //   path: '/area_create',
+  //   name: 'area_create',
+  //   component: AreaCreate,
+  //   props: true,
+  // },
+  // {
+  //   path: '/division_create',
+  //   name: 'division_create',
+  //   component: DivisionCreate,
+  //   props: true,
+  // },
+  // {
+  //   path: '/organization_create',
+  //   name: 'organization_create',
+  //   component: OrganizationCreate,
+  //   props: true,
+  // },
   {
     path: '/company_list',
     name: 'company_list',

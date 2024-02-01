@@ -3,7 +3,17 @@ import { infoDetailStore } from '@/stores/info'
 </script>
 <template>
   <v-container>
-    <h2>お知らせ一覧</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>お知らせ一覧</h2> -->
     <v-row justify="end" class="my-4">
       <v-text-field
         v-model="search"
@@ -51,6 +61,12 @@ import { infoDetailStore } from '@/stores/info'
 <script>
 export default {
   data: () => ({
+    link: [
+      {
+        title: 'お知らせ一覧',
+        disabled: false,
+      },
+    ],
     search: '',
     dialog: false,
     dialogDelete: false,

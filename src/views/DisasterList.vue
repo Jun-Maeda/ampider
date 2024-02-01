@@ -3,7 +3,17 @@ import { disasterDetailStore } from '@/stores/disaster'
 </script>
 <template>
   <v-container>
-    <h2>過去の災害一覧</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>過去の災害一覧</h2> -->
     <v-row justify="end" class="mt-8">
       <v-text-field
         v-model="search"
@@ -40,6 +50,12 @@ import { disasterDetailStore } from '@/stores/disaster'
 import { useDisplay } from 'vuetify'
 export default {
   data: () => ({
+    link: [
+      {
+        title: '過去の災害一覧',
+        disabled: false,
+      },
+    ],
     search: '',
     headers: [
       { title: '日時', align: 'start', width: '15%', key: 'date' },

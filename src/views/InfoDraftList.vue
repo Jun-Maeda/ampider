@@ -3,7 +3,17 @@ import { useDraftStore } from '@/stores/draft'
 </script>
 <template>
   <v-container>
-    <h2>下書き一覧</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>下書き一覧</h2> -->
     <v-row justify="end" class="my-4">
       <v-text-field
         v-model="search"
@@ -52,6 +62,12 @@ import { useDraftStore } from '@/stores/draft'
 <script>
 export default {
   data: () => ({
+    link: [
+      {
+        title: '下書き一覧',
+        disabled: false,
+      },
+    ],
     search: '',
     dialog: false,
     dialogDelete: false,

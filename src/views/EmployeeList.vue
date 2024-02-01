@@ -3,7 +3,17 @@ import { useUserEditStore } from '@/stores/user_edit'
 </script>
 <template>
   <v-container>
-    <h2>従業員一覧</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>従業員一覧</h2> -->
     <v-row class="mt-3">
       <v-col cols="8">
         <v-row justify="start" class="my-4">
@@ -62,6 +72,12 @@ export default {
     user: Object,
   },
   data: () => ({
+    link: [
+      {
+        title: '従業員一覧',
+        disabled: false,
+      },
+    ],
     search: '',
     dialog: false,
     dialogDelete: false,

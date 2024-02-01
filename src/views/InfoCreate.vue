@@ -3,7 +3,17 @@ import { useDraftStore } from '@/stores/draft'
 </script>
 <template>
   <v-container>
-    <h2>お知らせ作成</h2>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
+    <!-- <h2>お知らせ作成</h2> -->
     <div class="mt-8">
       <v-form class="mt-5" ref="form">
         <v-row>
@@ -92,6 +102,12 @@ import { useDraftStore } from '@/stores/draft'
 <script>
 export default {
   data: () => ({
+    link: [
+      {
+        title: 'お知らせ作成',
+        disabled: false,
+      },
+    ],
     rules: [(v) => !!v || 'この項目は必須です'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
     title: '',

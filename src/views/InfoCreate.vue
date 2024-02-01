@@ -33,17 +33,18 @@ import { useDraftStore } from '@/stores/draft'
             <v-textarea label="本文*" no-resize rows="8" v-model="body_text" :rules="rules"></v-textarea>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-row>
-              <v-checkbox v-model="notice_flg" label="通知" color="info" hide-details></v-checkbox>
-              <v-checkbox v-model="training_flg" label="訓練" color="info" hide-details></v-checkbox>
-            </v-row>
-          </v-col>
-        </v-row>
         <v-row justify="end">
-          <v-btn class="mr-3" variant="flat" color="primary" @click="createDraft">下書き</v-btn>
-          <v-btn color="primary" @click="validate">投稿</v-btn>
+          <v-row class="mt-3">
+            <v-col>
+              <v-btn v-on:click="$router.push('/info_list')" variant="text" class="pb-5"><v-icon> mdi-arrow-left-thick </v-icon>お知らせ一覧へ</v-btn>
+            </v-col>
+            <v-col>
+              <v-row justify="end">
+                <v-btn class="mr-3" variant="flat" color="primary" @click="createDraft">下書き</v-btn>
+                <v-btn color="primary" @click="validate">投稿</v-btn>
+              </v-row>
+            </v-col>
+          </v-row>
 
           <v-dialog v-model="dialog" persistent style="max-width: 800px">
             <!-- <template v-slot:activator="{ props }">
@@ -73,16 +74,6 @@ import { useDraftStore } from '@/stores/draft'
                   </v-col>
                   <v-col class="mr-auto" cols="3"> 本文：</v-col>
                   <v-col class="mr-auto vue-textarea" cols="9"> {{ body_text }} </v-col>
-                  <v-col class="mr-auto" cols="3"> 通知：</v-col>
-                  <v-col class="mr-auto" cols="9"
-                    ><span v-if="notice_flg">通知する</span>
-                    <span v-else>通知しない</span>
-                  </v-col>
-                  <v-col class="mr-auto" cols="3"> 種別：</v-col>
-                  <v-col class="mr-auto" cols="9"
-                    ><span v-if="notice_flg">通知する</span>
-                    <span v-else>通知しない</span>
-                  </v-col>
                 </v-row>
               </v-card-text>
               <v-card-actions>
@@ -95,7 +86,6 @@ import { useDraftStore } from '@/stores/draft'
         </v-row>
       </v-form>
     </div>
-    <v-btn v-on:click="$router.push('/info_list')" variant="text" class="pt-0"><v-icon> mdi-arrow-left-thick </v-icon>お知らせ一覧へ</v-btn>
   </v-container>
 </template>
 
@@ -114,8 +104,6 @@ export default {
     organizations: [],
     select_organizations: [],
     body_text: '',
-    notice_flg: false,
-    training_flg: false,
     dialog: false,
     draft_store: useDraftStore(),
   }),

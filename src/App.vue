@@ -10,8 +10,8 @@
         <v-app-bar scroll-threshold="0" class="pa-0 bg-orange-accent-3">
           <v-app-bar-nav-icon v-on:click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <v-toolbar-title>
-            <v-btn @click="$router.push('/')" variant="text" class="p-0 m-0" height="100%"
-              ><img src="@/images/ampider_logo.png" style="max-width: 160px"
+            <v-btn to="/" variant="text" class="p-0 m-0" height="100%"
+              ><img src="@/images/ampider_logo.png" style="max-width: 160px" :style="{ 'background-color': 'rgba(0,0,0,0)' }"
             /></v-btn>
           </v-toolbar-title>
           <div v-show="login">
@@ -47,34 +47,6 @@
               title="お知らせ一覧"
               class="mt-1"
             ></v-list-item>
-            <!-- <v-list-group value="home">
-              <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="HOME" prepend-icon="mdi-home"> </v-list-item>
-              </template>
-              <v-list-item
-                v-for="(home, i) in home"
-                v-bind="props"
-                :key="i"
-                :value="home"
-                color="primary"
-                rounded="xl"
-                :to="home.to"
-                :prepend-icon="home.icon"
-                :title="home.title"
-              >
-              </v-list-item>
-            </v-list-group> -->
-
-            <!-- お知らせ一覧 -->
-            <!-- <v-list-item
-              value="お知らせ一覧"
-              color="primary"
-              rounded="xl"
-              to="info_list"
-              prepend-icon="mdi-information-outline"
-              title="お知らせ一覧"
-              class="mt-1"
-            ></v-list-item> -->
 
             <!-- ユーザー設定 -->
             <v-list-group value="user_settings">
@@ -151,14 +123,14 @@
             <router-view :user="user" />
           </section>
         </v-main>
-        <v-footer class="bg-grey-lighten-1" app>
+        <!-- <v-footer class="bg-grey-lighten-1" app>
           <v-row justify="center" no-gutters>
             <v-btn v-for="link in links" :key="link" color="white" variant="text" class="mx-2 v-col-3 v-col-md-1" rounded="xl" :to="link.to">
               {{ link.name }}
             </v-btn>
             <v-col class="text-center mt-4" cols="12"> {{ new Date().getFullYear() }} — <strong>Vuetify</strong> </v-col>
           </v-row>
-        </v-footer>
+        </v-footer> -->
       </v-layout>
     </template>
   </authenticator>
@@ -191,10 +163,9 @@ export default {
     admin_menus: [
       { title: '集計', to: '/chart_detail', icon: 'mdi-chart-bar' },
       { title: '従業員一覧', to: '/employee_list', icon: 'mdi-account-multiple' },
-      // { title: '災害新規作成', to: '', icon: 'mdi-map-marker' },
       { title: 'お知らせ作成', to: '/info_create', icon: 'mdi-square-edit-outline' },
       { title: '下書き一覧', to: '/info_draft_list', icon: 'mdi-draw' },
-      // { title: '安否確認結果', to: '/admin', icon: 'mdi-clock' },
+      { title: '手動安否確認', to: '/manual_safety_conf', icon: 'mdi-alert' },
     ],
     settings: [{ title: '会社一覧', to: 'company_list', icon: 'mdi-domain' }],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-clock' }],

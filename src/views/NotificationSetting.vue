@@ -65,24 +65,26 @@
                         </v-col>
                         <v-col cols="12" md="2">
                           <div class="text-start">リマインド間隔</div>
-                          <div class="mt-3">
+                          <div class="mt-3 d-flex align-center">
                             <v-select
                               v-model="earthquake.selected.interval"
                               :items="earthquake.choices.interval"
                               density="compact"
                               variant="outlined"
                             ></v-select>
+                            <p class="my-auto">分</p>
                           </div>
                         </v-col>
                         <v-col cols="12" md="2">
                           <div class="text-start">リマインド回数(電話)</div>
-                          <div class="mt-3">
+                          <div class="mt-3  d-flex align-center">
                             <v-select
                               v-model="earthquake.selected.remind"
                               :items="earthquake.choices.remind"
                               density="compact"
                               variant="outlined"
                             ></v-select>
+                            <p class="my-auto">回</p>
                           </div>
                         </v-col>
                       </v-row>
@@ -129,24 +131,26 @@
                         </v-col>
                         <v-col cols="12" md="2">
                           <div class="text-start">リマインド間隔</div>
-                          <div class="mt-3">
+                          <div class="mt-3  d-flex align-center">
                             <v-select
                               v-model="weather.selected.interval"
                               :items="weather.choices.interval"
                               density="compact"
                               variant="outlined"
                             ></v-select>
+                            <div class="my-auto">分</div>
                           </div>
                         </v-col>
                         <v-col cols="12" md="2">
                           <div class="text-start">リマインド回数(電話)</div>
-                          <div class="mt-3">
+                          <div class="mt-3  d-flex align-center">
                             <v-select
                               v-model="weather.selected.remind"
                               :items="weather.choices.remind"
                               density="compact"
                               variant="outlined"
                             ></v-select>
+                            <div class="my-auto">回</div>
                           </div>
                         </v-col>
                       </v-row>
@@ -234,11 +238,11 @@ export default {
         remind: ['1', '2', '3', '4', '5'],
       },
       selected: {
-        standard: ['震度5'],
-        hour: ['0'],
-        minutes: ['15'],
-        interval: ['30'],
-        remind: ['5'],
+        standard: '震度5弱',
+        hour: '0',
+        minutes: '15',
+        interval: '30',
+        remind: '5',
       },
     },
     weather: {
@@ -276,10 +280,10 @@ export default {
       },
       selected: {
         alert: [],
-        hour: ['0'],
-        minutes: ['15'],
-        interval: ['30'],
-        remind: ['5'],
+        hour: '0',
+        minutes: '15',
+        interval: '30',
+        remind: '5',
       },
     },
     dialog: false,

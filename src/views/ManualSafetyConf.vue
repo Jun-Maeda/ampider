@@ -1,9 +1,6 @@
-<script setup>
-import { useDraftStore } from '@/stores/draft'
-</script>
 <template>
   <v-container>
-    <h2>お知らせ作成</h2>
+    <h2>手動安否確認</h2>
     <div class="mt-8">
       <v-form class="mt-5" ref="form">
         <v-row>
@@ -33,25 +30,22 @@ import { useDraftStore } from '@/stores/draft'
             <v-textarea label="本文*" no-resize rows="8" v-model="body_text" :rules="rules"></v-textarea>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col cols="12">
+            <v-row>
+              <v-checkbox v-model="training_flg" label="訓練" color="info" hide-details></v-checkbox>
+            </v-row>
+          </v-col>
+        </v-row>
         <v-row justify="end">
-          <v-row class="mt-3">
-            <v-col>
-              <v-btn v-on:click="$router.push('/info_list')" variant="text" class="pb-5"><v-icon> mdi-arrow-left-thick </v-icon>お知らせ一覧へ</v-btn>
-            </v-col>
-            <v-col>
-              <v-row justify="end">
-                <v-btn class="mr-3" variant="flat" color="primary" @click="createDraft">下書き</v-btn>
-                <v-btn color="primary" @click="validate">投稿</v-btn>
-              </v-row>
-            </v-col>
-          </v-row>
+          <v-btn color="primary" @click="validate">確認</v-btn>
 
           <v-dialog v-model="dialog" persistent style="max-width: 800px">
             <!-- <template v-slot:activator="{ props }">
               <v-btn @click="validate" color="primary" v-bind="props" >作成</v-btn>
             </template> -->
             <v-card>
-              <v-card-title class="text-h5">以下の内容で投稿してよろしいですか？</v-card-title>
+              <v-card-title class="text-h5">以下の内容で安否確認をしてよろしいですか？</v-card-title>
               <v-card-text>
                 <v-row>
                   <v-col class="mr-auto" cols="3">タイトル：</v-col>
@@ -72,14 +66,20 @@ import { useDraftStore } from '@/stores/draft'
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2" v-for="organization in select_organizations" :key="organization">{{ organization }}</span>
                   </v-col>
+
                   <v-col class="mr-auto" cols="3"> 本文：</v-col>
                   <v-col class="mr-auto vue-textarea" cols="9"> {{ body_text }} </v-col>
+                  <v-col class="mr-auto" cols="3"> 種別：</v-col>
+                  <v-col class="mr-auto" cols="9"
+                    ><span v-if="training_flg">訓練</span>
+                    <span v-else>お知らせ</span>
+                  </v-col>
                 </v-row>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="green-darken-1" variant="text" @click="dialog = false">キャンセル</v-btn>
-                <v-btn color="green-darken-1" variant="text" @click="createForm">投稿</v-btn>
+                <v-btn color="green-darken-1" variant="text" @click="createForm">実行</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -94,7 +94,7 @@ export default {
   data: () => ({
     rules: [(v) => !!v || 'この項目は必須です'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
-    title: '',
+    title: '【訓練】',
     companies: ['全社', 'PI', 'PCS', 'PAD'],
     select_companys: [],
     areas: [],
@@ -104,8 +104,8 @@ export default {
     organizations: [],
     select_organizations: [],
     body_text: '',
+    training_flg: true,
     dialog: false,
-    draft_store: useDraftStore(),
   }),
   mounted() {},
   methods: {
@@ -121,31 +121,11 @@ export default {
       this.dialog = false
       // ここに新規作成処理を記載
 
-      // お知らせ一覧へリダイレクト
-      this.$router.replace({
-        name: 'info_list',
-      })
+      // ページ更新
+      this.$router.go({ path: this.$router.currentRoute.path, force: true })
 
-      let success = 'お知らせを作成しました。\nタイトル:' + this.title
+      let success = '安否確認を開始しました。\nタイトル:' + this.title
       alert(success)
-
-      this.$refs.form.reset()
-    },
-    createDraft() {
-      this.dialog = false
-      let success = '下書きを保存しました。\nタイトル:' + this.title
-      // 下書きだった場合
-
-      // ここに下書き新規作成処理を記載
-
-      // 下書き一覧へリダイレクト
-      this.$router.replace({
-        name: 'info_draft_list',
-      })
-
-      alert(success)
-      // piniaのリセット
-      this.draft_store.resetDraft()
 
       this.$refs.form.reset()
     },

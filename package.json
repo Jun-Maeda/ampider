@@ -17,6 +17,7 @@
     "amazon-cognito-identity-js": "^6.3.6",
     "aws-amplify": "^4.3.46",
     "axios": "^1.6.2",
+    "encoding-japanese": "^2.0.0",
     "maplibre-gl": "^2.4.0",
     "maplibre-gl-js-amplify": "^2.1.0",
     "pinia": "^2.1.7",

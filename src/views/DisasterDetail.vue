@@ -25,6 +25,9 @@ import { disasterDetailStore } from '@/stores/disaster'
         </v-card-item>
       </v-card>
     </div>
+    <v-row justify="end" class="mt-5">
+      <v-btn class="mr-2" @click="$router.back()">戻る</v-btn>
+    </v-row>
   </v-container>
 </template>
 

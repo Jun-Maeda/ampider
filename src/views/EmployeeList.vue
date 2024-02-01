@@ -24,7 +24,7 @@ import { useUserEditStore } from '@/stores/user_edit'
       </v-col>
     </v-row>
     <v-row justify="end">
-      <v-data-table :headers="headers" :items="employees" :search="search" hover>
+      <v-data-table :headers="headers" :items="employees" :search="search" hover items-per-page-text="表示行数">
         <!-- <v-data-table :headers="headers" :items="employees" :search="search" @click:row="clickItem" hover> -->
         <template v-slot:top>
           <v-dialog v-model="dialogDelete" max-width="500px">

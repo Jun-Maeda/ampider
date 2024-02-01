@@ -16,6 +16,15 @@ const props = defineProps({
   >
   </v-progress-circular>
   <v-container>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
     <h2>ユーザー編集</h2>
     <div class="mt-8">
       <v-form class="mt-8" ref="form">
@@ -164,7 +173,8 @@ export default {
   data: () => ({
     all_rules: {
       required: (value) => !!value || '入力してください',
-      email: (value) => /.+@.+/.test(value) || 'メールアドレスの形式が正しくありません',
+      email: (value) =>
+        /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/.test(value) || 'メールアドレスの形式が正しくありません',
       phone: (value) =>
         // eslint-disable-next-line no-useless-escape
         /^(0[5-9]0[0-9]{8}|0[1-9][1-9][0-9]{7})$/.test(value.replace(/[━.*‐.*―.*－.*\-.*ー.*\-]/gi, '')) || '電話番号の形式が正しくありません',
@@ -172,6 +182,18 @@ export default {
       select: (value) => (value && value.length > 0) || '選択してください',
       zipcode: (value) => /^\d{7}$/.test(value) || 'ハイフンを除く半角数字7桁で郵便番号を入力してください',
     },
+    link: [
+      {
+        title: '従業員一覧',
+        disabled: false,
+        href: 'employee_list',
+      },
+      {
+        title: 'ユーザー編集',
+        disabled: true,
+        href: 'user_edit',
+      },
+    ],
     login_user: null,
     user_name: null,
     employee_number: null,

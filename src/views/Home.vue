@@ -15,17 +15,24 @@
       </div>
       <div class="mt-4">
         <v-row>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="4">
             <v-card class="mx-auto" :height="bkPoint.cardHeight" :variant="elevated">
               <v-card-item>
                 <apexchart type="pie" :height="bkPoint.chartHeight" :options="pie_chart.options" :series="pie_chart.series"></apexchart>
               </v-card-item>
             </v-card>
           </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="4">
             <v-card class="mx-auto" :height="bkPoint.cardHeight" :variant="elevated">
               <v-card-item>
                 <apexchart type="bar" :height="bkPoint.chartHeight" :options="bar_chart.options" :series="bar_chart.series"></apexchart>
+              </v-card-item>
+            </v-card>
+          </v-col>
+          <v-col cols="12" sm="4">
+            <v-card class="mx-auto" :height="bkPoint.cardHeight" :variant="elevated">
+              <v-card-item>
+                <apexchart type="bar" :height="bkPoint.chartHeight" :options="family_bar_chart.options" :series="family_bar_chart.series"></apexchart>
               </v-card-item>
             </v-card>
           </v-col>
@@ -162,6 +169,13 @@ export default {
           text: '回答率',
           align: 'left',
         },
+        legend: {
+          position: 'bottom',
+          offsetY: 0,
+          markers: {
+            radius: 4,
+          },
+        },
       },
       series: [50, 10],
     },
@@ -170,6 +184,21 @@ export default {
         labels: ['安全', '軽傷', '重症'],
         title: {
           text: '安否',
+          align: 'left',
+        },
+      },
+      series: [
+        {
+          name: '人数',
+          data: [5, 3, 1],
+        },
+      ],
+    },
+    family_bar_chart: {
+      options: {
+        labels: ['安全', '軽傷', '重症'],
+        title: {
+          text: '家族情報',
           align: 'left',
         },
       },

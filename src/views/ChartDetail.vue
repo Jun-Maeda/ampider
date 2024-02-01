@@ -62,6 +62,13 @@ export default {
           text: '回答率',
           align: 'left',
         },
+        legend: {
+          position: 'bottom',
+          offsetY: 0,
+          markers: {
+            radius: 4,
+          },
+        },
       },
       series: [50, 10],
     },

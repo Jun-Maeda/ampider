@@ -3,6 +3,16 @@ import { infoDetailStore } from '@/stores/info'
 </script>
 <template>
   <v-container>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
+    <v-divider></v-divider>
     <h2>お知らせ詳細</h2>
     <div class="mt-8">
       <v-row>
@@ -45,6 +55,17 @@ export default {
     //   body_text:
     //     '一部水没している地域について一部水没している地域について一部水没している地域について\n一部水没している地域について一部水没している地域について',
     // },
+    link: [
+      {
+        title: 'お知らせ一覧',
+        disabled: false,
+        href: 'info_list',
+      },
+      {
+        title: 'お知らせ詳細',
+        disabled: true,
+      },
+    ],
     info_detail: {},
     dialogDelete: false,
     info_store: infoDetailStore(),

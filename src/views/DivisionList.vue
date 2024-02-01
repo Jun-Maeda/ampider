@@ -3,6 +3,15 @@ import { useCompanyStore } from '@/stores/company_setting'
 </script>
 <template>
   <v-container>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
     <h2>【{{ company_store.area_data }}】事業部一覧</h2>
     <v-row class="mt-3">
       <v-col cols="8">
@@ -64,6 +73,22 @@ export default {
     divisions: [],
     editedItem: {},
     company_store: useCompanyStore(),
+    link: [
+      {
+        title: '会社一覧',
+        disabled: false,
+        href: 'company_list',
+      },
+      {
+        title: '拠点一覧',
+        disabled: false,
+        href: 'area_list',
+      },
+      {
+        title: '事業部一覧',
+        disabled: true,
+      },
+    ],
   }),
 
   mounted() {

@@ -3,6 +3,15 @@ import { useDraftStore } from '@/stores/draft'
 </script>
 <template>
   <v-container>
+    <div class="mt-4">
+      <v-row justify="start">
+        <v-breadcrumbs :items="link">
+          <template v-slot:divider>
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-row>
+    </div>
     <h2>下書き編集</h2>
     <div class="mt-8">
       <v-form class="mt-5" ref="form">
@@ -101,6 +110,18 @@ export default {
     body_text: '',
     dialog: false,
     draft_store: useDraftStore(),
+    link: [
+      {
+        title: '下書き一覧',
+        disabled: false,
+        href: 'info_draft_list',
+      },
+      {
+        title: '下書き詳細',
+        disabled: true,
+        // href: 'disaster_detail',
+      },
+    ],
   }),
   mounted() {
     let draft_data = this.draft_store.draft_data

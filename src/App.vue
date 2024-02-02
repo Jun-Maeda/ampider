@@ -169,7 +169,7 @@ export default {
     ],
     settings: [
       { title: '会社一覧', to: 'company_list', icon: 'mdi-domain' },
-      { title: '通知設定', to: '/notification_setting', icon: 'mdi-alert' },
+      { title: '通知設定', to: '/notification_setting', icon: 'mdi-bell-cog' },
     ],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-chat' }],
     drawer: false,

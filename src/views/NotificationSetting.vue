@@ -96,12 +96,12 @@
                       <v-row>
                         <v-col cols="12" md="4">
                           <v-container fluid>
-                            <v-checkbox v-model="weather.selected.alert" label="暴風雪特別警報" value="blizzard" density="compact"></v-checkbox>
-                            <v-checkbox v-model="weather.selected.alert" label="暴風特別警報" value="storm" density="compact"></v-checkbox>
-                            <v-checkbox v-model="weather.selected.alert" label="大雨特別警報" value="heavyRain" density="compact"></v-checkbox>
-                            <v-checkbox v-model="weather.selected.alert" label="波浪特別警報" value="waves" density="compact"></v-checkbox>
-                            <v-checkbox v-model="weather.selected.alert" label="高潮特別警報" value="stormSurge" density="compact"></v-checkbox>
-                            <v-checkbox v-model="weather.selected.alert" label="大雪特別警報" value="heavySnow" density="compact"></v-checkbox>
+                            <v-checkbox v-model="weather.selected.alert" label="暴風雪特別警報" value="暴風雪特別警報" density="compact"></v-checkbox>
+                            <v-checkbox v-model="weather.selected.alert" label="暴風特別警報" value="暴風特別警報" density="compact"></v-checkbox>
+                            <v-checkbox v-model="weather.selected.alert" label="大雨特別警報" value="大雨特別警報" density="compact"></v-checkbox>
+                            <v-checkbox v-model="weather.selected.alert" label="波浪特別警報" value="波浪特別警報" density="compact"></v-checkbox>
+                            <v-checkbox v-model="weather.selected.alert" label="高潮特別警報" value="高潮特別警報" density="compact"></v-checkbox>
+                            <v-checkbox v-model="weather.selected.alert" label="大雪特別警報" value="大雪特別警報" density="compact"></v-checkbox>
                           </v-container>
                         </v-col>
                         <v-col cols="12" md="4">

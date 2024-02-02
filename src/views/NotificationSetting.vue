@@ -77,7 +77,7 @@
                         </v-col>
                         <v-col cols="12" md="2">
                           <div class="text-start">リマインド回数(電話)</div>
-                          <div class="mt-3  d-flex align-center">
+                          <div class="mt-3 d-flex align-center">
                             <v-select
                               v-model="earthquake.selected.remind"
                               :items="earthquake.choices.remind"
@@ -131,7 +131,7 @@
                         </v-col>
                         <v-col cols="12" md="2">
                           <div class="text-start">リマインド間隔</div>
-                          <div class="mt-3  d-flex align-center">
+                          <div class="mt-3 d-flex align-center">
                             <v-select
                               v-model="weather.selected.interval"
                               :items="weather.choices.interval"
@@ -143,7 +143,7 @@
                         </v-col>
                         <v-col cols="12" md="2">
                           <div class="text-start">リマインド回数(電話)</div>
-                          <div class="mt-3  d-flex align-center">
+                          <div class="mt-3 d-flex align-center">
                             <v-select
                               v-model="weather.selected.remind"
                               :items="weather.choices.remind"
@@ -275,7 +275,7 @@ export default {
           '24',
         ],
         minutes: ['0', '15', '30', '45'],
-        interval: [ '15', '30', '45', '60'],
+        interval: ['15', '30', '45', '60'],
         remind: ['1', '2', '3', '4', '5'],
       },
       selected: {
@@ -294,8 +294,8 @@ export default {
       console.log(this.earthquake.selected.hour)
       if (this.earthquake.selected.hour === '0') {
         this.earthquake.choices.minutes = ['15', '30', '45']
-      }else{
-        this.earthquake.choices.minutes = ['0','15', '30', '45']
+      } else {
+        this.earthquake.choices.minutes = ['0', '15', '30', '45']
       }
     },
   },

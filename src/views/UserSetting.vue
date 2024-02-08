@@ -292,10 +292,29 @@ const props = defineProps({
               <v-select :items="send_type" item-title="name" item-value="id" v-model="item.type" density="compact" style="max-width: 500px" />
             </v-col>
           </v-row>
+          <v-row v-if="item.type === 1">
+            <v-col cols="12" sm="2" class="py-0 py-sm-3">
+              <p class="ma-sm-0">国</p>
+            </v-col>
+            <v-col cols="12" sm="10" class="py-0 py-sm-3">
+              <v-container class="px-0 py-0">
+                <v-autocomplete
+                  :items="international_num"
+                  item-title="name"
+                  item-value="code"
+                  v-model="item.international_num"
+                  density="compact"
+                  :rules="[all_rules.select]"
+                  style="max-width: 500px"
+                />
+              </v-container>
+            </v-col>
+          </v-row>
           <v-row>
             <v-col cols="12" sm="2" class="py-0 py-sm-3">
               <p class="ma-sm-0">連絡先</p>
             </v-col>
+
             <v-col cols="12" sm="10" class="py-0 py-sm-3"
               ><v-text-field
                 v-model="item.content"
@@ -732,6 +751,7 @@ export default {
         type: 1,
         content: '0120333906',
         pref: '秋田県',
+        international_num: '81',
       },
       {
         name: '年越蕎麦次郎',

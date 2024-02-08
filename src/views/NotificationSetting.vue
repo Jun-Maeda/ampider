@@ -19,6 +19,7 @@
               <v-tabs v-model="tab" color="primary" direction="direction">
                 <v-tab value="one">地震</v-tab>
                 <v-tab value="two">気象警報</v-tab>
+                <v-tab value="three">手動発報</v-tab>
               </v-tabs>
 
               <v-card-text>
@@ -156,6 +157,37 @@
                       </v-row>
                     </v-container>
                   </v-window-item>
+                  <v-window-item value="three">
+                    <v-container fluid>
+                      <v-row>
+                        
+                        <v-col cols="12" md="5" offset="1">
+                          <div class="text-start">リマインド間隔</div>
+                          <div class="mt-3 d-flex align-center">
+                            <v-select
+                              v-model="earthquake.selected.interval"
+                              :items="earthquake.choices.interval"
+                              density="compact"
+                              variant="outlined"
+                            ></v-select>
+                            <p class="my-auto">分</p>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" md="5" offset="1">
+                          <div class="text-start">リマインド回数(電話)</div>
+                          <div class="mt-3 d-flex align-center">
+                            <v-select
+                              v-model="earthquake.selected.remind"
+                              :items="earthquake.choices.remind"
+                              density="compact"
+                              variant="outlined"
+                            ></v-select>
+                            <p class="my-auto">回</p>
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-window-item>
                 </v-window>
               </v-card-text>
             </div>
@@ -176,6 +208,9 @@
                     <p style="text-indent: 1rem">安否確認タイミング:{{ weather.selected.hour }}時間{{ weather.selected.minutes }}分</p>
                     <p style="text-indent: 1rem">リマインド間隔:{{ weather.selected.interval }}分</p>
                     <p style="text-indent: 1rem">リマインド回数:{{ weather.selected.remind }}回</p>
+                    <p>手動発報</p>
+                    <p style="text-indent: 1rem">リマインド間隔:{{ manual.selected.interval }}分</p>
+                    <p style="text-indent: 1rem">リマインド回数:{{ manual.selected.remind }}回</p>
                   </v-card-text>
                   <v-card-actions>
                     <v-btn color="orange" @click="dialog = false">閉じる</v-btn>
@@ -282,6 +317,16 @@ export default {
         alert: [],
         hour: '0',
         minutes: '15',
+        interval: '30',
+        remind: '5',
+      },
+    },
+    manual : {
+      choices: {
+        interval: ['15', '30', '45', '60'],
+        remind: ['1', '2', '3', '4', '5'],
+      },
+      selected: {
         interval: '30',
         remind: '5',
       },

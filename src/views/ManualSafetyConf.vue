@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import { format } from 'date-fns'
 export default {
   data: () => ({
     link: [
@@ -123,6 +124,7 @@ export default {
     body_text: '',
     training_flg: true,
     dialog: false,
+    date_time: '',
   }),
   mounted() {},
   methods: {
@@ -141,6 +143,19 @@ export default {
       } else {
         this.title = '【安否確認】' + this.title
       }
+
+      // 現在の日時をdate_timeに保存
+      let now = new Date()
+      let year = format(now, 'yyyy')
+      let month = format(now, 'MM')
+      let date = format(now, 'dd')
+      let hour = format(now, 'HH')
+      let min = format(now, 'mm')
+      let sec = format(now, 'ss')
+      this.date_time = year + month + date + 'T' + hour + min + sec + 'Z'
+
+      console.log(this.date_time)
+
       // ここに新規作成処理を記載
 
       // ページ更新

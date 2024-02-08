@@ -59,7 +59,8 @@
               <v-card-text>
                 <v-row>
                   <v-col class="mr-auto" cols="3">タイトル：</v-col>
-                  <v-col class="mr-auto" cols="9">{{ title }}</v-col>
+                  <v-col v-if="training_flg" class="mr-auto" cols="9">【訓練】{{ title }}</v-col>
+                  <v-col v-else class="mr-auto" cols="9">【安否確認】{{ title }}</v-col>
                   <v-col class="mr-auto" cols="3"> 会社：</v-col>
                   <v-col class="mr-auto" cols="9"
                     ><span class="mr-2" v-for="company in select_companys" :key="company">{{ company }}</span>
@@ -110,7 +111,7 @@ export default {
     ],
     rules: [(v) => !!v || 'この項目は必須です'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
-    title: '【訓練】',
+    title: '',
     companies: ['全社', 'PI', 'PCS', 'PAD'],
     select_companys: [],
     areas: [],
@@ -135,6 +136,11 @@ export default {
     },
     createForm() {
       this.dialog = false
+      if (this.training_flg) {
+        this.title = '【訓練】' + this.title
+      } else {
+        this.title = '【安否確認】' + this.title
+      }
       // ここに新規作成処理を記載
 
       // ページ更新

@@ -8,9 +8,9 @@
       </v-breadcrumbs>
     </v-row>
     <v-divider></v-divider>
-    <div class="mt-4">
+    <!-- <div class="mt-4">
       <h2>災害ごとの通知基準</h2>
-    </div>
+    </div> -->
     <div class="mt-8">
       <v-row>
         <v-col cols="12" xl="7">
@@ -198,9 +198,9 @@ export default {
     direction: 'vertical',
     link: [
       {
-        title: '通知設定',
+        title: '災害ごとの通知基準',
         disabled: false,
-        href: 'disaster_list',
+        // href: 'disaster_list',
       },
     ],
     earthquake: {

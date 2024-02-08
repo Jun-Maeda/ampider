@@ -28,6 +28,7 @@ const props = defineProps({
     <!-- <h2>連絡先情報</h2> -->
     <div class="mt-8">
       <h4>社員情報</h4>
+      {{ my_pref_lists }}
       <v-row class="mt-3">
         <v-col cols="12" sm="2" class="py-0 py-sm-3">
           <p class="ma-sm-0"><b>社員番号</b></p>
@@ -97,7 +98,7 @@ const props = defineProps({
           <v-col cols="12" sm="10" class="py-0 py-sm-3">
             <v-select
               v-model="addresses"
-              :items="pref_lists"
+              :items="my_pref_lists"
               multiple
               clearable
               chips
@@ -393,6 +394,8 @@ export default {
     job_title: null,
     email: null,
     pref_lists: [],
+    my_pref_lists: [],
+    my_area: '',
     addresses: [],
     zipcode: null,
     pref: null,
@@ -436,7 +439,15 @@ export default {
 
     this.employee_number = this.login_user.username
     this.email = user_datas.email
+    this.my_pref_lists = JSON.parse(JSON.stringify(all_prefs))
     this.pref_lists = JSON.parse(JSON.stringify(all_prefs))
+    // ここで自分の拠点の都道府県を取得
+    this.my_area = '山形県'
+    // 都道府県があればその都道府県を選択から除外
+    if (this.my_area.length > 0) {
+      let index = this.my_pref_lists.indexOf(this.my_area)
+      this.my_pref_lists.splice(index, 1)
+    }
 
     // 以下はdynamodbから取得するデータに差し替え
     this.user_name = '笠木 静子'

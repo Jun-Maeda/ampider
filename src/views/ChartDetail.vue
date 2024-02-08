@@ -39,16 +39,16 @@ import { ja } from 'date-fns/locale'
 
     <v-row justify="end">
       <v-col cols="12" class="pb-0">
-        <v-data-table :headers="headers" :items="safeties" class="fixed-column" items-per-page-text="表示行数">
-          <template v-slot:[`item.step`]="{ item }">
-            <span v-for="step in stepIcons(item.step.times, item.step.reply)" v-bind:key="step">
-              <v-icon color="orange">{{ step_icons[step] }}</v-icon>
-            </span>
-          </template>
-        </v-data-table>
+        <v-data-table :headers="headers" :items="safeties" class="fixed-column" items-per-page-text="表示行数"> </v-data-table>
       </v-col>
       <v-btn v-on:click="downloadCSV" variant="text" class="pt-0"><v-icon> mdi-download </v-icon>CSVダウンロード</v-btn>
     </v-row>
+    <!-- ステップ増やすときはこれをテーブルの中にいれてあげてね。
+                <template v-slot:[`item.step`]="{ item }">
+            <span v-for="step in stepIcons(item.step.times, item.step.reply)" v-bind:key="step">
+              <v-icon color="orange">{{ step_icons[step] }}</v-icon>
+            </span>
+          </template> -->
   </v-container>
 </template>
 
@@ -137,7 +137,7 @@ export default {
       { title: '出社可否', key: 'attendance_state', minWidth: '150' },
       { title: '家族の安否', key: 'family_safety', minWidth: '120' },
       { title: '家屋の状態', key: 'house_state', minWidth: '130' },
-      { title: 'ステップ', key: 'step', sortable: false, minWidth: '180' },
+      // { title: 'ステップ', key: 'step', sortable: false, minWidth: '180' },
       { title: '特記事項', key: 'notice', minWidth: '200' },
     ],
     safeties: [

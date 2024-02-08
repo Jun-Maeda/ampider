@@ -28,7 +28,6 @@ const props = defineProps({
     <!-- <h2>連絡先情報</h2> -->
     <div class="mt-8">
       <h4>社員情報</h4>
-      {{ my_pref_lists }}
       <v-row class="mt-3">
         <v-col cols="12" sm="2" class="py-0 py-sm-3">
           <p class="ma-sm-0"><b>社員番号</b></p>
@@ -92,20 +91,19 @@ const props = defineProps({
         <v-divider></v-divider>
         <v-row>
           <v-col cols="12" sm="2" class="py-0 py-sm-3">
-            <b>住所(都道府県)</b>
+            <b>所属拠点住所</b>
+          </v-col>
+
+          <v-col cols="12" sm="10" class="py-0 py-sm-3">{{ my_area }} </v-col>
+        </v-row>
+        <v-divider></v-divider>
+        <v-row>
+          <v-col cols="12" sm="2" class="py-0 py-sm-3">
+            <b>追加住所</b>
           </v-col>
 
           <v-col cols="12" sm="10" class="py-0 py-sm-3">
-            <v-select
-              v-model="addresses"
-              :items="my_pref_lists"
-              multiple
-              clearable
-              chips
-              :rules="[all_rules.select]"
-              style="max-width: 500px"
-              density="compact"
-            ></v-select>
+            <v-select v-model="addresses" :items="my_pref_lists" multiple clearable chips style="max-width: 500px" density="compact"></v-select>
           </v-col>
         </v-row>
         <v-divider></v-divider>

@@ -83,7 +83,7 @@
                   <v-col class="mr-auto" cols="3"> 種別：</v-col>
                   <v-col class="mr-auto" cols="9"
                     ><span v-if="training_flg">訓練</span>
-                    <span v-else>お知らせ</span>
+                    <span v-else>安否確認</span>
                   </v-col>
                 </v-row>
               </v-card-text>

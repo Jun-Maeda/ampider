@@ -50,8 +50,8 @@ import { useCompanyStore } from '@/stores/company_setting'
         </v-dialog>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon v-show="item.adding_flg" size="small" class="me-2" @click.stop="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon v-show="item.adding_flg" size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon v-show="!item.auto_setting" size="small" class="me-2" @click.stop="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon v-show="!item.auto_setting" size="small" @click.stop="deleteItem(item)"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data> 該当するものがありません。 </template>
     </v-data-table>
@@ -72,9 +72,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { title: '名前', key: 'name', width: '300', minWidth: '100' },
-      // { title: '会社番号', key: 'company_num', width: '200', minWidth: '150' },
-      { title: '連絡先', key: 'mail', width: '400', minWidth: '200' },
+      { title: '名前', key: 'company_name', width: '300', minWidth: '100' },
       { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
     companies: [],
@@ -103,35 +101,21 @@ export default {
 
   methods: {
     initialize() {
-      // OBICの事業部カラムに会社名が記載されているもののみ取得
-      // 今はadding_flgで手動追加か判別
-      this.companies = [
-        {
-          name: 'PAD',
-          company_num: '1234567',
-          mail: 'test_test@test.jp',
-          adding_flg: false,
-        },
-        {
-          name: 'PHS',
-          company_num: '1234567',
-          mail: 'test_test@test.jp',
-          adding_flg: false,
-        },
-        {
-          name: '(株)プレミア・アンピダー',
-          company_num: 'add_1234567',
-          mail: 'test_test@test.jp',
-          adding_flg: true,
-        },
-      ]
-      // PI関連は会社名の登録がOBICの事業部カラムにないのでここで作成してすべての拠点に紐づけ
-      this.companies.unshift({
-        name: 'PI・PCS・PGS',
-        company_num: '1234567',
-        mail: 'test_test@test.jp',
-        adding_flg: false,
-      })
+      let company_list_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/'
+      this.axios
+        .get(company_list_url)
+        .then((res) => {
+          this.companies = res.data
+          // PI関連は会社名の登録がOBICの事業部カラムにないのでここで作成してすべての拠点に紐づけ
+          this.companies.unshift({
+            auto_setting: true,
+            company_name: 'PI・PCS・PGS',
+          })
+        })
+        .catch((err) => {
+          alert('このデータはありません')
+          console.log(err)
+        })
     },
 
     editItem(item) {

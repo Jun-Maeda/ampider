@@ -160,7 +160,6 @@
                   <v-window-item value="three">
                     <v-container fluid>
                       <v-row>
-                        
                         <v-col cols="12" md="5" offset="1">
                           <div class="text-start">リマインド間隔</div>
                           <div class="mt-3 d-flex align-center">
@@ -321,7 +320,7 @@ export default {
         remind: '5',
       },
     },
-    manual : {
+    manual: {
       choices: {
         interval: ['15', '30', '45', '60'],
         remind: ['1', '2', '3', '4', '5'],

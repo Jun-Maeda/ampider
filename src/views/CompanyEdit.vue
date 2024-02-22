@@ -67,6 +67,7 @@ import { useCompanyStore } from '@/stores/company_setting'
 </template>
 
 <script>
+const company_master_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/'
 export default {
   data: () => ({
     rules: [(v) => !!v || 'この項目は必須です'],
@@ -96,11 +97,19 @@ export default {
         name: 'company_list',
       })
     }
-    this.company = company_edit.name
-    // ここで会社に紐づく拠点の取得
-    this.select_areas = ['秋田', '富山']
+    this.company = company_edit.company_name
+    // 会社に紐づく拠点の取得
+    this.axios
+      .get(company_master_url + this.company)
+      .then((res) => {
+        this.select_areas = res.data
+      })
+      .catch((err) => {
+        alert('このデータはありません')
+        console.log(err)
+      })
     // ここですべての拠点の取得
-    this.areas = ['秋田', '富山', '山形', '東京']
+    this.areas = ['秋田BPO', '富山BPO', '山形BPO', '東京本社']
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック

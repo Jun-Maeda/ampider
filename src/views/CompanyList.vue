@@ -39,7 +39,7 @@ import { useCompanyStore } from '@/stores/company_setting'
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
-            <p class="text-center">会社名：{{ editedItem.name }}</p>
+            <p class="text-center">会社名：{{ editedItem.company_name }}</p>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
@@ -131,7 +131,18 @@ export default {
     },
 
     deleteItemConfirm() {
+      let delete_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + this.editedItem.company_name
+      this.axios
+        .delete(delete_url)
+        .then((res) => {
+          this.unit_details = res.data
+        })
+        .catch((err) => {
+          alert('削除に失敗しました。')
+          console.log(err)
+        })
       this.closeDelete()
+      this.$router.go({ path: this.$router.currentRoute.path, force: true })
       alert('削除しました。')
     },
 

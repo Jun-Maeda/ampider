@@ -94,7 +94,8 @@ export default {
     ],
   }),
   mounted() {
-    this.areas = ['秋田', '富山', '山形', '東京']
+    // ここですべての拠点取得
+    this.areas = ['秋田BPO', '富山BPO', '山形BPO', '東京本社']
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
@@ -108,7 +109,26 @@ export default {
     createForm() {
       this.dialog = false
       // ここに新規作成処理を記載
-      // 保存する際にはadding_flgをtrueにして保存する
+      let send_data = {
+        company_name: this.company,
+        areas: this.areas,
+      }
+      let create_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com'
+      const config = {
+        headers: {
+          'Content-type': 'text/plain',
+        },
+      }
+
+      this.axios
+        .post(create_url, send_data, config)
+        .then((res) => {
+          this.unit_details = res.data
+        })
+        .catch((err) => {
+          alert('作成に失敗しました。')
+          console.log(err)
+        })
 
       // 会社一覧へリダイレクト
       this.$router.replace({

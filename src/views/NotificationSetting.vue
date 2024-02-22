@@ -57,7 +57,6 @@
                                   :items="earthquake.choices.minutes"
                                   density="compact"
                                   variant="outlined"
-                                  @click="selecMinutes"
                                 ></v-select>
                                 <div class="my-auto">分</div>
                               </v-col>
@@ -335,14 +334,9 @@ export default {
   }),
   mounted() {},
   methods: {
-    selecMinutes() {
-      console.log(this.earthquake.selected.hour)
-      if (this.earthquake.selected.hour === '0') {
-        this.earthquake.choices.minutes = ['15', '30', '45']
-      } else {
-        this.earthquake.choices.minutes = ['0', '15', '30', '45']
-      }
-    },
+    timeConversion(){
+    
+    }
   },
 }
 </script>

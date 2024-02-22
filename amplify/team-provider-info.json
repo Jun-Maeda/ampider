@@ -1,103 +1,19 @@
 {
-  "dev": {
+  "backend": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-viteproject-dev-93513-authRole",
-      "UnauthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-dev-93513-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-dev-93513-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-viteproject-dev-93513-deployment",
-      "UnauthRoleName": "amplify-viteproject-dev-93513-unauthRole",
-      "StackName": "amplify-viteproject-dev-93513",
-      "StackId": "arn:aws:cloudformation:us-east-1:483152216008:stack/amplify-viteproject-dev-93513/dbd7b090-48aa-11ee-adae-128913c05cb1",
-      "AmplifyAppId": "d1ttrf0cprh254"
-    },
-    "categories": {
-      "auth": {
-        "viteprojectc3d2abf6": {}
-      },
-      "api": {
-        "viteproject": {}
-      },
-      "function": {
-        "S3Triggerdeec0dd2": {
-          "deploymentBucketName": "amplify-viteproject-dev-93513-deployment",
-          "s3Key": "amplify-builds/S3Triggerdeec0dd2-4d45694a614776627075-build.zip"
-        }
-      },
-      "storage": {
-        "s3e536ed72": {}
-      }
-    }
-  },
-  "maeda": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-viteproject-maeda-151116-authRole",
-      "UnauthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-maeda-151116-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-maeda-151116-authRole",
+      "AuthRoleName": "amplify-ampider-backend-112716-authRole",
+      "UnauthRoleArn": "arn:aws:iam::483152216008:role/amplify-ampider-backend-112716-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::483152216008:role/amplify-ampider-backend-112716-authRole",
       "Region": "ap-northeast-1",
-      "DeploymentBucketName": "amplify-viteproject-maeda-151116-deployment",
-      "UnauthRoleName": "amplify-viteproject-maeda-151116-unauthRole",
-      "StackName": "amplify-viteproject-maeda-151116",
-      "StackId": "arn:aws:cloudformation:ap-northeast-1:483152216008:stack/amplify-viteproject-maeda-151116/7bb8df50-6f0f-11ee-930c-0efcdd1bb837",
-      "AmplifyAppId": "dof9zloz8wrhk"
+      "DeploymentBucketName": "amplify-ampider-backend-112716-deployment",
+      "UnauthRoleName": "amplify-ampider-backend-112716-unauthRole",
+      "StackName": "amplify-ampider-backend-112716",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:483152216008:stack/amplify-ampider-backend-112716/e608ba20-d129-11ee-8c6f-0e0a6af253d9",
+      "AmplifyAppId": "d3i39xrq7fu64v"
     },
     "categories": {
       "auth": {
-        "viteprojectc3d2abf6": {}
-      },
-      "function": {
-        "S3Triggerdeec0dd2": {
-          "deploymentBucketName": "amplify-viteproject-maeda-151116-deployment",
-          "s3Key": "amplify-builds/S3Triggerdeec0dd2-684b762f474153637067-build.zip"
-        }
-      },
-      "api": {
-        "viteproject": {}
-      },
-      "storage": {
-        "s3e536ed72": {}
-      }
-    }
-  },
-  "ampider": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-viteproject-ampider-114404-authRole",
-      "UnauthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-ampider-114404-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-ampider-114404-authRole",
-      "Region": "ap-northeast-1",
-      "DeploymentBucketName": "amplify-viteproject-ampider-114404-deployment",
-      "UnauthRoleName": "amplify-viteproject-ampider-114404-unauthRole",
-      "StackName": "amplify-viteproject-ampider-114404",
-      "StackId": "arn:aws:cloudformation:ap-northeast-1:483152216008:stack/amplify-viteproject-ampider-114404/d46e63e0-8cce-11ee-839e-0a9f31ffdf53",
-      "AmplifyAppId": "dof9zloz8wrhk"
-    },
-    "categories": {
-      "auth": {
-        "viteprojectc3d2abf6": {}
-      },
-      "function": {
-        "S3Triggerdeec0dd2": {}
-      }
-    }
-  },
-  "maedadev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-viteproject-maedadev-115758-authRole",
-      "UnauthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-maedadev-115758-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-maedadev-115758-authRole",
-      "Region": "ap-northeast-1",
-      "DeploymentBucketName": "amplify-viteproject-maedadev-115758-deployment",
-      "UnauthRoleName": "amplify-viteproject-maedadev-115758-unauthRole",
-      "StackName": "amplify-viteproject-maedadev-115758",
-      "StackId": "arn:aws:cloudformation:ap-northeast-1:483152216008:stack/amplify-viteproject-maedadev-115758/c5fc8150-8cd0-11ee-a595-0ed2303ff05f",
-      "AmplifyAppId": "dof9zloz8wrhk"
-    },
-    "categories": {
-      "auth": {
-        "viteprojectc3d2abf6": {}
-      },
-      "function": {
-        "S3Triggerdeec0dd2": {}
+        "ampider23ea7e47": {}
       }
     }
   }

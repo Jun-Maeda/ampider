@@ -1,0 +1,145 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-viteproject-maeda-151116-authRole",
+      "UnauthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-maeda-151116-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::483152216008:role/amplify-viteproject-maeda-151116-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-viteproject-maeda-151116-deployment",
+      "UnauthRoleName": "amplify-viteproject-maeda-151116-unauthRole",
+      "StackName": "amplify-viteproject-maeda-151116",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:483152216008:stack/amplify-viteproject-maeda-151116/7bb8df50-6f0f-11ee-930c-0efcdd1bb837",
+      "AmplifyAppId": "dof9zloz8wrhk"
+    }
+  },
+  "api": {
+    "viteproject": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "viteprojectc3d2abf6"
+        }
+      ],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authviteprojectc3d2abf6"
+            }
+          }
+        },
+        "GraphQLAPIIdOutput": "jsdvhl2vdzfcfagqhiowwwjbau",
+        "GraphQLAPIEndpointOutput": "https://5ey4ic5y5jbrvl325kf4ck4ekm.appsync-api.ap-northeast-1.amazonaws.com/graphql"
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-viteproject-maeda-151116-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiviteproject"
+      },
+      "lastPushTimeStamp": "2023-11-24T08:02:39.355Z",
+      "lastPushDirHash": "FS4V2+WXP8DedV4dJa/eu4A0VuI="
+    }
+  },
+  "auth": {
+    "viteprojectc3d2abf6": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-viteproject-maeda-151116-deployment/amplify-cfn-templates/auth/viteprojectc3d2abf6-cloudformation-template.json",
+        "logicalId": "authviteprojectc3d2abf6"
+      },
+      "lastPushTimeStamp": "2023-11-24T08:02:37.030Z",
+      "output": {
+        "UserPoolId": "ap-northeast-1_V0bxp5Hj3",
+        "AppClientIDWeb": "3mtsjqk8o0v9g220t6f8dcj969",
+        "AppClientID": "6nuvm1eg997htqug6gghrffh2m",
+        "IdentityPoolId": "ap-northeast-1:6a12ed1a-5a14-4189-a96b-d942f63f5b36",
+        "UserPoolArn": "arn:aws:cognito-idp:ap-northeast-1:483152216008:userpool/ap-northeast-1_V0bxp5Hj3",
+        "IdentityPoolName": "viteprojectc3d2abf6_identitypool_c3d2abf6__maeda",
+        "UserPoolName": "viteprojectc3d2abf6_userpool_c3d2abf6"
+      },
+      "lastPushDirHash": "n5ZpHbEMcfI3IwsRGcDk9SZm4Q8="
+    }
+  },
+  "function": {
+    "S3Triggerdeec0dd2": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2023-11-24T08:00:48.269Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2023-11-24T08:00:48.330Z",
+      "distZipFilename": "S3Triggerdeec0dd2-684b762f474153637067-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-viteproject-maeda-151116-deployment",
+        "s3Key": "amplify-builds/S3Triggerdeec0dd2-684b762f474153637067-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-viteproject-maeda-151116-deployment/amplify-cfn-templates/function/S3Triggerdeec0dd2-cloudformation-template.json",
+        "logicalId": "functionS3Triggerdeec0dd2"
+      },
+      "lastPushTimeStamp": "2023-11-24T08:02:39.355Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::483152216008:role/S3Triggerdeec0dd2LambdaRoledeec0dd2-maeda",
+        "Region": "ap-northeast-1",
+        "Arn": "arn:aws:lambda:ap-northeast-1:483152216008:function:S3Triggerdeec0dd2-maeda",
+        "Name": "S3Triggerdeec0dd2-maeda",
+        "LambdaExecutionRole": "S3Triggerdeec0dd2LambdaRoledeec0dd2-maeda"
+      },
+      "lastPushDirHash": "/KTdVFIPDRAcE7MAmWseauMaqEE="
+    }
+  },
+  "storage": {
+    "s3e536ed72": {
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "S3Triggerdeec0dd2",
+          "attributes": [
+            "Name",
+            "Arn",
+            "LambdaExecutionRole"
+          ]
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "S3",
+      "lastPushTimeStamp": "2023-11-24T08:02:37.042Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-viteproject-maeda-151116-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "logicalId": "storages3e536ed72"
+      },
+      "output": {
+        "BucketName": "viteprojectd6eb7eee5e344c87a5baf41c5f0472f1151116-maeda",
+        "Region": "ap-northeast-1"
+      },
+      "lastPushDirHash": "7Axc6Zb9yRfmT1860GfpT3s1FKQ="
+    }
+  }
+}

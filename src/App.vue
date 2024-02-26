@@ -25,7 +25,14 @@
           </div> -->
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary style="position: fixed; width: 270px" scrim="transparent">
+        <v-navigation-drawer
+          v-model="drawer"
+          absolute
+          temporary
+          style="position: fixed; width: 270px"
+          scrim="transparent"
+          :active="'/' === $route.path"
+        >
           <v-list>
             <!-- ホーム -->
             <v-list-item value="HOME" color="primary" rounded="xl" to="/" prepend-icon="mdi-home" title="HOME" class="mt-1"></v-list-item>
@@ -37,6 +44,7 @@
               prepend-icon="mdi-weather-pouring"
               title="過去災害一覧"
               class="mt-1"
+              :active="'/disaster_list' === $route.path"
             ></v-list-item>
             <v-list-item
               value="お知らせ一覧"
@@ -46,6 +54,7 @@
               prepend-icon="mdi-information-outline"
               title="お知らせ一覧"
               class="mt-1"
+              :active="'/info_list' === $route.path"
             ></v-list-item>
 
             <!-- ユーザー設定 -->
@@ -63,6 +72,7 @@
                 :to="user_setting.to"
                 :prepend-icon="user_setting.icon"
                 :title="user_setting.title"
+                :active="user_setting.to === $route.path"
               >
               </v-list-item>
             </v-list-group>
@@ -82,6 +92,7 @@
                 :to="admin_menu.to"
                 :prepend-icon="admin_menu.icon"
                 :title="admin_menu.title"
+                :active="admin_menu.to === $route.path"
               >
               </v-list-item>
             </v-list-group>
@@ -99,6 +110,7 @@
                 :to="setting.to"
                 :prepend-icon="setting.icon"
                 :title="setting.title"
+                :active="setting.to === $route.path"
               >
               </v-list-item>
             </v-list-group>
@@ -113,6 +125,7 @@
                 :to="item.to"
                 :prepend-icon="item.icon"
                 :title="item.title"
+                :active="item.to === $route.path"
               >
               </v-list-item>
             </v-list-item-group>
@@ -156,10 +169,10 @@ export default {
     login: true,
     home: [
       { title: 'home', to: '/', icon: 'mdi-home' },
-      { title: '過去災害一覧', to: 'disaster_list', icon: 'mdi-weather-pouring' },
-      { title: 'お知らせ一覧', to: 'info_list', icon: 'mdi-information-outline' },
+      { title: '過去災害一覧', to: '/disaster_list', icon: 'mdi-weather-pouring' },
+      { title: 'お知らせ一覧', to: '/info_list', icon: 'mdi-information-outline' },
     ],
-    user_settings: [{ title: '連絡先情報', to: 'user_setting', icon: 'mdi-account-cog-outline' }],
+    user_settings: [{ title: '連絡先情報', to: '/user_setting', icon: 'mdi-account-cog-outline' }],
     admin_menus: [
       { title: '集計', to: '/chart_detail', icon: 'mdi-chart-bar' },
       { title: '従業員一覧', to: '/employee_list', icon: 'mdi-account-multiple' },
@@ -168,7 +181,7 @@ export default {
       { title: '手動安否確認', to: '/manual_safety_conf', icon: 'mdi-alert' },
     ],
     settings: [
-      { title: '会社一覧', to: 'company_list', icon: 'mdi-domain' },
+      { title: '会社一覧', to: '/company_list', icon: 'mdi-domain' },
       { title: '通知設定', to: '/notification_setting', icon: 'mdi-bell-cog' },
     ],
     items: [{ title: 'chat', to: '/chat', icon: 'mdi-chat' }],

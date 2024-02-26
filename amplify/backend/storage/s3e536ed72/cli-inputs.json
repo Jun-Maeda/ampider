@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3e536ed72",
+  "policyUUID": "e536ed72",
+  "bucketName": "viteprojectd6eb7eee5e344c87a5baf41c5f0472f1",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE"
+  ],
+  "triggerFunction": "S3Triggerdeec0dd2",
+  "groupAccess": {}
+}

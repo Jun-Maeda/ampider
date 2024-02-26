@@ -123,6 +123,25 @@ export default {
     editForm() {
       this.dialog = false
       // ここに更新処理を記載
+      let send_data = {
+        company_name: this.company,
+        areas: this.select_areas,
+      }
+      const config = {
+        headers: {
+          'Content-type': 'text/plain',
+        },
+      }
+
+      this.axios
+        .put(company_master_url + this.company, send_data, config)
+        .then((res) => {
+          this.unit_details = res.data
+        })
+        .catch((err) => {
+          alert('作成に失敗しました。')
+          console.log(err)
+        })
 
       // 会社一覧へリダイレクト
       this.$router.replace({

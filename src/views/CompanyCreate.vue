@@ -111,7 +111,7 @@ export default {
       // ここに新規作成処理を記載
       let send_data = {
         company_name: this.company,
-        areas: this.areas,
+        areas: this.select_areas,
       }
       let create_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com'
       const config = {

@@ -18,29 +18,29 @@ import { useDraftStore } from '@/stores/draft'
       <v-form class="mt-5" ref="form">
         <v-row>
           <v-col class="mr-auto" cols="12" lg="6">
-            <v-text-field v-model="title" label="タイトル*" required max-widgh="300px" :rules="rules" />
+            <v-text-field v-model="draft_data.information_title" label="タイトル*" required max-widgh="300px" :rules="rules" />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
-            <v-select label="会社*" :items="companies" :rules="select_rules" v-model="select_companys" @click="choiceCompany" multiple />
+            <v-select label="会社*" :items="companies" :rules="select_rules" v-model="draft_data.companys" @click="choiceCompany" multiple />
           </v-col>
 
           <v-col v-if="select_companys.length > 0" cols="12" lg="6">
-            <v-select label="拠点" :items="areas" v-model="select_areas" @click="choiceArea" multiple />
+            <v-select label="拠点" :items="areas" v-model="draft_data.areas" @click="choiceArea" multiple />
           </v-col>
 
           <v-col v-if="select_areas.length > 0" cols="12" lg="6">
-            <v-select label="事業部" :items="divisions" v-model="select_divisions" @click="choiceDivision" multiple />
+            <v-select label="事業部" :items="divisions" v-model="draft_data.divisions" @click="choiceDivision" multiple />
           </v-col>
 
           <v-col v-if="select_divisions.length > 0" cols="12" lg="6">
-            <v-select label="所属" :items="organizations" v-model="select_organizations" @click="choiceOrganization" multiple />
+            <v-select label="所属" :items="organizations" v-model="draft_data.organizations" @click="choiceOrganization" multiple />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12">
-            <v-textarea label="本文*" no-resize rows="8" v-model="body_text" :rules="rules"></v-textarea>
+            <v-textarea label="本文*" no-resize rows="8" v-model="draft_data.information_body" :rules="rules"></v-textarea>
           </v-col>
         </v-row>
         <v-row>
@@ -52,33 +52,30 @@ import { useDraftStore } from '@/stores/draft'
           <v-btn color="primary" @click="validate">投稿</v-btn>
 
           <v-dialog v-model="dialog" persistent width="auto">
-            <!-- <template v-slot:activator="{ props }">
-              <v-btn @click="validate" color="primary" v-bind="props" >作成</v-btn>
-            </template> -->
             <v-card>
               <v-card-title class="text-h5">以下の内容で投稿してよろしいですか？</v-card-title>
               <v-card-text>
                 <v-row>
                   <v-col class="mr-auto" cols="3">タイトル：</v-col>
-                  <v-col class="mr-auto" cols="9">{{ title }}</v-col>
+                  <v-col class="mr-auto" cols="9">{{ draft_data.information_title }}</v-col>
                   <v-col class="mr-auto" cols="3"> 会社：</v-col>
                   <v-col class="mr-auto" cols="9"
-                    ><span class="mr-2" v-for="company in select_companys" :key="company">{{ company }}</span>
+                    ><span class="mr-2" v-for="company in draft_data.companys" :key="company">{{ company }}</span>
                   </v-col>
                   <v-col class="mr-auto" cols="3"> 拠点：</v-col>
                   <v-col class="mr-auto" cols="9"
-                    ><span class="mr-2" v-for="area in select_areas" :key="area">{{ area }}</span></v-col
+                    ><span class="mr-2" v-for="area in draft_data.areas" :key="area">{{ area }}</span></v-col
                   >
                   <v-col class="mr-auto" cols="3"> 事業部：</v-col>
                   <v-col class="mr-auto" cols="9"
-                    ><span class="mr-2" v-for="division in select_divisions" :key="division">{{ division }}</span>
+                    ><span class="mr-2" v-for="division in draft_data.divisions" :key="division">{{ division }}</span>
                   </v-col>
                   <v-col class="mr-auto" cols="3"> 所属：</v-col>
                   <v-col class="mr-auto" cols="9"
-                    ><span class="mr-2" v-for="organization in select_organizations" :key="organization">{{ organization }}</span>
+                    ><span class="mr-2" v-for="organization in draft_data.organizations" :key="organization">{{ organization }}</span>
                   </v-col>
                   <v-col class="mr-auto" cols="3"> 本文：</v-col>
-                  <v-col class="mr-auto vue-textarea" cols="9"> {{ body_text }} </v-col>
+                  <v-col class="mr-auto vue-textarea" cols="9"> {{ draft_data.information_body }} </v-col>
                 </v-row>
               </v-card-text>
               <v-card-actions>
@@ -100,7 +97,7 @@ export default {
     rules: [(v) => !!v || 'この項目は必須です'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
     title: '',
-    companies: ['全社', 'PI', 'PCS', 'PAD'],
+    companies: ['全社', 'PI', 'PCS', 'PAD', 'PI/PCS/PGS'],
     select_companys: [],
     areas: [],
     select_areas: [],
@@ -111,6 +108,7 @@ export default {
     body_text: '',
     dialog: false,
     draft_store: useDraftStore(),
+    draft_data: {},
     link: [
       {
         title: '下書き一覧',
@@ -125,10 +123,11 @@ export default {
     ],
   }),
   mounted() {
-    let draft_data = this.draft_store.draft_data
-
-    this.title = draft_data.title
-    this.body_text = draft_data.text
+    // let draft_data = this.draft_store.draft_data
+    // this.title = draft_data.title
+    // this.body_text = draft_data.text
+    this.draft_data = this.draft_store.draft_data
+    console.log(this.draft_data.information_title)
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック

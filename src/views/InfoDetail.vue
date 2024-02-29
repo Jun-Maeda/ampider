@@ -17,23 +17,23 @@ import { infoDetailStore } from '@/stores/info'
     <div class="mt-8">
       <v-row>
         <v-col cols="12" sm="4" class="py-0">
-          <v-text-field label="タイトル" readonly v-model="info_detail.title"></v-text-field>
+          <v-text-field label="タイトル" readonly v-model="info_detail.information_title"></v-text-field>
         </v-col>
         <v-col cols="12" sm="3" class="py-0">
-          <v-text-field label="日時" readonly v-model="info_detail.datetime"></v-text-field>
+          <v-text-field label="日時" readonly v-model="info_detail.information_date"></v-text-field>
         </v-col>
         <v-col cols="12" class="py-0">
-          <v-textarea label="本文" readonly no-resize rows="8" :model-value="info_detail.body_text"></v-textarea>
+          <v-textarea label="本文" readonly no-resize rows="8" :model-value="info_detail.information_body"></v-textarea>
         </v-col>
       </v-row>
       <v-row justify="end">
         <v-btn class="mr-2" @click="$router.back()">戻る</v-btn>
-        <v-btn color="red" class="mr-3" @click="deleteItem">削除</v-btn>
+        <!-- <v-btn color="red" class="mr-3" @click="deleteItem">削除</v-btn> -->
       </v-row>
-      <v-dialog v-model="dialogDelete" max-width="500px">
+      <!-- <v-dialog v-model="dialogDelete" max-width="500px">
         <v-card>
           <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
-          <p class="text-center">タイトル：{{ info_detail.title }}</p>
+          <p class="text-center">タイトル：{{ info_detail.information_title }}</p>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
@@ -41,7 +41,7 @@ import { infoDetailStore } from '@/stores/info'
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
-      </v-dialog>
+      </v-dialog> -->
     </div>
   </v-container>
 </template>

@@ -1,5 +1,9 @@
 <script setup>
 import { infoDetailStore } from '@/stores/info'
+// eslint-disable-next-line no-unused-vars
+const props = defineProps({
+  user: Object,
+})
 </script>
 <template>
   <v-container>
@@ -25,7 +29,7 @@ import { infoDetailStore } from '@/stores/info'
       ></v-text-field>
     </v-row>
 
-    <v-data-table :headers="headers" :items="drafts" :search="search" @click:row="clickItem" hover items-per-page-text="表示行数">
+    <v-data-table :headers="headers" :items="infos" :search="search" @click:row="clickItem" hover items-per-page-text="表示行数">
       <!-- <template v-slot:top>
         <v-dialog v-model="dialog" max-width="500px"> </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
@@ -42,9 +46,9 @@ import { infoDetailStore } from '@/stores/info'
         </v-dialog>
       </template> -->
 
-      <template v-slot:[`item.body_text`]="{ item }">
-        {{ item.body_text.slice(0, 12) }}
-        <span v-if="item.body_text.length > 10">...</span>
+      <template v-slot:[`item.information_body`]="{ item }">
+        {{ item.information_body.slice(0, 12) }}
+        <span v-if="item.information_body.length > 10">...</span>
       </template>
       <!-- <template v-slot:[`item.actions`]="{ item }">
         <v-icon size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
@@ -71,25 +75,15 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      {
-        title: 'No.',
-        key: 'no',
-        width: '100',
-      },
-      { title: 'タイトル', key: 'title', width: '300', minWidth: '200' },
-      { title: '更新日', key: 'datetime', width: '200', minWidth: '150' },
-      { title: '本文', key: 'body_text', width: '400', minWidth: '200' },
+      { title: 'タイトル', key: 'information_title', width: '300', minWidth: '200' },
+      { title: '作成日', key: 'information_date', width: '200', minWidth: '150' },
+      { title: '本文', key: 'information_body', width: '400', minWidth: '200' },
       // { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
     editedItem: {},
     info_store: infoDetailStore(),
+    infos: [],
   }),
-
-  // computed: {
-  //   formTitle() {
-  //     return 'お知らせ編集'
-  //   },
-  // },
 
   watch: {
     dialog(val) {
@@ -106,65 +100,20 @@ export default {
 
   methods: {
     initialize() {
-      this.drafts = [
-        {
-          no: 5,
-          title: '地震が発生したので気を付けて！ ',
-          datetime: '2023/12/14 15:00',
-          body_text:
-            '地震が発生したので気を付けて！地震が発生したので気を付けて！地震が発生したので気を付けて！地震が発生したので気を付けて！地震が発生したので気を付けて！',
-        },
-        {
-          no: 4,
-          title: '火山が噴火したから気を付けてね',
-          datetime: '2023/12/14 16:00',
-          body_text: '火山が噴火したから気を付けてね火山が噴火したから気を付けてね火山が噴火したから気を付けてね火山が噴火したから気を付けてね',
-        },
-        {
-          no: 3,
-          title: '大雨だからひどいよ',
-          datetime: '2023/12/14 17:00',
-          body_text: '大雨だからひどいよ大雨だからひどいよ大雨だからひどいよ大雨だからひどいよ大雨だからひどいよ',
-        },
-        {
-          no: 2,
-          title: '風が強いよ！',
-          datetime: '2023/12/14 18:00',
-          body_text: '風が強いよ！風が強いよ！風が強いよ！風が強いよ！風が強いよ！風が強いよ！風が強いよ！',
-        },
-        {
-          no: 1,
-          title: '災害が発生しました',
-          datetime: '2023/12/14 19:00',
-          body_text: '災害が発生しました',
-        },
-      ]
+      let login_user = this.$props.user.username
+      let info_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/user/' + login_user
+      this.axios
+        .get(info_list_url)
+        .then((res) => {
+          console.log(res)
+          this.infos = res.data
+        })
+        .catch((err) => {
+          alert('データはありません')
+          console.log(err)
+        })
     },
 
-    // editItem(item) {
-    //   this.draft_store.draft_data = item
-    //   this.$router.push({
-    //     name: 'info_draft_create',
-    //   })
-    // },
-
-    // deleteItem(item) {
-    //   this.editedItem = item
-    //   this.dialogDelete = true
-    // },
-
-    // deleteItemConfirm() {
-    //   this.closeDelete()
-    //   alert('削除しました。')
-    // },
-
-    // close() {
-    //   this.dialog = false
-    // },
-
-    // closeDelete() {
-    //   this.dialogDelete = false
-    // },
     clickItem(item, row) {
       this.info_store.info_data = row.item
       this.$router.push({

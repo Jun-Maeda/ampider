@@ -1,5 +1,9 @@
 <script setup>
 import { useDraftStore } from '@/stores/draft'
+// eslint-disable-next-line no-unused-vars
+const props = defineProps({
+  user: Object,
+})
 </script>
 <template>
   <v-container>
@@ -26,6 +30,10 @@ import { useDraftStore } from '@/stores/draft'
     </v-row>
 
     <v-data-table :headers="headers" :items="drafts" :search="search" items-per-page-text="表示行数">
+      <template v-slot:[`item.information_body`]="{ item }">
+        {{ item.information_body.slice(0, 12) }}
+        <span v-if="item.information_body.length > 10">...</span>
+      </template>
       <template v-slot:top>
         <v-dialog v-model="dialog" max-width="500px"> </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
@@ -77,9 +85,9 @@ export default {
         key: 'no',
         width: '100',
       },
-      { title: 'タイトル', key: 'title', width: '300', minWidth: '200' },
-      { title: '更新日', key: 'date', width: '200', minWidth: '150' },
-      { title: '本文', key: 'text', width: '400', minWidth: '200' },
+      { title: 'タイトル', key: 'information_title', width: '300', minWidth: '200' },
+      { title: '更新日', key: 'information_date', width: '200', minWidth: '150' },
+      { title: '本文', key: 'information_body', width: '400', minWidth: '200' },
       { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
     drafts: [],
@@ -108,42 +116,23 @@ export default {
 
   methods: {
     initialize() {
-      this.drafts = [
-        {
-          no: 5,
-          title: '地震が発生したので気を付けて！ ',
-          date: '2023/12/14 15:00',
-          text: '地震が発生したので気を付けて！地震が発生したので気を付けて！地震が発生したので気を付けて！地震が発生したので気を付けて！地震が発生したので気を付けて！',
-        },
-        {
-          no: 4,
-          title: '火山が噴火したから気を付けてね',
-          date: '2023/12/14 16:00',
-          text: '火山が噴火したから気を付けてね火山が噴火したから気を付けてね火山が噴火したから気を付けてね火山が噴火したから気を付けてね',
-        },
-        {
-          no: 3,
-          title: '大雨だからひどいよ',
-          date: '2023/12/14 17:00',
-          text: '大雨だからひどいよ大雨だからひどいよ大雨だからひどいよ大雨だからひどいよ大雨だからひどいよ',
-        },
-        {
-          no: 2,
-          title: '風が強いよ！',
-          date: '2023/12/14 18:00',
-          text: '風が強いよ！風が強いよ！風が強いよ！風が強いよ！風が強いよ！風が強いよ！風が強いよ！',
-        },
-        {
-          no: 1,
-          title: '災害が発生しました',
-          date: '2023/12/14 19:00',
-          text: '災害が発生しました',
-        },
-      ]
+      let login_user = this.$props.user.username
+      let draft_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/draft/' + login_user
+      this.axios
+        .get(draft_list_url)
+        .then((res) => {
+          console.log(res)
+          this.drafts = res.data
+        })
+        .catch((err) => {
+          alert('データはありません')
+          console.log(err)
+        })
     },
 
     editItem(item) {
       this.draft_store.draft_data = item
+
       this.$router.push({
         name: 'info_draft_create',
       })

@@ -131,19 +131,20 @@ export default {
     },
 
     deleteItemConfirm() {
+      this.closeDelete()
       let delete_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + this.editedItem.company_name
       this.axios
         .delete(delete_url)
         .then((res) => {
           this.unit_details = res.data
+
+          this.$router.go({ path: this.$router.currentRoute.path, force: true })
+          alert('削除しました。')
         })
         .catch((err) => {
           alert('削除に失敗しました。')
           console.log(err)
         })
-      this.closeDelete()
-      this.$router.go({ path: this.$router.currentRoute.path, force: true })
-      alert('削除しました。')
     },
 
     close() {

@@ -39,7 +39,7 @@ const props = defineProps({
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5 text-center mt-2">削除してよろしいですか？</v-card-title>
-            <p class="text-center">タイトル：{{ editedItem.title }}</p>
+            <p class="text-center">タイトル：{{ editedItem.information_title }}</p>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue-darken-1" variant="text" @click="closeDelete">キャンセル</v-btn>
@@ -145,7 +145,18 @@ export default {
 
     deleteItemConfirm() {
       this.closeDelete()
-      alert('削除しました。')
+      let delete_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items/' + this.editedItem['information-id']
+      this.axios
+        .delete(delete_url)
+        .then((res) => {
+          this.unit_details = res.data
+          this.$router.go({ path: this.$router.currentRoute.path, force: true })
+          alert('削除しました。')
+        })
+        .catch((err) => {
+          alert('削除に失敗しました。')
+          console.log(err)
+        })
     },
 
     close() {

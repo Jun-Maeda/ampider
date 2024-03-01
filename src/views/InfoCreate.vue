@@ -23,7 +23,16 @@ import { useDraftStore } from '@/stores/draft'
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
-            <v-select label="会社*" :items="companies" :rules="select_rules" v-model="select_companys" @click="choiceCompany" multiple />
+            <v-select
+              label="会社*"
+              :items="companies"
+              item-title="company_name"
+              item-value="company_name"
+              :rules="select_rules"
+              v-model="select_companys"
+              @click="choiceCompany"
+              multiple
+            />
           </v-col>
 
           <v-col v-if="select_companys.length > 0" cols="12" lg="6">
@@ -111,7 +120,7 @@ export default {
     rules: [(v) => !!v || 'この項目は必須です'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
     title: '',
-    companies: ['全社', 'PI', 'PCS', 'PAD'],
+    companies: [],
     select_companys: [],
     areas: [],
     select_areas: [],
@@ -123,6 +132,14 @@ export default {
     dialog: false,
     draft_store: useDraftStore(),
   }),
+  watch: {
+    // 全社が含まれている場合は全社のみにする
+    select_companys() {
+      if (this.select_companys.includes('全社')) {
+        this.select_companys = ['全社']
+      }
+    },
+  },
   mounted() {},
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
@@ -136,6 +153,10 @@ export default {
     createForm() {
       this.dialog = false
       // ここに新規作成処理を記載
+      // 会社が全社だった場合は全社をリストに変換
+      if (this.select_companys.includes('全社')) {
+        this.select_companys = this.companies.shift()
+      }
 
       // お知らせ一覧へリダイレクト
       this.$router.replace({
@@ -172,21 +193,87 @@ export default {
       this.select_organizations = []
       this.select_areas = []
       this.select_divisions = []
+      let company_list_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/'
+      this.axios
+        .get(company_list_url)
+        .then((res) => {
+          this.companies = res.data
+          // 全社を追加
+          this.companies.unshift({
+            auto_setting: true,
+            company_name: '全社',
+          })
+        })
+        .catch((err) => {
+          alert('このデータはありません')
+          console.log(err)
+        })
+    },
+    getCompanyAreas(name) {
+      if (name == 'PI/PCS/PGS') {
+        name = 'PIPCSPGS'
+      }
+      let get_area_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + name
+      this.axios
+        .get(get_area_url)
+        .then((res) => {
+          this.areas = this.areas.concat(res.data)
+          this.areas = this.areas.filter((element, index) => this.areas.indexOf(element) === index)
+        })
+        .catch((err) => {
+          alert('エラー')
+          console.log(err)
+        })
+    },
+    getAreaDivision(name) {
+      let get_division_url = 'https://k4sxxt1oo3.execute-api.ap-northeast-1.amazonaws.com/' + name
+      this.axios
+        .get(get_division_url)
+        .then((res) => {
+          this.divisions = this.divisions.concat(res.data)
+          this.divisions = this.divisions.filter((element, index) => this.divisions.indexOf(element) === index)
+        })
+        .catch((err) => {
+          alert('エラー')
+          console.log(err)
+        })
+    },
+    getDivisionOrg(name) {
+      let get_org_url = 'https://o9chfpwo3j.execute-api.ap-northeast-1.amazonaws.com/' + name
+      this.axios
+        .get(get_org_url)
+        .then((res) => {
+          this.organizations = this.organizations.concat(res.data)
+          this.organizations = this.organizations.filter((element, index) => this.organizations.indexOf(element) === index)
+        })
+        .catch((err) => {
+          alert('エラー')
+          console.log(err)
+        })
     },
     choiceArea() {
       this.organizations = []
       this.divisions = []
       this.select_organizations = []
       this.select_divisions = []
-      this.areas = this.select_companys
+      this.areas = []
+      for (let i in this.select_companys) {
+        this.getCompanyAreas(this.select_companys[i])
+      }
     },
     choiceDivision() {
       this.organizations = []
       this.select_organizations = []
-      this.divisions = this.select_areas
+      this.divisions = []
+      for (let i in this.select_areas) {
+        this.getAreaDivision(this.select_areas[i])
+      }
     },
     choiceOrganization() {
-      this.organizations = this.select_divisions
+      this.organizations = []
+      for (let i in this.select_divisions) {
+        this.getDivisionOrg(this.select_divisions[i])
+      }
     },
   },
 }

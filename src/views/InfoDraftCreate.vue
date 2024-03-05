@@ -1,5 +1,8 @@
 <script setup>
 import { useDraftStore } from '@/stores/draft'
+const props = defineProps({
+  user: Object,
+})
 </script>
 <template>
   <v-container>
@@ -23,18 +26,19 @@ import { useDraftStore } from '@/stores/draft'
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
-            <v-select label="会社*" :items="companies" :rules="select_rules" v-model="draft_data.companys" @click="choiceCompany" multiple />
+            <v-select label="会社*" :items="companies" item-title="company_name"
+              item-value="company_name" :rules="select_rules" v-model="draft_data.companys" @click="choiceCompany" multiple />
           </v-col>
 
-          <v-col v-if="select_companys.length > 0" cols="12" lg="6">
+          <v-col v-if="draft_data.companys.length > 0" cols="12" lg="6">
             <v-select label="拠点" :items="areas" v-model="draft_data.areas" @click="choiceArea" multiple />
           </v-col>
 
-          <v-col v-if="select_areas.length > 0" cols="12" lg="6">
+          <v-col v-if="draft_data.areas.length > 0" cols="12" lg="6">
             <v-select label="事業部" :items="divisions" v-model="draft_data.divisions" @click="choiceDivision" multiple />
           </v-col>
 
-          <v-col v-if="select_divisions.length > 0" cols="12" lg="6">
+          <v-col v-if="draft_data.divisions.length > 0" cols="12" lg="6">
             <v-select label="所属" :items="organizations" v-model="draft_data.organizations" @click="choiceOrganization" multiple />
           </v-col>
         </v-row>
@@ -97,7 +101,7 @@ export default {
     rules: [(v) => !!v || 'この項目は必須です'],
     select_rules: [(v) => (v && v.length > 0) || '選択してください'],
     title: '',
-    companies: ['全社', 'PI', 'PCS', 'PAD', 'PI/PCS/PGS'],
+    companies: [],
     select_companys: [],
     areas: [],
     select_areas: [],
@@ -122,12 +126,8 @@ export default {
       },
     ],
   }),
-  mounted() {
-    // let draft_data = this.draft_store.draft_data
-    // this.title = draft_data.title
-    // this.body_text = draft_data.text
+  created() {
     this.draft_data = this.draft_store.draft_data
-    console.log(this.draft_data.information_title)
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
@@ -138,35 +138,90 @@ export default {
         this.dialog = true
       }
     },
-    createForm() {
+    async createForm() {
       this.dialog = false
 
-      // ここに上書き処理記載
+      // 会社が全社だった場合は全社をリストに変換
+      if (this.select_companys.includes('全社')) {
+        this.select_companys = this.companies.shift()
+      }
+
+      let create_data = {
+        information_id: this.draft_data['information-id'],
+        draft_flag: false,
+        information_body: this.draft_data.information_body,
+        information_title: this.draft_data.information_title,
+        create_user: this.$props.user.username,
+        companys: this.draft_data.companys,
+        areas: this.draft_data.areas,
+        divisions: this.draft_data.divisions,
+        organizations: this.draft_data.organizations
+      }
+
+      let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
+      const config = {
+        headers: {
+          'Content-type': 'text/plain',
+        },
+      }
+      await this.axios
+        .post(create_url, create_data, config)
+        .then((res) => {
+          let success = 'お知らせを作成しました。\nタイトル:' + this.draft_data.information_title
+          alert(success)
+        })
+        .catch((err) => {
+          alert('作成に失敗しました。')
+          console.log(err)
+        })
+
 
       // お知らせ一覧へリダイレクト
       this.$router.replace({
         name: 'info_list',
       })
 
-      let success = 'お知らせを作成しました。\nタイトル:' + this.title
-      alert(success)
       // piniaのリセット
       this.draft_store.resetDraft()
       this.$refs.form.reset()
     },
-    createDraft() {
+    async createDraft() {
       this.dialog = false
 
-      // ここに下書き更新処理記載
+      let create_data = {
+        information_id: this.draft_data['information-id'],
+        draft_flag: true,
+        information_body: this.draft_data.information_body,
+        information_title: this.draft_data.information_title,
+        create_user: this.$props.user.username,
+        companys: this.draft_data.companys,
+        areas: this.draft_data.areas,
+        divisions: this.draft_data.divisions,
+        organizations: this.draft_data.organizations
+      }
 
-      let success = '下書きを更新しました。\nタイトル:' + this.title
+      let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
+      const config = {
+        headers: {
+          'Content-type': 'text/plain',
+        },
+      }
+      await this.axios
+        .post(create_url, create_data, config)
+        .then((res) => {
+          let success = '下書きを更新しました。\nタイトル:dayo' + this.draft_data.information_title
+          alert(success)
+        })
+        .catch((err) => {
+          alert('作成に失敗しました。')
+          console.log(err)
+        })
+
 
       // 下書き一覧へリダイレクト
       this.$router.replace({
         name: 'info_draft_list',
       })
-
-      alert(success)
       // piniaのリセット
       this.draft_store.resetDraft()
 
@@ -176,24 +231,89 @@ export default {
       this.organizations = []
       this.areas = []
       this.divisions = []
-      this.select_organizations = []
-      this.select_areas = []
-      this.select_divisions = []
+      this.draft_data.organizations = []
+      this.draft_data.areas = []
+      this.draft_data.divisions = []
+      let company_list_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/'
+      this.axios
+        .get(company_list_url)
+        .then((res) => {
+          this.companies = res.data
+          // 全社を追加
+          this.companies.unshift({
+            auto_setting: true,
+            company_name: '全社',
+          })
+        })
+        .catch((err) => {
+          alert('このデータはありません')
+          console.log(err)
+        })
+    },
+    getCompanyAreas(name) {
+      if (name == 'PI/PCS/PGS') {
+        name = 'PIPCSPGS'
+      }
+      let get_area_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + name
+      this.axios
+        .get(get_area_url)
+        .then((res) => {
+          this.areas = this.areas.concat(res.data)
+          this.areas = this.areas.filter((element, index) => this.areas.indexOf(element) === index)
+        })
+        .catch((err) => {
+          alert('エラー')
+          console.log(err)
+        })
+    },
+    getAreaDivision(name) {
+      let get_division_url = 'https://k4sxxt1oo3.execute-api.ap-northeast-1.amazonaws.com/' + name
+      this.axios
+        .get(get_division_url)
+        .then((res) => {
+          this.divisions = this.divisions.concat(res.data)
+          this.divisions = this.divisions.filter((element, index) => this.divisions.indexOf(element) === index)
+        })
+        .catch((err) => {
+          alert('エラー')
+          console.log(err)
+        })
+    },
+    getDivisionOrg(name) {
+      let get_org_url = 'https://o9chfpwo3j.execute-api.ap-northeast-1.amazonaws.com/' + name
+      this.axios
+        .get(get_org_url)
+        .then((res) => {
+          this.organizations = this.organizations.concat(res.data)
+          this.organizations = this.organizations.filter((element, index) => this.organizations.indexOf(element) === index)
+        })
+        .catch((err) => {
+          alert('エラー')
+          console.log(err)
+        })
     },
     choiceArea() {
       this.organizations = []
       this.divisions = []
-      this.select_organizations = []
-      this.select_divisions = []
-      this.areas = this.select_companys
+      this.draft_data.organizations = []
+      this.draft_data.divisions = []
+      this.areas = []
+      for (let i in this.draft_data.companys) {
+        this.getCompanyAreas(this.draft_data.companys[i])
+      }
     },
     choiceDivision() {
       this.organizations = []
-      this.select_organizations = []
-      this.divisions = this.select_areas
+      this.draft_data.organizations = []
+      this.divisions = []
+      for (let i in this.draft_data.areas) {
+        this.getAreaDivision(this.draft_data.areas[i])
+      }
     },
     choiceOrganization() {
-      this.organizations = this.select_divisions
+      for (let i in this.draft_data.divisions) {
+        this.getDivisionOrg(this.draft_data.divisions[i])
+      }
     },
   },
 }

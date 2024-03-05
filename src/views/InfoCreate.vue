@@ -210,19 +210,44 @@ export default {
 
       this.$refs.form.reset()
     },
-    createDraft() {
+    async createDraft() {
       this.dialog = false
       let success = '下書きを保存しました。\nタイトル:' + this.title
-      // 下書きだった場合
 
-      // ここに下書き新規作成処理を記載
+      let create_data = {
+        information_id: this.makeId(),
+        draft_flag: true,
+        information_body: this.body_text,
+        information_title: this.title,
+        create_user: this.$props.user.username,
+        companys: this.select_companys,
+        areas: this.select_areas,
+        divisions: this.select_divisions,
+        organizations: this.select_organizations
+      }
+
+      let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
+      const config = {
+        headers: {
+          'Content-type': 'text/plain',
+        },
+      }
+      await this.axios
+        .post(create_url, create_data, config)
+        .then((res) => {
+          let success = '下書きを作成しました。\nタイトル:' + this.title
+          alert(success)
+        })
+        .catch((err) => {
+          alert('作成に失敗しました。')
+          console.log(err)
+        })
+
 
       // 下書き一覧へリダイレクト
       this.$router.replace({
         name: 'info_draft_list',
       })
-
-      alert(success)
       // piniaのリセット
       this.draft_store.resetDraft()
 
@@ -312,7 +337,6 @@ export default {
       }
     },
     choiceOrganization() {
-      this.organizations = []
       for (let i in this.select_divisions) {
         this.getDivisionOrg(this.select_divisions[i])
       }

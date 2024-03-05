@@ -1,5 +1,8 @@
 <script setup>
 import { useDraftStore } from '@/stores/draft'
+const props = defineProps({
+  user: Object,
+})
 </script>
 <template>
   <v-container>
@@ -142,6 +145,18 @@ export default {
   },
   mounted() {},
   methods: {
+    makeId() {
+      let now = new Date()
+      var Year = now.getFullYear().toString()
+      var Month = String(now.getMonth() + 1).padStart(2, '0')
+      var Day = now.getDate().toString().padStart(2, '0')
+      var Hour = now.getHours().toString().padStart(2, '0')
+      var Min = now.getMinutes().toString().padStart(2, '0')
+      var Sec = now.getSeconds().toString().padStart(2, '0')
+      var random = Math.floor(Math.random() * 10000)
+      let now_id = Year + Month + Day + Hour + Min + Sec + '_' + random
+      return now_id
+    },
     // 投稿ボタンを押したときのバリデーションチェック
     async validate() {
       const { valid } = await this.$refs.form.validate()
@@ -150,21 +165,48 @@ export default {
         this.dialog = true
       }
     },
-    createForm() {
+    async createForm() {
       this.dialog = false
-      // ここに新規作成処理を記載
+      // 新規作成処理を記載
       // 会社が全社だった場合は全社をリストに変換
       if (this.select_companys.includes('全社')) {
         this.select_companys = this.companies.shift()
       }
 
+      let create_data = {
+        information_id: this.makeId(),
+        draft_flag: false,
+        information_body: this.body_text,
+        information_title: this.title,
+        create_user: this.$props.user.username,
+        companys: this.select_companys,
+        areas: this.select_areas,
+        divisions: this.select_divisions,
+        organizations: this.select_organizations
+      }
+
+      let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
+      const config = {
+        headers: {
+          'Content-type': 'text/plain',
+        },
+      }
+      await this.axios
+        .post(create_url, create_data, config)
+        .then((res) => {
+          let success = 'お知らせを作成しました。\nタイトル:' + this.title
+          alert(success)
+        })
+        .catch((err) => {
+          alert('作成に失敗しました。')
+          console.log(err)
+        })
+
+
       // お知らせ一覧へリダイレクト
       this.$router.replace({
         name: 'info_list',
       })
-
-      let success = 'お知らせを作成しました。\nタイトル:' + this.title
-      alert(success)
 
       this.$refs.form.reset()
     },

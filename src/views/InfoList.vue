@@ -29,7 +29,7 @@ const props = defineProps({
       ></v-text-field>
     </v-row>
 
-    <v-data-table :headers="headers" :items="infos" :search="search" @click:row="clickItem" hover items-per-page-text="表示行数">
+    <v-data-table :headers="headers" :items="infos" :search="search" @click:row="clickItem" hover items-per-page-text="表示行数" :sort-by="sort_by">
       <!-- <template v-slot:top>
         <v-dialog v-model="dialog" max-width="500px"> </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
@@ -76,13 +76,13 @@ export default {
     dialogDelete: false,
     headers: [
       { title: 'タイトル', key: 'information_title', width: '300', minWidth: '200' },
-      { title: '作成日', key: 'information_date', width: '200', minWidth: '150' },
+      { title: '作成日', key: 'information_date', width: '200', minWidth: '150', },
       { title: '本文', key: 'information_body', width: '400', minWidth: '200' },
-      // { title: '', key: 'actions', sortable: false, width: '100', minWidth: '100' },
     ],
     editedItem: {},
     info_store: infoDetailStore(),
     infos: [],
+    sort_by: [{ key: 'information_date', order: 'desc' }]
   }),
 
   watch: {
@@ -94,7 +94,7 @@ export default {
     },
   },
 
-  created() {
+  mounted() {
     this.initialize()
   },
 
@@ -113,7 +113,6 @@ export default {
           console.log(err)
         })
     },
-
     clickItem(item, row) {
       this.info_store.info_data = row.item
       this.$router.push({

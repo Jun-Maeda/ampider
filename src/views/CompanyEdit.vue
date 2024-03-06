@@ -108,8 +108,21 @@ export default {
         alert('このデータはありません')
         console.log(err)
       })
-    // ここですべての拠点の取得
-    this.areas = ['秋田BPO', '富山BPO', '山形BPO', '東京本社']
+    // ここですべての拠点を取得するためにPIの情報取得
+    let get_area_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + 'PIPCSPGS'
+      this.axios
+        .get(get_area_url)
+        .then((res) => {
+          let get_areas = res.data
+          console.log(res.data)
+          for (let area in get_areas) {
+            this.areas.push(get_areas[area])
+          }
+        })
+        .catch((err) => {
+          alert('エラー')
+          console.log(err)
+        })
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック

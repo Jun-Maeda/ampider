@@ -30,7 +30,7 @@ const props = defineProps({
       ></v-text-field>
     </v-row>
 
-    <v-data-table :headers="headers" :items="info_list_store.info_list" :search="search" @click:row="clickItem" hover items-per-page-text="表示行数" :sort-by="sort_by">
+    <v-data-table :headers="headers" :items="info_list_store.info_list" :search="search" @click:row="clickItem" hover items-per-page-text="表示行数">
       <!-- <template v-slot:top>
         <v-dialog v-model="dialog" max-width="500px"> </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
@@ -84,7 +84,6 @@ export default {
     info_list_store: infoListStore(),
     info_store: infoDetailStore(),
     infos: [],
-    sort_by: [{ key: 'information_date', order: 'desc' }]
   }),
 
   watch: {

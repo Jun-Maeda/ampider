@@ -21,30 +21,30 @@ const props = defineProps({
       <v-form class="mt-5" ref="form">
         <v-row>
           <v-col class="mr-auto" cols="12" lg="6">
-            <v-text-field v-model="draft_data.information_title" label="タイトル*" required max-widgh="300px" :rules="rules" />
+            <v-text-field v-model="title" label="タイトル*" required max-widgh="300px" :rules="rules" />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
             <v-select label="会社*" :items="companies" item-title="company_name"
-              item-value="company_name" :rules="select_rules" v-model="draft_data.companys" @click="choiceCompany" multiple />
+              item-value="company_name" :rules="select_rules" v-model="select_companys" @click="choiceCompany" multiple />
           </v-col>
 
-          <v-col v-if="draft_data.companys.length > 0" cols="12" lg="6">
-            <v-select label="拠点" :items="areas" v-model="draft_data.areas" @click="choiceArea" multiple />
+          <v-col v-if="select_companys.length > 0" cols="12" lg="6">
+            <v-select label="拠点" :items="areas" v-model="select_areas" @click="choiceArea" multiple />
           </v-col>
 
-          <v-col v-if="draft_data.areas.length > 0" cols="12" lg="6">
-            <v-select label="事業部" :items="divisions" v-model="draft_data.divisions" @click="choiceDivision" multiple />
+          <v-col v-if="select_areas.length > 0" cols="12" lg="6">
+            <v-select label="事業部" :items="divisions" v-model="select_divisions" @click="choiceDivision" multiple />
           </v-col>
 
-          <v-col v-if="draft_data.divisions.length > 0" cols="12" lg="6">
-            <v-select label="所属" :items="organizations" v-model="draft_data.organizations" @click="choiceOrganization" multiple />
+          <v-col v-if="select_divisions.length > 0" cols="12" lg="6">
+            <v-select label="所属" :items="organizations" v-model="select_organizations" @click="choiceOrganization" multiple />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12">
-            <v-textarea label="本文*" no-resize rows="8" v-model="draft_data.information_body" :rules="rules"></v-textarea>
+            <v-textarea label="本文*" no-resize rows="8" v-model="body_text" :rules="rules"></v-textarea>
           </v-col>
         </v-row>
         <v-row>
@@ -61,25 +61,25 @@ const props = defineProps({
               <v-card-text>
                 <v-row>
                   <v-col class="mr-auto" cols="3">タイトル：</v-col>
-                  <v-col class="mr-auto" cols="9">{{ draft_data.information_title }}</v-col>
+                  <v-col class="mr-auto" cols="9">{{ title }}</v-col>
                   <v-col class="mr-auto" cols="3"> 会社：</v-col>
                   <v-col class="mr-auto" cols="9"
-                    ><span class="mr-2" v-for="company in draft_data.companys" :key="company">{{ company }}</span>
+                    ><span class="mr-2" v-for="company in select_companys" :key="company">{{ company }}</span>
                   </v-col>
                   <v-col class="mr-auto" cols="3"> 拠点：</v-col>
                   <v-col class="mr-auto" cols="9"
-                    ><span class="mr-2" v-for="area in draft_data.areas" :key="area">{{ area }}</span></v-col
+                    ><span class="mr-2" v-for="area in select_areas" :key="area">{{ area }}</span></v-col
                   >
                   <v-col class="mr-auto" cols="3"> 事業部：</v-col>
                   <v-col class="mr-auto" cols="9"
-                    ><span class="mr-2" v-for="division in draft_data.divisions" :key="division">{{ division }}</span>
+                    ><span class="mr-2" v-for="division in select_divisions" :key="division">{{ division }}</span>
                   </v-col>
                   <v-col class="mr-auto" cols="3"> 所属：</v-col>
                   <v-col class="mr-auto" cols="9"
-                    ><span class="mr-2" v-for="organization in draft_data.organizations" :key="organization">{{ organization }}</span>
+                    ><span class="mr-2" v-for="organization in select_organizations" :key="organization">{{ organization }}</span>
                   </v-col>
                   <v-col class="mr-auto" cols="3"> 本文：</v-col>
-                  <v-col class="mr-auto vue-textarea" cols="9"> {{ draft_data.information_body }} </v-col>
+                  <v-col class="mr-auto vue-textarea" cols="9"> {{ body_text }} </v-col>
                 </v-row>
               </v-card-text>
               <v-card-actions>
@@ -126,8 +126,23 @@ export default {
       },
     ],
   }),
+  watch: {
+    // 全社が含まれている場合は全社のみにする
+    select_companys() {
+      if (this.select_companys.includes('全社')) {
+        this.select_companys = ['全社']
+      }
+    },
+  },
   created() {
+    this.id = this.draft_data['information-id']
     this.draft_data = this.draft_store.draft_data
+    this.title = this.draft_data.information_title
+    this.select_companys = this.draft_data.companys
+    this.select_areas = this.draft_data.areas
+    this.select_divisions = this.draft_data.divisions
+    this.select_organizations = this.draft_data.organizations
+    this.body_text = this.draft_data.information_body
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
@@ -149,13 +164,13 @@ export default {
       let create_data = {
         information_id: this.draft_data['information-id'],
         draft_flag: false,
-        information_body: this.draft_data.information_body,
-        information_title: this.draft_data.information_title,
+        information_body: this.body_text,
+        information_title: this.title,
         create_user: this.$props.user.username,
-        companys: this.draft_data.companys,
-        areas: this.draft_data.areas,
-        divisions: this.draft_data.divisions,
-        organizations: this.draft_data.organizations
+        companys: this.select_companys,
+        areas: this.select_areas,
+        divisions: this.select_divisions,
+        organizations: this.select_organizations
       }
 
       let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
@@ -167,7 +182,7 @@ export default {
       await this.axios
         .post(create_url, create_data, config)
         .then((res) => {
-          let success = 'お知らせを作成しました。\nタイトル:' + this.draft_data.information_title
+          let success = 'お知らせを作成しました。\nタイトル:' + this.title
           alert(success)
         })
         .catch((err) => {
@@ -191,13 +206,13 @@ export default {
       let create_data = {
         information_id: this.draft_data['information-id'],
         draft_flag: true,
-        information_body: this.draft_data.information_body,
-        information_title: this.draft_data.information_title,
+        information_body: this.body_text,
+        information_title: this.title,
         create_user: this.$props.user.username,
-        companys: this.draft_data.companys,
-        areas: this.draft_data.areas,
-        divisions: this.draft_data.divisions,
-        organizations: this.draft_data.organizations
+        companys: this.select_companys,
+        areas: this.select_areas,
+        divisions: this.select_divisions,
+        organizations: this.select_organizations
       }
 
       let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
@@ -209,7 +224,7 @@ export default {
       await this.axios
         .post(create_url, create_data, config)
         .then((res) => {
-          let success = '下書きを更新しました。\nタイトル:dayo' + this.draft_data.information_title
+          let success = '下書きを更新しました。\nタイトル:' + this.title
           alert(success)
         })
         .catch((err) => {
@@ -231,9 +246,9 @@ export default {
       this.organizations = []
       this.areas = []
       this.divisions = []
-      this.draft_data.organizations = []
-      this.draft_data.areas = []
-      this.draft_data.divisions = []
+      this.select_organizations = []
+      this.select_areas = []
+      this.select_divisions = []
       let company_list_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/'
       this.axios
         .get(company_list_url)
@@ -295,24 +310,24 @@ export default {
     choiceArea() {
       this.organizations = []
       this.divisions = []
-      this.draft_data.organizations = []
-      this.draft_data.divisions = []
+      this.select_organizations = []
+      this.select_divisions = []
       this.areas = []
-      for (let i in this.draft_data.companys) {
-        this.getCompanyAreas(this.draft_data.companys[i])
+      for (let i in this.select_companys) {
+        this.getCompanyAreas(this.select_companys[i])
       }
     },
     choiceDivision() {
       this.organizations = []
-      this.draft_data.organizations = []
+      this.select_organizations = []
       this.divisions = []
-      for (let i in this.draft_data.areas) {
-        this.getAreaDivision(this.draft_data.areas[i])
+      for (let i in this.select_areas) {
+        this.getAreaDivision(this.select_areas[i])
       }
     },
     choiceOrganization() {
-      for (let i in this.draft_data.divisions) {
-        this.getDivisionOrg(this.draft_data.divisions[i])
+      for (let i in this.select_divisions) {
+        this.getDivisionOrg(this.select_divisions[i])
       }
     },
   },

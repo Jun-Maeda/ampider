@@ -1,4 +1,5 @@
 <script setup>
+import { infoListStore } from '@/stores/info_list'
 import { infoDetailStore } from '@/stores/info'
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -29,7 +30,7 @@ const props = defineProps({
       ></v-text-field>
     </v-row>
 
-    <v-data-table :headers="headers" :items="infos" :search="search" @click:row="clickItem" hover items-per-page-text="表示行数" :sort-by="sort_by">
+    <v-data-table :headers="headers" :items="info_list_store.info_list" :search="search" @click:row="clickItem" hover items-per-page-text="表示行数" :sort-by="sort_by">
       <!-- <template v-slot:top>
         <v-dialog v-model="dialog" max-width="500px"> </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
@@ -80,6 +81,7 @@ export default {
       { title: '本文', key: 'information_body', width: '400', minWidth: '200' },
     ],
     editedItem: {},
+    info_list_store: infoListStore(),
     info_store: infoDetailStore(),
     infos: [],
     sort_by: [{ key: 'information_date', order: 'desc' }]
@@ -100,18 +102,32 @@ export default {
 
   methods: {
     initialize() {
+      if(this.info_list_store.info_list.length == 0){
       let login_user = this.$props.user.username
       let info_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/user/' + login_user
       this.axios
         .get(info_list_url)
         .then((res) => {
-          console.log(res)
-          this.infos = res.data
+          console.log(res.data)
+          this.info_list_store.info_list = res.data
         })
         .catch((err) => {
           alert('データはありません')
           console.log(err)
         })
+    }
+      // let login_user = this.$props.user.username
+      // let info_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/user/' + login_user
+      // this.axios
+      //   .get(info_list_url)
+      //   .then((res) => {
+      //     console.log(res)
+      //     this.infos = res.data
+      //   })
+      //   .catch((err) => {
+      //     alert('データはありません')
+      //     console.log(err)
+      //   })
     },
     clickItem(item, row) {
       this.info_store.info_data = row.item

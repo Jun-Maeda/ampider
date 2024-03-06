@@ -1,3 +1,10 @@
+<script setup>
+import { infoListStore } from '@/stores/info_list'
+// eslint-disable-next-line no-unused-vars
+const props = defineProps({
+  user: Object,
+})
+</script>
 <template>
   <v-container>
     <div class="mt-4">
@@ -14,9 +21,9 @@
     <div class="mt-8">
       <h6>お知らせ</h6>
       <v-card color="black" variant="outlined">
-        <v-card-title>{{ title }}</v-card-title>
+        <v-card-title>{{ info.title }}</v-card-title>
         <v-divider></v-divider>
-        <v-card-text> {{ format(text) }}</v-card-text>
+        <v-card-text> {{ info.text }}</v-card-text>
       </v-card>
       <div class="mt-8">
         <v-row justify="end">
@@ -238,9 +245,7 @@ export default {
     // return: {
     //   dialog: true,
     // },
-    title: 'test',
-    date: '2023/12/07',
-    text: 'ああああああああああいいいいいいいいいいううううううううううええええええええええおおおおおおおおおおかかかかかかかかかかききききききききききくくくくくくくくくくけけけけけけけけけけここここここここここああああああああああいいいいいいいいいいううううううううううええええええええええおおおおおおおおおおかかかかかかかかかかききききききききききくくくくくくくくくくけけけけけけけけけけここここここここここああああああああああいいいいいいいいいいううううううううううええええええええええおおおおおおおおおおかかかかかかかかかかききききききききききくくくくくくくくくくけけけけけけけけけけここここここここここ',
+    info: {},
     headers: [
       { title: '拠点名', align: 'center', sortable: false, width: '20%', key: 'baseName' },
       { title: '大雨', align: 'center', sortable: false, width: '10%', key: 'rainfall' },
@@ -364,6 +369,7 @@ export default {
         tsunami: { alert: '', detail: '' },
       },
     ],
+    info_list_store: infoListStore(),
   }),
 
   computed: {
@@ -410,13 +416,33 @@ export default {
     },
   },
   created() {
-    this.families = [
-      { name: '家族1', result: '安全' },
-      { name: '家族2', result: '安全' },
-      { name: '家族3', result: '安全' },
-    ]
+    this.initialize()
   },
   methods: {
+    async initialize() {
+      this.families = [
+        { name: '家族1', result: '安全' },
+        { name: '家族2', result: '安全' },
+        { name: '家族3', result: '安全' },
+      ]
+      if (this.info_list_store.info_list.length == 0) {
+        let login_user = this.$props.user.username
+        let info_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/user/' + login_user
+        await this.axios
+          .get(info_list_url)
+          .then((res) => {
+            this.info_list_store.info_list = res.data
+          })
+          .catch((err) => {
+            alert('データはありません')
+            console.log(err)
+          })
+      }
+      this.info = {
+        title: this.info_list_store.info_list[0].information_title,
+        text: this.format(this.info_list_store.info_list[0].information_body),
+      }
+    },
     itemProps(item) {
       if (item === '') {
         return ''
@@ -434,10 +460,11 @@ export default {
     format(text) {
       var clamp = '...'
       var length = this.bkPoint.textLength
-      console.log(length)
+      console.log(text.length)
+      return text
 
-      if (text.length <= length) return text
-      return text.substring(0, length) + clamp
+      // if (text.length <= length) return text
+      // return text.substring(0, length) + clamp
     },
     getColor(value) {
       if (value === '') {

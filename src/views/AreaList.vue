@@ -111,46 +111,27 @@ export default {
 
   methods: {
     initialize() {
-      // もしPI系ならすべての拠点を取得
-      if (this.company_store.company_data === 'PI・PCS・PGS') {
-        // ここですべての拠点を取得
-        this.areas = [
-          {
-            name: '秋田',
-            employee_num: '1234567',
-            mail: 'test_test@test.jp',
-          },
-          {
-            name: '山形',
-            employee_num: '1234567',
-            mail: 'test_test@test.jp',
-          },
-          {
-            name: '富山',
-            employee_num: '1234567',
-            mail: 'test_test@test.jp',
-          },
-          {
-            name: '東京',
-            employee_num: '1234567',
-            mail: 'test_test@test.jp',
-          },
-        ]
-      } else {
-        // 取得した会社に紐づく拠点を所得する
-        this.areas = [
-          {
-            name: '秋田',
-            employee_num: '1234567',
-            mail: 'test_test@test.jp',
-          },
-          {
-            name: '山形',
-            employee_num: '1234567',
-            mail: 'test_test@test.jp',
-          },
-        ]
+      let company_name = this.company_store.company_data
+
+      // PIの場合スラッシュがあるとGETできないので修正
+      if (company_name == 'PI/PCS/PGS') {
+        company_name = 'PIPCSPGS'
       }
+      // 取得した会社に紐づく拠点を所得する
+      let get_area_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + company_name
+      this.axios
+        .get(get_area_url)
+        .then((res) => {
+          let get_areas = res.data
+          console.log(res.data)
+          for (let area in get_areas) {
+            this.areas.push({ name: get_areas[area] })
+          }
+        })
+        .catch((err) => {
+          alert('エラー')
+          console.log(err)
+        })
     },
 
     editItem(item) {

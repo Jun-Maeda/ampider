@@ -121,28 +121,21 @@ export default {
 
   methods: {
     initialize() {
-      this.organizations = [
-        {
-          name: 'ディーラー',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-        {
-          name: 'ルームサポート',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-        {
-          name: '自治体',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-        {
-          name: '保証',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-      ]
+      // 取得した事業部に紐づく組織を所得する
+      let get_division_url = 'https://o9chfpwo3j.execute-api.ap-northeast-1.amazonaws.com/' + this.company_store.division_data
+      this.axios
+        .get(get_division_url)
+        .then((res) => {
+          let get_organizations = res.data
+          console.log(res.data)
+          for (let organization in get_organizations) {
+            this.organizations.push({ name: get_organizations[organization] })
+          }
+        })
+        .catch((err) => {
+          alert('エラー')
+          console.log(err)
+        })
     },
 
     editItem(item) {

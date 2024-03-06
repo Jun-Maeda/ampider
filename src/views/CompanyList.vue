@@ -107,10 +107,10 @@ export default {
         .then((res) => {
           this.companies = res.data
           // PI関連は会社名の登録がOBICの事業部カラムにないのでここで作成してすべての拠点に紐づけ
-          this.companies.unshift({
-            auto_setting: true,
-            company_name: 'PI・PCS・PGS',
-          })
+          // this.companies.unshift({
+          //   auto_setting: true,
+          //   company_name: 'PI・PCS・PGS',
+          // })
         })
         .catch((err) => {
           alert('このデータはありません')
@@ -155,7 +155,7 @@ export default {
       this.dialogDelete = false
     },
     clickItem(item, row) {
-      this.company_store.company_data = row.item.name
+      this.company_store.company_data = row.item.company_name
       this.$router.push({
         name: 'area_list',
       })

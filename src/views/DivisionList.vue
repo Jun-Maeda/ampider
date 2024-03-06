@@ -116,28 +116,21 @@ export default {
 
   methods: {
     initialize() {
-      this.divisions = [
-        {
-          name: '第1事業部',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-        {
-          name: '第2事業部',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-        {
-          name: '第3事業部',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-        {
-          name: 'その他',
-          employee_num: '1234567',
-          mail: 'test_test@test.jp',
-        },
-      ]
+      // 取得した拠点に紐づく事業部を所得する
+      let get_area_url = 'https://k4sxxt1oo3.execute-api.ap-northeast-1.amazonaws.com/' + this.company_store.area_data
+      this.axios
+        .get(get_area_url)
+        .then((res) => {
+          let get_divisions = res.data
+          console.log(res.data)
+          for (let division in get_divisions) {
+            this.divisions.push({ name: get_divisions[division] })
+          }
+        })
+        .catch((err) => {
+          alert('エラー')
+          console.log(err)
+        })
     },
 
     editItem(item) {

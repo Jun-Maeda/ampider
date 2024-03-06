@@ -185,10 +185,10 @@ export default {
       console.log(post_data)
 
       // ページ更新
-      // this.$router.go({ path: this.$router.currentRoute.path, force: true })
+      this.$router.go({ path: this.$router.currentRoute.path, force: true })
 
-      // let success = '安否確認を開始しました。\nタイトル:' + this.title
-      // alert(success)
+      let success = '安否確認を開始しました。\nタイトル:' + this.title
+      alert(success)
 
       this.$refs.form.reset()
     },

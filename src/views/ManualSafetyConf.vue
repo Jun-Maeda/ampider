@@ -171,6 +171,18 @@ export default {
       let sec = format(now, 'ss')
       this.date_time = year + month + date + 'T' + hour + min + sec + 'Z'
 
+      // lambdaに合わせるため拠点以下が選択されていない場合はfalseで返す
+      if (this.select_areas.length == 0) {
+        this.select_areas = false
+        this.select_divisions = false
+        this.select_organizations = false
+      } else if (this.select_divisions.length == 0) {
+        this.select_divisions = false
+        this.select_organizations = false
+      } else if (this.select_organizations.length == 0) {
+        this.select_organizations = false
+      }
+
       // ここに新規作成処理を記載
       let post_data = {
         disaster_name: '手動',
@@ -180,15 +192,19 @@ export default {
         remind: 0,
         title: this.title,
         ttl_day: now.setFullYear(now.getFullYear() + 5),
+        target_company: this.select_companys,
+        target_kyoten: this.select_areas,
+        target_jigyou: this.select_divisions,
+        target_syozoku: this.select_organizations,
       }
 
       console.log(post_data)
 
       // ページ更新
-      this.$router.go({ path: this.$router.currentRoute.path, force: true })
+      // this.$router.go({ path: this.$router.currentRoute.path, force: true })
 
-      let success = '安否確認を開始しました。\nタイトル:' + this.title
-      alert(success)
+      // let success = '安否確認を開始しました。\nタイトル:' + this.title
+      // alert(success)
 
       this.$refs.form.reset()
     },

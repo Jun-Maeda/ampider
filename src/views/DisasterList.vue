@@ -1,4 +1,5 @@
 <script setup>
+import { disasterListStore } from '@/stores/disaster_list'
 import { disasterDetailStore } from '@/stores/disaster'
 </script>
 <template>
@@ -47,7 +48,8 @@ import { disasterDetailStore } from '@/stores/disaster'
         <template v-slot:[`item.lebel`]="{ item }">
           <p v-if="item.disaster_name == '地震'">
             <ul style="list-style: none;" class="pa-0">
-              <li v-for="(lebel,key) in item.max_eq_scale" :key="key">{{ key }}: 最大震度{{ lebel }}</li>
+              【最大震度】
+              <li v-for="(lebel,key) in item.max_eq_scale" :key="key">{{ key }}: {{ lebel }}</li>
             </ul>
           </p>
           <p v-if="item.disaster_name == '気象'">
@@ -83,10 +85,11 @@ export default {
       { title: '日時', align: 'start', width: '15%', key: 'datetime' ,minWidth: '200' },
       { title: '場所', align: 'start', width: '15%', key: 'area', minWidth: '100' },
       { title: '災害種別', align: 'start', width: '15%', key: 'disaster_name', minWidth: '150' },
-      { title: 'レベル', align: 'start', width: '15%', key: 'lebel', minWidth: '200' },
+      { title: 'レベル', align: 'start', width: '15%', key: 'lebel', minWidth: '150' },
       { title: 'タイトル', align: 'start', width: '40%', key: 'title', minWidth: '200' },
     ],
     disaster: [],
+    disaster_list_store: disasterListStore(),
     disaster_store: disasterDetailStore(),
   }),
   computed: {
@@ -121,18 +124,22 @@ export default {
     this.initialize()
   },
   methods: {
-    initialize() {
-      let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com'
-      this.axios
-        .get(disaster_list_url)
-        .then((res) => {
-          this.disaster = res.data
-          console.log(this.disaster)
-        })
-        .catch((err) => {
-          alert('このデータはありません')
-          console.log(err)
-        })
+    async initialize() {
+      let disaster_list = this.disaster_list_store.disaster_list
+      // disaster_listが空の場合は取得する
+      if(disaster_list.length == 0){
+        let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com'
+        await this.axios
+          .get(disaster_list_url)
+          .then((res) =>{
+            this.disaster_list_store.disaster_list = res.data
+          })
+          .catch((err) => {
+            alert('このデータはありません')
+            console.log(err)
+          })
+      }
+      this.disaster = this.disaster_list_store.disaster_list
     },
     testMethod() {
       alert('test')

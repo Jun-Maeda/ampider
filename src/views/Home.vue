@@ -1,5 +1,6 @@
 <script setup>
 import { infoListStore } from '@/stores/info_list'
+import { disasterListStore } from '@/stores/disaster_list'
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   user: Object,
@@ -61,86 +62,49 @@ const props = defineProps({
       </div>
     </div>
     <div class="mt-8">
-      <v-row justify="center">
+      <v-row justify="start">
         <h6>災害速報</h6>
         <v-col cols="12" xl="10">
-          <v-data-table-virtual
-            :headers="headers"
-            :items="disaster"
-            :fixed-header="true"
-            :hide-default-footer="false"
-            disable-pagination
-            item-key="name"
-          >
-            <template v-slot:[`item.baseName`]="{ value }">
-              <div class="text-center mx-auto" style="width: 100px">
-                {{ value }}
-              </div>
-            </template>
-            <template v-slot:[`item.rainfall`]="{ value }">
-              <div class="text-center">
-                <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
-                    {{ value.alert }}
-                  </span>
-                </v-btn>
-              </div>
-            </template>
-            <template v-slot:[`item.flood`]="{ value }">
-              <div class="text-center">
-                <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
-                    {{ value.alert }}
-                  </span>
-                </v-btn>
-              </div>
-            </template>
-            <template v-slot:[`item.strongWind`]="{ value }">
-              <div class="text-center">
-                <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
-                    {{ value.alert }}
-                  </span>
-                </v-btn>
-              </div>
-            </template>
-            <template v-slot:[`item.earthquake`]="{ value }">
-              <div class="text-center">
-                <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
-                    {{ value.alert }}
-                  </span>
-                </v-btn>
-              </div>
-            </template>
-            <template v-slot:[`item.lightning`]="{ value }">
-              <div class="text-center">
-                <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
-                    {{ value.alert }}
-                  </span>
-                </v-btn>
-              </div>
-            </template>
-            <template v-slot:[`item.heavySnow`]="{ value }">
-              <div class="text-center">
-                <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
-                    {{ value.alert }}
-                  </span>
-                </v-btn>
-              </div>
-            </template>
-            <template v-slot:[`item.tsunami`]="{ value }">
-              <div class="text-center">
-                <v-btn @click="openModal(value.detail)" v-if="value.alert" :color="getColor(value.alert)" variant="flat">
-                  <span v-on="props" class="my-auto" :style="bkPoint.btnWidth">
-                    {{ value.alert }}
-                  </span>
-                </v-btn>
-              </div>
-            </template>
-          </v-data-table-virtual>
+          <v-data-table-virtual :headers="headers" :items="disaster" density="compact" @click:row="clickItem" items-per-page-text="表示行数">
+        <template v-slot:[`item.type`]="{ value }">
+          <v-chip variant="flat" :color="getColor(value)">
+            <p class="my-auto">{{ format(value) }}</p>
+          </v-chip>
+        </template>
+        <template v-slot:[`item.datetime`]="{ value }">
+          {{ date_format(value) }}
+        </template>
+        <template v-slot:[`item.area`]="{ item }">
+          <p v-if="item.disaster_name == '地震'">
+            <ul style="list-style: none;" class="pa-0">
+              <li v-for="(area,key) in earthquake_areas(item.max_eq_scale)" :key="key"> {{ area }}</li>
+            </ul>
+          </p>
+          <p v-if="item.disaster_name == '気象'">
+            {{ item.prefecture }}
+          </p>
+        </template>
+        <template v-slot:[`item.lebel`]="{ item }">
+          <p v-if="item.disaster_name == '地震'">
+            <ul style="list-style: none;" class="pa-0">
+              【最大震度】
+              <li v-for="(lebel,key) in item.max_eq_scale" :key="key">{{ key }}: {{ lebel }}</li>
+            </ul>
+          </p>
+          <p v-if="item.disaster_name == '気象'">
+            <ul style="list-style: none;" class="pa-0">
+              <li v-for="(lebel,key) in item.alert" :key="key">{{ lebel }}</li>
+            </ul>
+          </p>
+        </template>
+        <!-- <template v-slot:[`item.title`]="{ item }">
+          <p>【{{ item.type }}】{{ item.date }} {{ item.location }} {{ item.Level }}</p>
+        </template> -->
+        <template v-slot:no-data>
+          <!-- <v-btn color="primary" @click="initialize"> Reset </v-btn> -->
+          該当するものがありません。
+        </template>
+      </v-data-table-virtual>
           <v-dialog v-model="modal" max-width="500px" @input="modal = false">
             <v-card>
               <v-card-text class="text-center">{{ modalDetail }}</v-card-text>
@@ -175,9 +139,6 @@ export default {
   // components : {
   //   admin
   // },
-  props: {
-    user: Object,
-  },
   data: () => ({
     bread_link: [
       {
@@ -247,129 +208,19 @@ export default {
     // },
     info: {},
     headers: [
-      { title: '拠点名', align: 'center', sortable: false, width: '20%', key: 'baseName' },
-      { title: '大雨', align: 'center', sortable: false, width: '10%', key: 'rainfall' },
-      { title: '洪水', align: 'center', sortable: false, width: '10%', key: 'flood' },
-      { title: '強風', align: 'center', sortable: false, width: '10%', key: 'strongWind' },
-      { title: '地震', align: 'center', sortable: false, width: '10%', key: 'earthquake' },
-      { title: '雷', align: 'center', sortable: false, width: '10%', key: 'lightning' },
-      { title: '大雪', align: 'center', sortable: false, width: '10%', key: 'heavySnow' },
-      { title: '津波', align: 'center', sortable: false, width: '10%', key: 'tsunami' },
+      { title: '日時', align: 'start', width: '15%', key: 'datetime' ,minWidth: '200' },
+      { title: '場所', align: 'start', width: '15%', key: 'area', minWidth: '100' },
+      { title: '災害種別', align: 'start', width: '15%', key: 'disaster_name', minWidth: '150' },
+      { title: 'レベル', align: 'start', width: '15%', key: 'lebel', minWidth: '150' },
+      { title: 'タイトル', align: 'start', width: '40%', key: 'title', minWidth: '200' },
     ],
     family_headers: [
       { title: '家族名', align: 'left', sortable: false, width: '40%', key: 'name' },
       { title: '安否結果', align: 'left', sortable: false, width: '40%', key: 'result' },
     ],
-    disaster: [
-      {
-        baseName: '東京本社',
-        rainfall: { alert: '注意報', detail: '災害が起きました。' },
-        flood: { alert: '警報', detail: '災害が起きました。' },
-        strongWind: { alert: '注意報', detail: '災害が起きました。' },
-        earthquake: { alert: '震度5', detail: '災害が起きました。' },
-        lightning: { alert: '警報', detail: '災害が起きました。' },
-        heavySnow: { alert: '注意報', detail: '災害が起きました。' },
-        tsunami: { alert: '警報', detail: '災害が起きました。' },
-      },
-      {
-        baseName: '秋田BPO',
-        rainfall: {
-          alert: '注意報',
-          detail:
-            '【暴風雪と高波に関する気象警報・注意報】 秋田県では、気圧の傾きが大きくなっているため、西よりの強風が吹き、海上では、大しけとなっています。沿岸の海上では、８日昼前にかけて、高波に警戒してください。また、秋田県では、８日朝まで、強風に注意してください。',
-        },
-        flood: { alert: '警報', detail: 'test' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '横手キャンパス',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '注意報', detail: '123456789' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: 'にかほキャンパス',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '警報', detail: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '潟上ブランチ',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '注意報', detail: '`{+>}~&&$<>}_?*!$' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '山形BPO',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: {
-          alert: '警報',
-          detail: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-        },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '鶴岡ブランチ',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '富山BPO',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '魚沼テラス',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-      {
-        baseName: '一関BPO',
-        rainfall: { alert: '', detail: '' },
-        flood: { alert: '', detail: '' },
-        strongWind: { alert: '', detail: '' },
-        earthquake: { alert: '', detail: '' },
-        lightning: { alert: '', detail: '' },
-        heavySnow: { alert: '', detail: '' },
-        tsunami: { alert: '', detail: '' },
-      },
-    ],
+    disaster: [],
     info_list_store: infoListStore(),
+    disaster_list_store: disasterListStore(),
   }),
 
   computed: {
@@ -420,11 +271,14 @@ export default {
   },
   methods: {
     async initialize() {
+      // 家族情報の取得
       this.families = [
         { name: '家族1', result: '安全' },
         { name: '家族2', result: '安全' },
         { name: '家族3', result: '安全' },
       ]
+
+      // お知らせ一覧が空の場合は取得する
       if (this.info_list_store.info_list.length == 0) {
         let login_user = this.$props.user.username
         let info_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/user/' + login_user
@@ -442,6 +296,22 @@ export default {
         title: this.info_list_store.info_list[0].information_title,
         text: this.format(this.info_list_store.info_list[0].information_body),
       }
+
+      let disaster_list = this.disaster_list_store.disaster_list
+      // disaster_listが空の場合は取得する
+      if (disaster_list.length == 0) {
+        let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com'
+        await this.axios
+          .get(disaster_list_url)
+          .then((res) => {
+            this.disaster_list_store.disaster_list = res.data
+          })
+          .catch((err) => {
+            alert('このデータはありません')
+            console.log(err)
+          })
+      }
+      this.disaster = this.disaster_list_store.disaster_list.slice(0,4)
     },
     itemProps(item) {
       if (item === '') {
@@ -460,11 +330,9 @@ export default {
     format(text) {
       var clamp = '...'
       var length = this.bkPoint.textLength
-      console.log(text.length)
-      return text
 
-      // if (text.length <= length) return text
-      // return text.substring(0, length) + clamp
+      if (text.length <= length) return text
+      return text.substring(0, length) + clamp
     },
     getColor(value) {
       if (value === '') {
@@ -482,6 +350,14 @@ export default {
     closeModal() {
       this.modal = false
     },
+    earthquake_areas(areas) {
+      let result = Object.keys(areas)
+      return result
+    },
+    date_format(date){
+      let get_date = date.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z/, '$1/$2/$3 $4:$5')
+      return get_date
+    }
   },
 }
 </script>

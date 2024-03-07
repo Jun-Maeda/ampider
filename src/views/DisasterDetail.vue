@@ -17,11 +17,11 @@ import { disasterDetailStore } from '@/stores/disaster'
       <h2>過去の災害詳細</h2>
     </div> -->
     <div class="mt-8">
-      <p class="text-h5">【{{ disaster_detail.type }}】{{ disaster_detail.date }} {{ disaster_detail.location }} {{ disaster_detail.Level }}</p>
+      <p class="text-h5">{{ disaster_detail.title }}</p>
       <v-card class="my-auto" color="#EEEEEE" variant="flat" min-height="400">
         <v-card-item>
           <p class="text-subtitle-1">詳細</p>
-          <p class="text-body-1">{{ disaster_detail.detail }}</p>
+          <p class="text-body-1">{{ disaster_detail.description }}</p>
         </v-card-item>
       </v-card>
     </div>

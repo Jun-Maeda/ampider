@@ -31,12 +31,34 @@ import { disasterDetailStore } from '@/stores/disaster'
             <p class="my-auto">{{ format(value) }}</p>
           </v-chip>
         </template>
-        <!-- <template v-slot:[`item.detail`]="{ value }">
-          <p>{{ format(value) }}</p>
-        </template> -->
-        <template v-slot:[`item.title`]="{ item }">
-          <p>【{{ item.type }}】{{ item.date }} {{ item.location }} {{ item.Level }}</p>
+        <template v-slot:[`item.datetime`]="{ value }">
+          {{ date_format(value) }}
         </template>
+        <template v-slot:[`item.area`]="{ item }">
+          <p v-if="item.disaster_name == '地震'">
+            <ul style="list-style: none;" class="pa-0">
+              <li v-for="(area,key) in earthquake_areas(item.max_eq_scale)" :key="key"> {{ area }}</li>
+            </ul>
+          </p>
+          <p v-if="item.disaster_name == '気象'">
+            {{ item.prefecture }}
+          </p>
+        </template>
+        <template v-slot:[`item.lebel`]="{ item }">
+          <p v-if="item.disaster_name == '地震'">
+            <ul style="list-style: none;" class="pa-0">
+              <li v-for="(lebel,key) in item.max_eq_scale" :key="key">{{ key }}: 最大震度{{ lebel }}</li>
+            </ul>
+          </p>
+          <p v-if="item.disaster_name == '気象'">
+            <ul style="list-style: none;" class="pa-0">
+              <li v-for="(lebel,key) in item.alert" :key="key">{{ lebel }}</li>
+            </ul>
+          </p>
+        </template>
+        <!-- <template v-slot:[`item.title`]="{ item }">
+          <p>【{{ item.type }}】{{ item.date }} {{ item.location }} {{ item.Level }}</p>
+        </template> -->
         <template v-slot:no-data>
           <!-- <v-btn color="primary" @click="initialize"> Reset </v-btn> -->
           該当するものがありません。
@@ -58,58 +80,13 @@ export default {
     ],
     search: '',
     headers: [
-      { title: '日時', align: 'start', width: '15%', key: 'date' },
-      { title: '場所', align: 'start', width: '15%', key: 'location' },
-      { title: '災害種別', align: 'start', width: '15%', key: 'type' },
-      { title: 'レベル', align: 'start', width: '15%', key: 'Level' },
-      { title: 'タイトル', align: 'start', width: '40%', key: 'title' },
+      { title: '日時', align: 'start', width: '15%', key: 'datetime' ,minWidth: '200' },
+      { title: '場所', align: 'start', width: '15%', key: 'area', minWidth: '100' },
+      { title: '災害種別', align: 'start', width: '15%', key: 'disaster_name', minWidth: '150' },
+      { title: 'レベル', align: 'start', width: '15%', key: 'lebel', minWidth: '200' },
+      { title: 'タイトル', align: 'start', width: '40%', key: 'title', minWidth: '200' },
     ],
-    disaster: [
-      {
-        date: '2023/12/25 12:17',
-        location: '秋田BPO',
-        type: '大雪',
-        Level: '注意報',
-        detail:
-          '【暴風雪と高波に関する気象警報・注意報】 秋田県では、気圧の傾きが大きくなっているため、西よりの強風が吹き、海上では、大しけとなっています。沿岸の海上では、８日昼前にかけて、高波に警戒してください。また、秋田県では、８日朝まで、強風に注意してください。',
-      },
-      {
-        date: '2023/12/25 12:21',
-        location: '山形BPO',
-        type: '大雪',
-        Level: '警報',
-        detail: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-      },
-      {
-        date: '2023/12/26 10:15',
-        location: '一関BPO',
-        type: '大雪',
-        Level: '警報',
-        detail: 'TEST',
-      },
-      {
-        date: '2023/12/27 10:16',
-        location: '富山BPO',
-        type: '地震',
-        Level: '震度5',
-        detail:
-          '寿限無、寿限無、五劫のすりきれ、海砂利水魚、水行末・雲来末・風来末、食う寝るところに住むところ、やぶらこうじのぶらこうじ、パイポ・パイポ・パイポのシューリンガン、シューリンガンのグーリンダイ、グーリンダイのポンポコピーのポンポコナの、長久命の長助',
-      },
-      {
-        date: '2023/12/26 10:28',
-        location: '東京本社',
-        type: '地震',
-        Level: '震度5',
-        detail: '',
-      },
-      {
-        date: '2023/12/27 10:16',
-        location: '東京本社',
-        type: '地震',
-        Level: '震度5',
-        detail: 'あ￥。・＞９’%＠AⒶ©ℱL！‼《＋；～~≒',
-      },
-    ],
+    disaster: [],
     disaster_store: disasterDetailStore(),
   }),
   computed: {
@@ -140,7 +117,23 @@ export default {
       return point
     },
   },
+  created() {
+    this.initialize()
+  },
   methods: {
+    initialize() {
+      let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com'
+      this.axios
+        .get(disaster_list_url)
+        .then((res) => {
+          this.disaster = res.data
+          console.log(this.disaster)
+        })
+        .catch((err) => {
+          alert('このデータはありません')
+          console.log(err)
+        })
+    },
     testMethod() {
       alert('test')
     },
@@ -170,6 +163,14 @@ export default {
         name: 'disaster_detail',
       })
     },
+    earthquake_areas(areas) {
+      let result = Object.keys(areas)
+      return result
+    },
+    date_format(date){
+      let get_date = date.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z/, '$1/$2/$3 $4:$5')
+      return get_date
+    }
   },
 }
 </script>

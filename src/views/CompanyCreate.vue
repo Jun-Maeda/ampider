@@ -94,21 +94,21 @@ export default {
     ],
   }),
   mounted() {
-     // ここですべての拠点を取得するためにPIの情報取得
-     let get_area_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + 'PIPCSPGS'
-      this.axios
-        .get(get_area_url)
-        .then((res) => {
-          let get_areas = res.data
-          console.log(res.data)
-          for (let area in get_areas) {
-            this.areas.push(get_areas[area])
-          }
-        })
-        .catch((err) => {
-          alert('エラー')
-          console.log(err)
-        })
+    // ここですべての拠点を取得するためにPIの情報取得
+    let get_area_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + 'PIPCSPGS'
+    this.axios
+      .get(get_area_url)
+      .then((res) => {
+        let get_areas = res.data
+        console.log(res.data)
+        for (let area in get_areas) {
+          this.areas.push(get_areas[area])
+        }
+      })
+      .catch((err) => {
+        alert('エラー')
+        console.log(err)
+      })
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
@@ -119,7 +119,7 @@ export default {
         this.dialog = true
       }
     },
-    createForm() {
+    async createForm() {
       this.dialog = false
       // ここに新規作成処理を記載
       let send_data = {
@@ -133,10 +133,12 @@ export default {
         },
       }
 
-      this.axios
+      await this.axios
         .post(create_url, send_data, config)
         .then((res) => {
           this.unit_details = res.data
+          let success = '会社情報を追加しました。'
+          alert(success)
         })
         .catch((err) => {
           alert('作成に失敗しました。')
@@ -147,9 +149,6 @@ export default {
       this.$router.replace({
         name: 'company_list',
       })
-
-      let success = '会社情報を追加しました。'
-      alert(success)
 
       this.$refs.form.reset()
     },

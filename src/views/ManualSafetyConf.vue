@@ -153,7 +153,7 @@ export default {
         this.dialog = true
       }
     },
-    createForm() {
+    async createForm() {
       this.dialog = false
       if (this.training_flg) {
         this.title = '【訓練】' + this.title
@@ -198,13 +198,27 @@ export default {
         target_syozoku: this.select_organizations,
       }
 
-      console.log(post_data)
+      let create_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com'
+      const config = {
+        headers: {
+          'Content-type': 'text/plain',
+        },
+      }
+
+      await this.axios
+        .post(create_url, post_data, config)
+        .then((res) => {
+          console.log(res)
+          let success = '安否確認を開始します。\nタイトル:' + this.title
+          alert(success)
+        })
+        .catch((err) => {
+          alert('作成に失敗しました。')
+          console.log(err)
+        })
 
       // ページ更新
-      // this.$router.go({ path: this.$router.currentRoute.path, force: true })
-
-      // let success = '安否確認を開始しました。\nタイトル:' + this.title
-      // alert(success)
+      this.$router.go({ path: this.$router.currentRoute.path, force: true })
 
       this.$refs.form.reset()
     },

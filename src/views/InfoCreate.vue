@@ -1,5 +1,7 @@
 <script setup>
+import { infoListStore } from '@/stores/info_list'
 import { useDraftStore } from '@/stores/draft'
+// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   user: Object,
 })
@@ -182,7 +184,7 @@ export default {
         companys: this.select_companys,
         areas: this.select_areas,
         divisions: this.select_divisions,
-        organizations: this.select_organizations
+        organizations: this.select_organizations,
       }
 
       let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
@@ -193,7 +195,7 @@ export default {
       }
       await this.axios
         .post(create_url, create_data, config)
-        .then((res) => {
+        .then(() => {
           let success = 'お知らせを作成しました。\nタイトル:' + this.title
           alert(success)
         })
@@ -201,8 +203,9 @@ export default {
           alert('作成に失敗しました。')
           console.log(err)
         })
-
-
+      // お知らせ一覧をリセット
+      let info_list_store = infoListStore()
+      info_list_store.resetInfoList()
       // お知らせ一覧へリダイレクト
       this.$router.replace({
         name: 'info_list',
@@ -212,7 +215,6 @@ export default {
     },
     async createDraft() {
       this.dialog = false
-      let success = '下書きを保存しました。\nタイトル:' + this.title
 
       let create_data = {
         information_id: this.makeId(),
@@ -223,7 +225,7 @@ export default {
         companys: this.select_companys,
         areas: this.select_areas,
         divisions: this.select_divisions,
-        organizations: this.select_organizations
+        organizations: this.select_organizations,
       }
 
       let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
@@ -234,7 +236,7 @@ export default {
       }
       await this.axios
         .post(create_url, create_data, config)
-        .then((res) => {
+        .then(() => {
           let success = '下書きを作成しました。\nタイトル:' + this.title
           alert(success)
         })
@@ -242,7 +244,6 @@ export default {
           alert('作成に失敗しました。')
           console.log(err)
         })
-
 
       // 下書き一覧へリダイレクト
       this.$router.replace({

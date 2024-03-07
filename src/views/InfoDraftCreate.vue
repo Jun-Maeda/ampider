@@ -1,5 +1,7 @@
 <script setup>
+import { infoListStore } from '@/stores/info_list'
 import { useDraftStore } from '@/stores/draft'
+// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   user: Object,
 })
@@ -26,8 +28,16 @@ const props = defineProps({
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
-            <v-select label="会社*" :items="companies" item-title="company_name"
-              item-value="company_name" :rules="select_rules" v-model="select_companys" @click="choiceCompany" multiple />
+            <v-select
+              label="会社*"
+              :items="companies"
+              item-title="company_name"
+              item-value="company_name"
+              :rules="select_rules"
+              v-model="select_companys"
+              @click="choiceCompany"
+              multiple
+            />
           </v-col>
 
           <v-col v-if="select_companys.length > 0" cols="12" lg="6">
@@ -170,7 +180,7 @@ export default {
         companys: this.select_companys,
         areas: this.select_areas,
         divisions: this.select_divisions,
-        organizations: this.select_organizations
+        organizations: this.select_organizations,
       }
 
       let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
@@ -181,7 +191,7 @@ export default {
       }
       await this.axios
         .post(create_url, create_data, config)
-        .then((res) => {
+        .then(() => {
           let success = 'お知らせを作成しました。\nタイトル:' + this.title
           alert(success)
         })
@@ -190,7 +200,9 @@ export default {
           console.log(err)
         })
 
-
+      // お知らせ一覧をリセット
+      let info_list_store = infoListStore()
+      info_list_store.resetInfoList()
       // お知らせ一覧へリダイレクト
       this.$router.replace({
         name: 'info_list',
@@ -212,7 +224,7 @@ export default {
         companys: this.select_companys,
         areas: this.select_areas,
         divisions: this.select_divisions,
-        organizations: this.select_organizations
+        organizations: this.select_organizations,
       }
 
       let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
@@ -223,7 +235,7 @@ export default {
       }
       await this.axios
         .post(create_url, create_data, config)
-        .then((res) => {
+        .then(() => {
           let success = '下書きを更新しました。\nタイトル:' + this.title
           alert(success)
         })
@@ -231,7 +243,6 @@ export default {
           alert('作成に失敗しました。')
           console.log(err)
         })
-
 
       // 下書き一覧へリダイレクト
       this.$router.replace({

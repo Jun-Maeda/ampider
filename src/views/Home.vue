@@ -311,7 +311,7 @@ export default {
             console.log(err)
           })
       }
-      this.disaster = this.disaster_list_store.disaster_list.slice(0,4)
+      this.disaster = this.disaster_list_store.disaster_list.slice(0,5)
     },
     itemProps(item) {
       if (item === '') {

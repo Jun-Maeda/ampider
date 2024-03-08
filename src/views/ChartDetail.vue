@@ -20,7 +20,14 @@ import { ja } from 'date-fns/locale'
           <VueDatePicker v-model="dates" range multi-calendars :enable-time-picker="false" :format-locale="ja" />
         </v-col>
         <v-col cols="12" sm="4" class="pt-0">
-          <v-select v-model="choice_disaster" label="災害選択" :items="select_disasters" density="compact" item-title="title"></v-select>
+          <v-select
+            v-model="choice_disaster"
+            label="災害選択"
+            :items="select_disasters"
+            density="compact"
+            item-title="title"
+            @click="get_disasters()"
+          ></v-select>
         </v-col>
       </v-row>
       <v-row>
@@ -118,12 +125,7 @@ export default {
         },
       ],
     },
-    select_disasters: [
-      { id: '1', title: '山形県地震' },
-      { id: '1', title: '山形県大雨' },
-      { id: '1', title: '山形県暴風' },
-      { id: '1', title: '山形県洪水' },
-    ],
+    select_disasters: [],
     choice_disaster: '',
     start_date: '',
     end_date: '',
@@ -253,6 +255,30 @@ export default {
           value: item.id,
         }
       }
+    },
+    async get_disasters() {
+      let start_date =
+        this.dates[0]
+          .toISOString()
+          .replace(/[-:.]/g, '')
+          .replace(/(\d{8})T(\d{9})Z/, '$1') + 'T000000Z'
+      let end_date =
+        this.dates[1]
+          .toISOString()
+          .replace(/[-:.]/g, '')
+          .replace(/(\d{8})T(\d{9})Z/, '$1') + 'T235959Z'
+
+      let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com/range?start_date=' + start_date + '&end_date=' + end_date
+      console.log(disaster_list_url)
+      await this.axios
+        .get(disaster_list_url)
+        .then((res) => {
+          this.select_disasters = res.data
+        })
+        .catch((err) => {
+          alert('このデータはありません')
+          console.log(err)
+        })
     },
     downloadCSV() {
       var csv = '\ufeff' + 'No.,名前,社員番号, 安否, 回答時刻,出社可否, 家族の安否, 家屋の状態, ステップ回数, 返答, 特記事項\n'

@@ -220,10 +220,14 @@
         </v-col>
       </v-row>
     </div>
+    <div>
+      {{ info }}
+    </div>
   </v-container>
 </template>
 
 <script>
+// import { Logger } from 'aws-amplify';
 export default {
   data: () => ({
     tab: 'one',
@@ -245,10 +249,10 @@ export default {
         remind: [1, 2, 3, 4, 5],
       },
       selected: {
-        standard: '震度5弱',
-        timing: 0,
-        hour: 0,
-        minutes: 15,
+        standard: null,
+        timing: null,
+        hour: null,
+        minutes: null,
         interval: 30,
         remind: 5,
       },
@@ -262,11 +266,11 @@ export default {
       },
       selected: {
         alert: [],
-        timing: 0,
-        hour: 0,
-        minutes: 15,
-        interval: 30,
-        remind: 5,
+        timing: null,
+        hour: null,
+        minutes: null,
+        interval: null,
+        remind: null,
       },
     },
     manual: {
@@ -275,34 +279,156 @@ export default {
         remind: [1, 2, 3, 4, 5],
       },
       selected: {
-        interval: 30,
-        remind: 5,
+        interval: null,
+        remind: null,
       },
     },
     dialog: false,
-    
+    info: null,
   }),
-  mounted() {},
+  mounted() {
+    let alertRemindUrl = 'https://43pwwm4p4e.execute-api.ap-northeast-1.amazonaws.com/items';
+    this.axios
+      .get(alertRemindUrl)
+      .then((res) => {
+        for (var item in res.data){
+          var disasterName = res.data[item]["disaster_name"];
+          switch(disasterName){
+            case '地震':
+              this.convertIntensity(res.data[item]["disaster_level"]);
+              this.earthquake.selected.hour = this.calculateHour(res.data[item]["alert_interval"]);
+              this.earthquake.selected.minutes = this.calculateMiniutes(res.data[item]["alert_interval"]);
+              this.earthquake.selected.interval = res.data[item]["remind_interval"];
+              this.earthquake.selected.remind = res.data[item]["remind_num"];
+              break;
+            case '気象警報':
+              this.weather.selected.alert = res.data[2]["disaster_level"];
+              this.weather.selected.hour = this.calculateHour(res.data[2]["alert_interval"]);
+              this.weather.selected.minutes = this.calculateMiniutes(res.data[2]["alert_interval"]);
+              this.weather.selected.interval = res.data[2]["remind_interval"];
+              this.weather.selected.remind = res.data[2]["remind_num"];
+              break;
+            case '手動':
+              this.manual.selected.interval = res.data[4]["remind_interval"];
+              this.manual.selected.remind = res.data[4]["remind_num"];
+          }
+        }
+      })
+      .catch(err => console.log(err));
+  },
   methods: {
     //保存時に実行する関数
     saveData(){
       this.hoursToMinutes();
       this.dialog = true;
-      //↓でDynamoDBのアップデートのAPIを呼び出す？
+      var disasterName = '気象警報';
+      var sendData = {
+        "alert_interval": this.weather.selected.timing,
+        "remind_interval": this.weather.selected.interval,
+        "remind_num": this.weather.selected.remind,
+        "disaster_lebel": this.weather.selected.alert
+      };
+      this.callPutApi(disasterName,sendData);
+
+      disasterName = '地震'
+      sendData = {
+        "alert_interval": this.earthquake.selected.timing,
+        "remind_interval": this.earthquake.selected.interval,
+        "remind_num": this.earthquake.selected.remind,
+        "disaster_lebel": this.convertDisasterLevel()
+      };
+      this.callPutApi(disasterName,sendData);
+
+      disasterName = '手動'
+      sendData = {
+        "remind_interval": this.earthquake.selected.interval,
+        "remind_num": this.earthquake.selected.remind
+      };
+      this.callPutApi(disasterName,sendData);
+
     },
     // 時間＋分を分に変換
     hoursToMinutes(){
       this.earthquake.selected.timing = this.earthquake.selected.hour * 60 + this.earthquake.selected.minutes;
       this.weather.selected.timing = this.weather.selected.hour * 60 + this.weather.selected.minutes;
     },
-    // calculateHour(timing){
-    //   var hour = Math.floor(timing / 60);
-    //   return hour;
-    // },
-    // calculateMiniutes(timing){
-    //   var minutes = timing % 60;
-    //   return minutes;
-    // }
+    calculateHour(timing){
+      var hour = Math.floor(timing / 60);
+      return hour;
+    },
+    calculateMiniutes(timing){
+      var minutes = timing % 60;
+      return minutes;
+    },
+    convertIntensity(disaster_level){
+      switch(disaster_level){
+        case 3:
+          this.earthquake.selected.standard = '震度3';
+          break;
+        case 4:
+          this.earthquake.selected.standard = '震度4';
+          break;
+        case 4.9:
+          this.earthquake.selected.standard = '震度5弱';
+          break;
+        case 5.1:
+          this.earthquake.selected.standard = '震度5強';
+          break;
+        case 5.9:
+          this.earthquake.selected.standard = '震度6弱';
+          break;
+        case 6.1:
+          this.earthquake.selected.standard = '震度6強';
+          break;
+        case 7:
+          this.earthquake.selected.standard = '震度7';
+          break;
+      }
+    },
+    convertDisasterLevel(){
+      var disasterLevel
+      switch(this.earthquake.selected.standard){
+        case '震度3':
+          disasterLevel = 3;
+          break;
+        case '震度4':
+          disasterLevel = 4;
+          break;
+        case '震度5弱':
+          disasterLevel = 4.9;
+          break;
+        case '震度5強':
+          disasterLevel = 5.1;
+          break;
+        case '震度6弱':
+          disasterLevel = 5.9;
+          break;
+        case '震度6強':
+          disasterLevel = 6.1;
+          break;
+        case '震度7':
+          disasterLevel = 7;
+          break;
+      }
+      return disasterLevel;
+    },
+    callPutApi(disasterName,sendData){
+      let alertRemindUrl = 'https://43pwwm4p4e.execute-api.ap-northeast-1.amazonaws.com/items/';
+      const config = {
+        headers:{
+          'content-type': 'text/plain',
+        }, 
+      }
+      this.axios
+        .put(alertRemindUrl + disasterName, sendData, config)
+        .then((res) => {
+          this.unit_details = res.data
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('更新に失敗しました。');
+        })
+    }
   },
 }
 </script>

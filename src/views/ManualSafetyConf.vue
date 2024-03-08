@@ -160,6 +160,11 @@ export default {
       } else {
         this.title = '【安否確認】' + this.title
       }
+      // 会社が全社だった場合は全社をリストに変換
+      if (this.select_companys.includes('全社')) {
+        this.select_companys = this.companies.map((item) => item.company_name)
+        this.select_companys.shift()
+      }
 
       // 現在の日時をdate_timeに保存
       let now = new Date()

@@ -1,3 +1,8 @@
+<script setup>
+const props = defineProps({
+  user: Object,
+})
+</script>
 <template>
   <v-container>
     <div class="mt-4">
@@ -96,8 +101,14 @@ export default {
   mounted() {
     // ここですべての拠点を取得するためにPIの情報取得
     let get_area_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + 'PIPCSPGS'
+    let get_token = this.get_token(this.$props.user.username)
+    const config = {
+      headers: {
+        Authorization: get_token,
+      },
+    }
     this.axios
-      .get(get_area_url)
+      .get(get_area_url, config)
       .then((res) => {
         let get_areas = res.data
         console.log(res.data)
@@ -127,9 +138,11 @@ export default {
         areas: this.select_areas,
       }
       let create_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com'
+      let get_token = this.get_token(this.$props.user.username)
       const config = {
         headers: {
           'Content-type': 'text/plain',
+          'Authorization': get_token,
         },
       }
 

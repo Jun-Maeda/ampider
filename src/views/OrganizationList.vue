@@ -1,5 +1,8 @@
 <script setup>
 import { useCompanyStore } from '@/stores/company_setting'
+const props = defineProps({
+  user: Object,
+})
 </script>
 <template>
   <v-container>
@@ -123,8 +126,14 @@ export default {
     initialize() {
       // 取得した事業部に紐づく組織を所得する
       let get_division_url = 'https://o9chfpwo3j.execute-api.ap-northeast-1.amazonaws.com/' + this.company_store.division_data
+      let get_token = this.get_token(this.$props.user.username)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
       this.axios
-        .get(get_division_url)
+        .get(get_division_url, config)
         .then((res) => {
           let get_organizations = res.data
           console.log(res.data)

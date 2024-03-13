@@ -1,5 +1,8 @@
 <script setup>
 import { ja } from 'date-fns/locale'
+const props = defineProps({
+  user: Object,
+})
 </script>
 <template>
   <v-container>
@@ -269,9 +272,14 @@ export default {
           .replace(/(\d{8})T(\d{9})Z/, '$1') + 'T235959Z'
 
       let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com/range?start_date=' + start_date + '&end_date=' + end_date
-      console.log(disaster_list_url)
+      let get_token = this.get_token(this.$props.user.username)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
       await this.axios
-        .get(disaster_list_url)
+        .get(disaster_list_url, config)
         .then((res) => {
           this.select_disasters = res.data
         })

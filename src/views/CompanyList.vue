@@ -1,5 +1,8 @@
 <script setup>
 import { useCompanyStore } from '@/stores/company_setting'
+const props = defineProps({
+  user: Object,
+})
 </script>
 <template>
   <v-container>
@@ -102,8 +105,14 @@ export default {
   methods: {
     initialize() {
       let company_list_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/'
+      let get_token = this.get_token(this.$props.user.username)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
       this.axios
-        .get(company_list_url)
+        .get(company_list_url, config)
         .then((res) => {
           this.companies = res.data
           // PI関連は会社名の登録がOBICの事業部カラムにないのでここで作成してすべての拠点に紐づけ
@@ -133,8 +142,14 @@ export default {
     deleteItemConfirm() {
       this.closeDelete()
       let delete_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + this.editedItem.company_name
+      let get_token = this.get_token(this.$props.user.username)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
       this.axios
-        .delete(delete_url)
+        .delete(delete_url, config)
         .then((res) => {
           this.unit_details = res.data
 

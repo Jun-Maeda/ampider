@@ -185,9 +185,11 @@ export default {
       }
 
       let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
+      let get_token = this.get_token(this.$props.user.username)
       const config = {
         headers: {
           'Content-type': 'text/plain',
+          Authorization: get_token,
         },
       }
       await this.axios
@@ -229,9 +231,11 @@ export default {
       }
 
       let create_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items'
+      let get_token = this.get_token(this.$props.user.username)
       const config = {
         headers: {
           'Content-type': 'text/plain',
+          Authorization: get_token,
         },
       }
       await this.axios
@@ -262,8 +266,14 @@ export default {
       this.select_areas = []
       this.select_divisions = []
       let company_list_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/'
+      let get_token = this.get_token(this.$props.user.username)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
       this.axios
-        .get(company_list_url)
+        .get(company_list_url, config)
         .then((res) => {
           this.companies = res.data
           // 全社を追加
@@ -282,8 +292,14 @@ export default {
         name = 'PIPCSPGS'
       }
       let get_area_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + name
+      let get_token = this.get_token(this.$props.user.username)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
       this.axios
-        .get(get_area_url)
+        .get(get_area_url, config)
         .then((res) => {
           this.areas = this.areas.concat(res.data)
           this.areas = this.areas.filter((element, index) => this.areas.indexOf(element) === index)
@@ -295,8 +311,15 @@ export default {
     },
     getAreaDivision(name) {
       let get_division_url = 'https://k4sxxt1oo3.execute-api.ap-northeast-1.amazonaws.com/' + name
+      let get_token = this.get_token(this.$props.user.username)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
+
       this.axios
-        .get(get_division_url)
+        .get(get_division_url, config)
         .then((res) => {
           this.divisions = this.divisions.concat(res.data)
           this.divisions = this.divisions.filter((element, index) => this.divisions.indexOf(element) === index)
@@ -308,8 +331,14 @@ export default {
     },
     getDivisionOrg(name) {
       let get_org_url = 'https://o9chfpwo3j.execute-api.ap-northeast-1.amazonaws.com/' + name
+      let get_token = this.get_token(this.$props.user.username)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
       this.axios
-        .get(get_org_url)
+        .get(get_org_url, config)
         .then((res) => {
           this.organizations = this.organizations.concat(res.data)
           this.organizations = this.organizations.filter((element, index) => this.organizations.indexOf(element) === index)

@@ -1,6 +1,9 @@
 <script setup>
 import { disasterListStore } from '@/stores/disaster_list'
 import { disasterDetailStore } from '@/stores/disaster'
+const props = defineProps({
+  user: Object,
+})
 </script>
 <template>
   <v-container>
@@ -129,8 +132,14 @@ export default {
       // disaster_listが空の場合は取得する
       if(disaster_list.length == 0){
         let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com'
+        let get_token = this.get_token(this.$props.user.username)
+        const config = {
+          headers: {
+            'Authorization': get_token,
+          },
+        }
         await this.axios
-          .get(disaster_list_url)
+          .get(disaster_list_url, config)
           .then((res) =>{
             this.disaster_list_store.disaster_list = res.data
           })

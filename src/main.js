@@ -9,6 +9,7 @@ import { createPersistedState } from 'pinia-plugin-persistedstate'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import draggable from 'vuedraggable'
+import gv from '../src/mixins/globalMethods'
 
 // Amplify
 import { Amplify } from 'aws-amplify'
@@ -36,4 +37,5 @@ app.use(AmplifyVue)
 app.use(VueAxios, axios)
 app.use(vuetify)
 app.use(pinia)
+app.mixin(gv)
 app.mount('#app')

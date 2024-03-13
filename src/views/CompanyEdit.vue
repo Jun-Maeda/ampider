@@ -1,5 +1,8 @@
 <script setup>
 import { useCompanyStore } from '@/stores/company_setting'
+const props = defineProps({
+  user: Object,
+})
 </script>
 <template>
   <v-container>
@@ -98,9 +101,15 @@ export default {
       })
     }
     this.company = company_edit.company_name
+    let get_token = this.get_token(this.$props.user.username)
+    const config = {
+      headers: {
+        Authorization: get_token,
+      },
+    }
     // 会社に紐づく拠点の取得
     this.axios
-      .get(company_master_url + this.company)
+      .get(company_master_url + this.company, config)
       .then((res) => {
         this.select_areas = res.data
       })
@@ -110,19 +119,19 @@ export default {
       })
     // ここですべての拠点を取得するためにPIの情報取得
     let get_area_url = 'https://6m84bxbhlg.execute-api.ap-northeast-1.amazonaws.com/' + 'PIPCSPGS'
-      this.axios
-        .get(get_area_url)
-        .then((res) => {
-          let get_areas = res.data
-          console.log(res.data)
-          for (let area in get_areas) {
-            this.areas.push(get_areas[area])
-          }
-        })
-        .catch((err) => {
-          alert('エラー')
-          console.log(err)
-        })
+    this.axios
+      .get(get_area_url, config)
+      .then((res) => {
+        let get_areas = res.data
+        console.log(res.data)
+        for (let area in get_areas) {
+          this.areas.push(get_areas[area])
+        }
+      })
+      .catch((err) => {
+        alert('エラー')
+        console.log(err)
+      })
   },
   methods: {
     // 投稿ボタンを押したときのバリデーションチェック
@@ -140,9 +149,11 @@ export default {
         company_name: this.company,
         areas: this.select_areas,
       }
+      let get_token = this.get_token(this.$props.user.username)
       const config = {
         headers: {
           'Content-type': 'text/plain',
+          Authorization: get_token,
         },
       }
 

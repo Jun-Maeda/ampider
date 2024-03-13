@@ -118,8 +118,14 @@ export default {
     initialize() {
       let login_user = this.$props.user.username
       let draft_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/draft/' + login_user
+      let get_token = this.get_token(this.$props.user.username)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
       this.axios
-        .get(draft_list_url)
+        .get(draft_list_url, config)
         .then((res) => {
           console.log(res)
           this.drafts = res.data
@@ -146,8 +152,14 @@ export default {
     deleteItemConfirm() {
       this.closeDelete()
       let delete_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/items/' + this.editedItem['information-id']
+      let get_token = this.get_token(this.$props.user.username)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
       this.axios
-        .delete(delete_url)
+        .delete(delete_url, config)
         .then((res) => {
           this.unit_details = res.data
           this.$router.go({ path: this.$router.currentRoute.path, force: true })

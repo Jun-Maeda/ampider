@@ -63,7 +63,7 @@ const props = defineProps({
     </div>
     <div class="mt-8">
       <v-row justify="start">
-        <h6>災害速報</h6>
+        <h6>最新安否確認</h6>
         <v-col cols="12" xl="10">
           <v-data-table-virtual :headers="headers" :items="disaster" density="compact" @click:row="clickItem" items-per-page-text="表示行数">
         <template v-slot:[`item.type`]="{ value }">
@@ -278,15 +278,15 @@ export default {
         { name: '家族2', result: '安全' },
         { name: '家族3', result: '安全' },
       ]
-
-      // お知らせ一覧が空の場合は取得する
-      if (this.info_list_store.info_list.length == 0) {
-        let login_user = this.$props.user.username
+      let login_user = this.$props.user.username
         let get_token = this.get_token(login_user)
         const config = {
         headers: {
           'Authorization': get_token,
         },}
+      // お知らせ一覧が空の場合は取得する
+      if (this.info_list_store.info_list.length == 0) {
+        
         let info_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/user/' + login_user
         await this.axios
           .get(info_list_url, config)
@@ -303,26 +303,36 @@ export default {
         text: this.format(this.info_list_store.info_list[0].information_body),
       }
 
-      let disaster_list = this.disaster_list_store.disaster_list
+      // let disaster_list = this.disaster_list_store.disaster_list
       // disaster_listが空の場合は取得する
-      if (disaster_list.length == 0) {
-        let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com'
-        let get_token = this.get_token(this.$props.user.username)
-        const config = {
-        headers: {
-          'Authorization': get_token,
-        },}
-        await this.axios
-          .get(disaster_list_url, config)
-          .then((res) => {
-            this.disaster_list_store.disaster_list = res.data
-          })
-          .catch((err) => {
-            alert('このデータはありません')
-            console.log(err)
-          })
-      }
-      this.disaster = this.disaster_list_store.disaster_list.slice(0,5)
+      // if (disaster_list.length == 0) {
+      //   let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com'
+      //   let get_token = this.get_token(this.$props.user.username)
+      //   const config = {
+      //   headers: {
+      //     'Authorization': get_token,
+      //   },}
+      //   await this.axios
+      //     .get(disaster_list_url, config)
+      //     .then((res) => {
+      //       this.disaster_list_store.disaster_list = res.data
+      //     })
+      //     .catch((err) => {
+      //       alert('このデータはありません')
+      //       console.log(err)
+      //     })
+      // }
+      // this.disaster = this.disaster_list_store.disaster_list.slice(0,5)
+      let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com/check'
+      await this.axios
+        .get(disaster_list_url, config)
+        .then((res) => {
+          this.disaster = res.data.slice(0,5)
+        })
+        .catch((err) => {
+          alert('このデータはありません')
+          console.log(err)
+        })
     },
     itemProps(item) {
       if (item === '') {

@@ -77,7 +77,7 @@ export default {
     dialogDelete: false,
     headers: [
       { title: 'タイトル', key: 'information_title', width: '300', minWidth: '200' },
-      { title: '作成日', key: 'information_date', width: '200', minWidth: '150', },
+      { title: '作成日', key: 'information_date', width: '200', minWidth: '150' },
       { title: '本文', key: 'information_body', width: '400', minWidth: '200' },
     ],
     editedItem: {},
@@ -101,25 +101,26 @@ export default {
 
   methods: {
     initialize() {
-      if(this.info_list_store.info_list.length == 0){
-      let login_user = this.$props.user.username
+      if (this.info_list_store.info_list.length == 0) {
+        let login_user = this.$props.user.username
         let get_token = this.get_token(login_user)
         const config = {
-        headers: {
-          'Authorization': get_token,
-        },}
-      let info_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/user/' + login_user
-      this.axios
-        .get(info_list_url, config)
-        .then((res) => {
-          console.log(res.data)
-          this.info_list_store.info_list = res.data
-        })
-        .catch((err) => {
-          alert('データはありません')
-          console.log(err)
-        })
-    }
+          headers: {
+            Authorization: get_token,
+          },
+        }
+        let info_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/user/' + login_user
+        this.axios
+          .get(info_list_url, config)
+          .then((res) => {
+            console.log(res.data)
+            this.info_list_store.info_list = res.data
+          })
+          .catch((err) => {
+            alert('データはありません')
+            console.log(err)
+          })
+      }
       // let login_user = this.$props.user.username
       // let info_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/user/' + login_user
       // this.axios

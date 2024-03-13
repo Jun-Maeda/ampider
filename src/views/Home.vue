@@ -282,7 +282,7 @@ export default {
         let get_token = this.get_token(login_user)
         const config = {
         headers: {
-          'Authorization': get_token,
+          Authorization: get_token,
         },}
       // お知らせ一覧が空の場合は取得する
       if (this.info_list_store.info_list.length == 0) {

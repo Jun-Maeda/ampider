@@ -428,7 +428,7 @@ export default {
       const config = {
         headers: {
           'content-type': 'text/plain',
-          'Authorization': get_token,
+          Authorization: get_token,
         },
       }
       this.axios

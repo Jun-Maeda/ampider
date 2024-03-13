@@ -135,7 +135,7 @@ export default {
         let get_token = this.get_token(this.$props.user.username)
         const config = {
           headers: {
-            'Authorization': get_token,
+            Authorization: get_token,
           },
         }
         await this.axios

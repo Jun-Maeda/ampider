@@ -142,7 +142,7 @@ export default {
       const config = {
         headers: {
           'Content-type': 'text/plain',
-          'Authorization': get_token,
+          Authorization: get_token,
         },
       }
 

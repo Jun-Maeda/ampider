@@ -1,5 +1,6 @@
 <script setup>
 import { ja } from 'date-fns/locale'
+// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   user: Object,
 })
@@ -70,9 +71,6 @@ export default {
   components: {
     apexchart: VueApexCharts,
   },
-  props: {
-    user: Object,
-  },
   data: () => ({
     link: [
       {
@@ -100,7 +98,7 @@ export default {
     },
     bar_chart: {
       options: {
-        labels: ['安全', '軽傷', '重症', '未回答'],
+        labels: ['安全', '軽傷', '重症'],
         title: {
           text: '従業員安否状況',
           align: 'left',
@@ -109,13 +107,13 @@ export default {
       series: [
         {
           name: '人数',
-          data: [5, 3, 1, 1],
+          data: [5, 3, 1],
         },
       ],
     },
     attendance_chart: {
       options: {
-        labels: ['出社済み', '出社可能', '出社不可', '休日', '未回答'],
+        labels: ['不可', '概ね1時間以内', '概ね3時間以内', '出社済み', 'その他'],
         title: {
           text: '出社可否',
           align: 'left',

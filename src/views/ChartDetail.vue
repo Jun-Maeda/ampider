@@ -130,7 +130,7 @@ export default {
       ],
     },
     select_disasters: [],
-    choice_disaster: '',
+    choice_disaster: {},
     start_date: '',
     end_date: '',
     dates: [],
@@ -150,68 +150,7 @@ export default {
       // { title: 'ステップ', key: 'step', sortable: false, minWidth: '180' },
       // { title: '特記事項', key: 'notice', minWidth: '200' },
     ],
-    safety_answers: [
-      {
-        no: 1,
-        name: '山田 太郎',
-        employee_number: '11111111',
-        safety: '安全',
-        answer_time: '2023/12/21 1:11',
-        attendance_state: '出社済み',
-        family_safety: '全員無事',
-        house_state: '無事',
-        step: { times: 2, reply: true },
-        notice: 'とくになし',
-      },
-      {
-        no: 2,
-        name: '山田 太郎',
-        employee_number: '11111111',
-        safety: '安全',
-        answer_time: '2023/12/21 1:11',
-        attendance_state: '出社済み',
-        family_safety: '全員無事',
-        house_state: '無事',
-        step: { times: 3, reply: true },
-        notice: 'とくになし',
-      },
-      {
-        no: 3,
-        name: '山田 太郎',
-        employee_number: '11111111',
-        safety: '安全',
-        answer_time: '2023/12/21 1:11',
-        attendance_state: '出社済み',
-        family_safety: '全員無事',
-        house_state: '無事',
-        step: { times: 1, reply: true },
-        notice: 'とくになし',
-      },
-      {
-        no: 4,
-        name: '山田 太郎',
-        employee_number: '11111111',
-        safety: '安全',
-        answer_time: '2023/12/21 1:11',
-        attendance_state: '出社済み',
-        family_safety: '全員無事',
-        house_state: '無事',
-        step: { times: 1, reply: true },
-        notice: 'とくになし',
-      },
-      {
-        no: 5,
-        name: '山田 太郎',
-        employee_number: '11111111',
-        safety: '',
-        answer_time: '',
-        attendance_state: '',
-        family_safety: '',
-        house_state: '',
-        step: { times: 2, reply: false },
-        notice: '',
-      },
-    ],
+    safety_answers: [],
   }),
   computed: {
     bkPoint: function () {
@@ -254,7 +193,12 @@ export default {
       // this.get_answers()
     },
   },
-  mounted() {},
+  created() {
+    // 一番最近の安否確認を取得
+    this.get_new_disaster()
+    // 安否確認結果を取得
+    this.get_answers()
+  },
   methods: {
     itemProps(item) {
       if (item === '') {
@@ -266,6 +210,25 @@ export default {
           value: item.id,
         }
       }
+    },
+    async get_new_disaster() {
+      let login_user = this.$props.user.username
+      let get_token = this.get_token(login_user)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
+      let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com/check'
+      await this.axios
+        .get(disaster_list_url, config)
+        .then((res) => {
+          this.choice_disaster = res.data[0]
+        })
+        .catch((err) => {
+          alert('このデータはありません')
+          console.log(err)
+        })
     },
     async get_disasters() {
       let start_date =
@@ -355,7 +318,7 @@ export default {
       var date = now.getDate()
 
       link.href = window.URL.createObjectURL(blob)
-      link.download = this.choice_disaster + '_' + this.user.username + '_' + year + month + date + '_result.csv'
+      link.download = this.choice_disaster.title + '_' + this.user.username + '_' + year + month + date + '_result.csv'
       link.click()
     },
     stepIcons(times, reply) {

@@ -1,6 +1,7 @@
 <script setup>
 import { disasterListStore } from '@/stores/disaster_list'
 import { disasterDetailStore } from '@/stores/disaster'
+// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   user: Object,
 })

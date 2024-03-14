@@ -151,6 +151,8 @@ export default {
       infoList: 'info_list',
       oldDisaster: 'disaster_list',
     },
+    new_disaster: {},
+    answer_rate: [50, 10],
     pie_chart: {
       options: {
         labels: ['回答', '未回答'],
@@ -166,8 +168,9 @@ export default {
           },
         },
       },
-      series: [50, 10],
+      series: this.answer_rate,
     },
+    safety:[5, 3, 1],
     bar_chart: {
       options: {
         labels: ['安全', '軽傷', '重症'],
@@ -179,7 +182,7 @@ export default {
       series: [
         {
           name: '人数',
-          data: [5, 3, 1],
+          data: this.safety,
         },
       ],
     },
@@ -269,6 +272,9 @@ export default {
   },
   created() {
     this.initialize()
+    // 一番新しい安否確認を取得
+    this.new_disaster = this.disaster[0]
+    this.get_answers()
   },
   methods: {
     async initialize() {
@@ -279,11 +285,11 @@ export default {
         { name: '家族3', result: '安全' },
       ]
       let login_user = this.$props.user.username
-        let get_token = this.get_token(login_user)
-        const config = {
-        headers: {
-          Authorization: get_token,
-        },}
+      let get_token = this.get_token(login_user)
+      const config = {
+      headers: {
+        Authorization: get_token,
+      },}
       // お知らせ一覧が空の場合は取得する
       if (this.info_list_store.info_list.length == 0) {
         
@@ -378,7 +384,29 @@ export default {
     date_format(date){
       let get_date = date.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z/, '$1/$2/$3 $4:$5')
       return get_date
-    }
+    },
+    async get_answers() {
+      let login_user = this.$props.user.username
+      let get_token = this.get_token(login_user)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
+      let answer_url = 'https://lphg04ny69.execute-api.ap-northeast-1.amazonaws.com/' + this.new_disaster.title + '?user=' + login_user
+      await this.axios
+        .get(answer_url, config)
+        .then((res) => {
+          let result = res.data
+          this.answer_rate = result.answer_rate
+          this.safety = result.safety
+        })
+        .catch((err) => {
+          alert('データはありません')
+          console.log(err)
+        })
+    },
+
   },
 }
 </script>

@@ -1,5 +1,6 @@
 <script setup>
 import { useCompanyStore } from '@/stores/company_setting'
+// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   user: Object,
 })

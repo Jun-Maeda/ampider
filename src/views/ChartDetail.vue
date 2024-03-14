@@ -50,7 +50,7 @@ const props = defineProps({
 
     <v-row justify="end">
       <v-col cols="12" class="pb-0">
-        <v-data-table :headers="headers" :items="safeties" class="fixed-column" items-per-page-text="表示行数"> </v-data-table>
+        <v-data-table :headers="headers" :items="safety_answers" class="fixed-column" items-per-page-text="表示行数"> </v-data-table>
       </v-col>
       <v-btn v-on:click="downloadCSV" variant="text" class="pt-0"><v-icon> mdi-download </v-icon>CSVダウンロード</v-btn>
     </v-row>
@@ -72,6 +72,7 @@ export default {
     apexchart: VueApexCharts,
   },
   data: () => ({
+    answer_rate: [3, 1],
     link: [
       {
         title: '集計',
@@ -94,8 +95,9 @@ export default {
           },
         },
       },
-      series: [50, 10],
+      series: this.answer_rate,
     },
+    safety: [4, 0, 0],
     bar_chart: {
       options: {
         labels: ['安全', '軽傷', '重症'],
@@ -107,10 +109,11 @@ export default {
       series: [
         {
           name: '人数',
-          data: [5, 3, 1],
+          data: this.safety,
         },
       ],
     },
+    attendance: [2, 2, 0, 0, 0],
     attendance_chart: {
       options: {
         labels: ['不可', '概ね1時間以内', '概ね3時間以内', '出社済み', 'その他'],
@@ -122,7 +125,7 @@ export default {
       series: [
         {
           name: '人数',
-          data: [5, 3, 1, 1, 3],
+          data: this.attendance,
         },
       ],
     },
@@ -132,18 +135,22 @@ export default {
     end_date: '',
     dates: [],
     headers: [
-      // { title: 'No.', sortable: false, key: 'no' },
       { title: '氏名', key: 'name', minWidth: '120' },
-      { title: '社員番号', key: 'employee_number', minWidth: '100' },
-      { title: '安否', key: 'safety', minWidth: '120' },
-      { title: '回答時刻', key: 'answer_time', minWidth: '180' },
-      { title: '出社可否', key: 'attendance_state', minWidth: '150' },
-      { title: '家族の安否', key: 'family_safety', minWidth: '120' },
-      { title: '家屋の状態', key: 'house_state', minWidth: '130' },
+      { title: '社員番号', key: 'employee_no', minWidth: '100' },
+      { title: '安否', key: 'safely', minWidth: '120' },
+      { title: '出社状況', key: 'possible_work', minWidth: '150' },
+      { title: '家族の安否', key: 'family_safely', minWidth: '120' },
+      { title: '家屋の状態', key: 'home_status', minWidth: '130' },
+      { title: '会社', key: 'company', minWidth: '100' },
+      { title: '拠点', key: 'kyoten', minWidth: '100' },
+      { title: '事業部', key: 'jigyou', minWidth: '100' },
+      { title: '組織', key: 'syozoku', minWidth: '100' },
+      // { title: 'No.', sortable: false, key: 'no' },
+      // { title: '回答時刻', key: 'answer_time', minWidth: '180' },
       // { title: 'ステップ', key: 'step', sortable: false, minWidth: '180' },
-      { title: '特記事項', key: 'notice', minWidth: '200' },
+      // { title: '特記事項', key: 'notice', minWidth: '200' },
     ],
-    safeties: [
+    safety_answers: [
       {
         no: 1,
         name: '山田 太郎',
@@ -242,6 +249,9 @@ export default {
     choice_disaster: function (newVal) {
       console.log('災害情報がかわりました')
       console.log(newVal)
+
+      // employeeテーブルが復活したらアクティブ
+      // this.get_answers()
     },
   },
   mounted() {},
@@ -286,9 +296,32 @@ export default {
           console.log(err)
         })
     },
+    async get_answers() {
+      let login_user = this.$props.user.username
+      let get_token = this.get_token(login_user)
+      const config = {
+        headers: {
+          Authorization: get_token,
+        },
+      }
+      let answer_url = 'https://lphg04ny69.execute-api.ap-northeast-1.amazonaws.com/' + this.choice_disaster.title + '?user=' + login_user
+      await this.axios
+        .get(answer_url, config)
+        .then((res) => {
+          let result = res.data
+          this.answer_rate = result.answer_rate
+          this.safety = result.safety
+          this.attendance = result.attendance
+          this.safety_answers = result.answers
+        })
+        .catch((err) => {
+          alert('データはありません')
+          console.log(err)
+        })
+    },
     downloadCSV() {
       var csv = '\ufeff' + 'No.,名前,社員番号, 安否, 回答時刻,出社可否, 家族の安否, 家屋の状態, ステップ回数, 返答, 特記事項\n'
-      this.safeties.forEach((el) => {
+      this.safety_answers.forEach((el) => {
         var line =
           el['no'] +
           ',' +

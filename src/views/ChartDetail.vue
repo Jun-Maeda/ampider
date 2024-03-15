@@ -95,7 +95,7 @@ export default {
           },
         },
       },
-      series: this.answer_rate,
+      series: [3, 1],
     },
     safety: [4, 0, 0],
     bar_chart: {
@@ -109,7 +109,7 @@ export default {
       series: [
         {
           name: '人数',
-          data: this.safety,
+          data: [4, 0, 0],
         },
       ],
     },
@@ -125,7 +125,7 @@ export default {
       series: [
         {
           name: '人数',
-          data: this.attendance,
+          data: [2, 2, 0, 0, 0],
         },
       ],
     },
@@ -190,14 +190,12 @@ export default {
       console.log(newVal)
 
       // employeeテーブルが復活したらアクティブ
-      // this.get_answers()
+      this.get_answers()
     },
   },
   created() {
     // 一番最近の安否確認を取得
     this.get_new_disaster()
-    // 安否確認結果を取得
-    this.get_answers()
   },
   methods: {
     itemProps(item) {
@@ -258,6 +256,9 @@ export default {
           alert('このデータはありません')
           console.log(err)
         })
+
+      // 安否確認結果を取得
+      // this.get_answers()
     },
     async get_answers() {
       let login_user = this.$props.user.username
@@ -267,7 +268,8 @@ export default {
           Authorization: get_token,
         },
       }
-      let answer_url = 'https://lphg04ny69.execute-api.ap-northeast-1.amazonaws.com/' + this.choice_disaster.title + '?user=' + login_user
+      console.log('get_answers')
+      let answer_url = 'https://lphg04ny69.execute-api.ap-northeast-1.amazonaws.com/' + this.choice_disaster.datetime + '?user=' + login_user
       await this.axios
         .get(answer_url, config)
         .then((res) => {
@@ -281,6 +283,53 @@ export default {
           alert('データはありません')
           console.log(err)
         })
+      this.pie_chart = {
+        options: {
+          labels: ['回答', '未回答'],
+          title: {
+            text: '回答率',
+            align: 'left',
+          },
+          legend: {
+            position: 'bottom',
+            offsetY: 0,
+            markers: {
+              radius: 4,
+            },
+          },
+        },
+        series: this.answer_rate,
+      }
+      this.bar_chart = {
+        options: {
+          labels: ['安全', '軽傷', '重症'],
+          title: {
+            text: '従業員安否状況',
+            align: 'left',
+          },
+        },
+        series: [
+          {
+            name: '人数',
+            data: this.safety,
+          },
+        ],
+      }
+      this.attendance_chart = {
+        options: {
+          labels: ['不可', '概ね1時間以内', '概ね3時間以内', '出社済み', 'その他'],
+          title: {
+            text: '出社可否',
+            align: 'left',
+          },
+        },
+        series: [
+          {
+            name: '人数',
+            data: this.attendance,
+          },
+        ],
+      }
     },
     downloadCSV() {
       var csv = '\ufeff' + 'No.,名前,社員番号, 安否, 回答時刻,出社可否, 家族の安否, 家屋の状態, ステップ回数, 返答, 特記事項\n'

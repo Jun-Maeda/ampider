@@ -66,45 +66,45 @@ const props = defineProps({
         <h6>最新安否確認</h6>
         <v-col cols="12" xl="10">
           <v-data-table-virtual :headers="headers" :items="disaster" density="compact" @click:row="clickItem" items-per-page-text="表示行数">
-        <template v-slot:[`item.type`]="{ value }">
-          <v-chip variant="flat" :color="getColor(value)">
-            <p class="my-auto">{{ format(value) }}</p>
-          </v-chip>
-        </template>
-        <template v-slot:[`item.datetime`]="{ value }">
-          {{ date_format(value) }}
-        </template>
-        <template v-slot:[`item.area`]="{ item }">
-          <p v-if="item.disaster_name == '地震'">
-            <ul style="list-style: none;" class="pa-0">
-              <li v-for="(area,key) in earthquake_areas(item.max_eq_scale)" :key="key"> {{ area }}</li>
-            </ul>
-          </p>
-          <p v-if="item.disaster_name == '気象'">
-            {{ item.prefecture }}
-          </p>
-        </template>
-        <template v-slot:[`item.lebel`]="{ item }">
-          <p v-if="item.disaster_name == '地震'">
-            <ul style="list-style: none;" class="pa-0">
-              【最大震度】
-              <li v-for="(lebel,key) in item.max_eq_scale" :key="key">{{ key }}: {{ lebel }}</li>
-            </ul>
-          </p>
-          <p v-if="item.disaster_name == '気象'">
-            <ul style="list-style: none;" class="pa-0">
-              <li v-for="(lebel,key) in item.alert" :key="key">{{ lebel }}</li>
-            </ul>
-          </p>
-        </template>
-        <!-- <template v-slot:[`item.title`]="{ item }">
+            <template v-slot:[`item.type`]="{ value }">
+              <v-chip variant="flat" :color="getColor(value)">
+                <p class="my-auto">{{ format(value) }}</p>
+              </v-chip>
+            </template>
+            <template v-slot:[`item.datetime`]="{ value }">
+              {{ date_format(value) }}
+            </template>
+            <template v-slot:[`item.area`]="{ item }">
+              <div v-if="item.disaster_name == '地震'">
+                <ul style="list-style: none" class="pa-0">
+                  <li v-for="(area, key) in earthquake_areas(item.max_eq_scale)" :key="key">{{ area }}</li>
+                </ul>
+              </div>
+              <div v-if="item.disaster_name == '気象'">
+                {{ item.prefecture }}
+              </div>
+            </template>
+            <template v-slot:[`item.lebel`]="{ item }">
+              <div v-if="item.disaster_name == '地震'">
+                <ul style="list-style: none" class="pa-0">
+                  【最大震度】
+                  <li v-for="(lebel, key) in item.max_eq_scale" :key="key">{{ key }}: {{ lebel }}</li>
+                </ul>
+              </div>
+              <div v-if="item.disaster_name == '気象'">
+                <ul style="list-style: none" class="pa-0">
+                  <li v-for="(lebel, key) in item.alert" :key="key">{{ lebel }}</li>
+                </ul>
+              </div>
+            </template>
+            <!-- <template v-slot:[`item.title`]="{ item }">
           <p>【{{ item.type }}】{{ item.date }} {{ item.location }} {{ item.Level }}</p>
         </template> -->
-        <template v-slot:no-data>
-          <!-- <v-btn color="primary" @click="initialize"> Reset </v-btn> -->
-          該当するものがありません。
-        </template>
-      </v-data-table-virtual>
+            <template v-slot:no-data>
+              <!-- <v-btn color="primary" @click="initialize"> Reset </v-btn> -->
+              該当するものがありません。
+            </template>
+          </v-data-table-virtual>
           <v-dialog v-model="modal" max-width="500px" @input="modal = false">
             <v-card>
               <v-card-text class="text-center">{{ modalDetail }}</v-card-text>
@@ -168,9 +168,9 @@ export default {
           },
         },
       },
-      series: this.answer_rate,
+      series: [50, 10],
     },
-    safety:[5, 3, 1],
+    safety: [5, 3, 1],
     bar_chart: {
       options: {
         labels: ['安全', '軽傷', '重症'],
@@ -182,7 +182,7 @@ export default {
       series: [
         {
           name: '人数',
-          data: this.safety,
+          data: [5, 3, 1],
         },
       ],
     },
@@ -212,7 +212,7 @@ export default {
     // },
     info: {},
     headers: [
-      { title: '日時', align: 'start', width: '15%', key: 'datetime' ,minWidth: '200' },
+      { title: '日時', align: 'start', width: '15%', key: 'datetime', minWidth: '200' },
       { title: '場所', align: 'start', width: '15%', key: 'area', minWidth: '100' },
       { title: '災害種別', align: 'start', width: '15%', key: 'disaster_name', minWidth: '150' },
       { title: 'レベル', align: 'start', width: '15%', key: 'lebel', minWidth: '150' },
@@ -272,9 +272,6 @@ export default {
   },
   created() {
     this.initialize()
-    // 一番新しい安否確認を取得
-    this.new_disaster = this.disaster[0]
-    this.get_answers()
   },
   methods: {
     async initialize() {
@@ -287,12 +284,12 @@ export default {
       let login_user = this.$props.user.username
       let get_token = this.get_token(login_user)
       const config = {
-      headers: {
-        Authorization: get_token,
-      },}
+        headers: {
+          Authorization: get_token,
+        },
+      }
       // お知らせ一覧が空の場合は取得する
       if (this.info_list_store.info_list.length == 0) {
-        
         let info_list_url = 'https://ci4nqe3h81.execute-api.ap-northeast-1.amazonaws.com/user/' + login_user
         await this.axios
           .get(info_list_url, config)
@@ -308,37 +305,20 @@ export default {
         title: this.info_list_store.info_list[0].information_title,
         text: this.format(this.info_list_store.info_list[0].information_body),
       }
-
-      // let disaster_list = this.disaster_list_store.disaster_list
-      // disaster_listが空の場合は取得する
-      // if (disaster_list.length == 0) {
-      //   let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com'
-      //   let get_token = this.get_token(this.$props.user.username)
-      //   const config = {
-      //   headers: {
-      //     'Authorization': get_token,
-      //   },}
-      //   await this.axios
-      //     .get(disaster_list_url, config)
-      //     .then((res) => {
-      //       this.disaster_list_store.disaster_list = res.data
-      //     })
-      //     .catch((err) => {
-      //       alert('このデータはありません')
-      //       console.log(err)
-      //     })
-      // }
-      // this.disaster = this.disaster_list_store.disaster_list.slice(0,5)
       let disaster_list_url = 'https://14wv539nsk.execute-api.ap-northeast-1.amazonaws.com/check'
       await this.axios
         .get(disaster_list_url, config)
         .then((res) => {
-          this.disaster = res.data.slice(0,5)
+          this.disaster = res.data.slice(0, 5)
         })
         .catch((err) => {
           alert('このデータはありません')
           console.log(err)
         })
+
+      // 一番新しい安否確認を取得
+      this.new_disaster = this.disaster[0]
+      this.get_answers()
     },
     itemProps(item) {
       if (item === '') {
@@ -381,7 +361,7 @@ export default {
       let result = Object.keys(areas)
       return result
     },
-    date_format(date){
+    date_format(date) {
       let get_date = date.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z/, '$1/$2/$3 $4:$5')
       return get_date
     },
@@ -393,11 +373,14 @@ export default {
           Authorization: get_token,
         },
       }
-      let answer_url = 'https://lphg04ny69.execute-api.ap-northeast-1.amazonaws.com/' + this.new_disaster.title + '?user=' + login_user
+      let answer_url = 'https://lphg04ny69.execute-api.ap-northeast-1.amazonaws.com/' + this.new_disaster.datetime + '?user=' + login_user
+      console.log(answer_url)
       await this.axios
         .get(answer_url, config)
         .then((res) => {
           let result = res.data
+          console.log('get_answers')
+          console.log(result)
           this.answer_rate = result.answer_rate
           this.safety = result.safety
         })
@@ -405,8 +388,41 @@ export default {
           alert('データはありません')
           console.log(err)
         })
-    },
 
+      this.pie_chart = {
+        options: {
+          labels: ['回答', '未回答'],
+          title: {
+            text: '回答率',
+            align: 'left',
+          },
+          legend: {
+            position: 'bottom',
+            offsetY: 0,
+            markers: {
+              radius: 4,
+            },
+          },
+        },
+        series: this.answer_rate,
+      }
+
+      this.bar_chart = {
+        options: {
+          labels: ['安全', '軽傷', '重症'],
+          title: {
+            text: '安否',
+            align: 'left',
+          },
+        },
+        series: [
+          {
+            name: '人数',
+            data: this.safety,
+          },
+        ],
+      }
+    },
   },
 }
 </script>
